@@ -1,7 +1,7 @@
 package com.bibbidi.myrootineclone.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.bibbidi.myrootineclone.R
 import dagger.hilt.android.AndroidEntryPoint
 
