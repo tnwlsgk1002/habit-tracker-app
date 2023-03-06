@@ -1,0 +1,36 @@
+name: Pre-Merge Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    # Permission 주기
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    # kotlin style 테스트
+    - name: Run detekt
+      run: ./gradlew detekt
+
+    # 테스트 실행
+    - name: Run UnitTest
+      run: ./gradlew testdebugUnitTest
+
+    # 앱 빌드
+    - name: Build
+      run: ./gradlew assembleDebug
