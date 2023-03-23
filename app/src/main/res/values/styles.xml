@@ -8,4 +8,12 @@
     <style name="ToolBarStyle" parent="Widget.MaterialComponents.Toolbar">
         <item name="titleTextAppearance">@style/ToolbarTextAppearance</item>
     </style>
+
+    <style name="DateViewTextApparance.DayOfTheWeek" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/pretendard_extrabold</item>
+    </style>
+
+    <style name="DateViewTextApparance.DayOfTheMonth" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/pretendard_extrabold</item>
+    </style>
 </resources>
