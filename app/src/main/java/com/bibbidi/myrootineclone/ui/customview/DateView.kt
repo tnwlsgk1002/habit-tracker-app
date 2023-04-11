@@ -2,6 +2,7 @@ package com.bibbidi.myrootineclone.ui.customview
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -81,8 +82,8 @@ class DateView @JvmOverloads constructor(
                 }
             )
 
-            tvDayOfTheMonth.setBackgroundColor(color)
-            ivToday.setColorFilter(color)
+            bgToday.setColor(color)
+            bgDayOfTheMonth.setColor(color)
         }
 
     var isToday: Boolean
@@ -118,6 +119,8 @@ class DateView @JvmOverloads constructor(
     private val cvBackground: CardView
     private val tvDayOfTheWeek: TextView
     private val ivToday: ImageView
+    private val bgToday: GradientDrawable
+    private val bgDayOfTheMonth: GradientDrawable
     private val tvDayOfTheMonth: TextView
 
     init {
@@ -126,6 +129,8 @@ class DateView @JvmOverloads constructor(
         cvBackground = view.findViewById(R.id.cv_background)
         tvDayOfTheWeek = view.findViewById(R.id.tv_day_of_week)
         ivToday = view.findViewById(R.id.iv_today)
+        bgToday = ivToday.background as GradientDrawable
+        bgDayOfTheMonth = view.findViewById<View?>(R.id.iv_day_of_month).background as GradientDrawable
         tvDayOfTheMonth = view.findViewById(R.id.tv_day_of_month)
 
         val typedArray = context.obtainStyledAttributes(

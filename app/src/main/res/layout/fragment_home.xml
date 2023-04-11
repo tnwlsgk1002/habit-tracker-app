@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green_02"
     tools:context=".ui.HomeFragment">
 
-    <com.bibbidi.myrootineclone.ui.customview.DateView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        custom:checked="false"
-        custom:date_state="gray"
-        custom:dayOfTheMonth="1"
-        custom:dayOfTheWeek="mon"
-        custom:isToday="true" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_row_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

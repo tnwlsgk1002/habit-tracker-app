@@ -10,10 +10,13 @@
     </style>
 
     <style name="DateViewTextApparance.DayOfTheWeek" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/pretendard_extrabold</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="DateViewTextApparance.DayOfTheMonth" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/pretendard_extrabold</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">10sp</item>
     </style>
+
 </resources>
