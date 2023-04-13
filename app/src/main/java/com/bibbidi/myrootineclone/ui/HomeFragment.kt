@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.myrootineclone.R
 import com.bibbidi.myrootineclone.databinding.FragmentHomeBinding
 import com.bibbidi.myrootineclone.ui.customview.DateState
@@ -38,6 +40,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpAdapter()
+    }
+
+    private fun setUpAdapter() {
         // TODO : dummy data
         val sampleList = mutableListOf(
             arrayOf(
@@ -78,13 +84,36 @@ class HomeFragment : Fragment() {
             )
         )
 
-        // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
-        val dateViewAdapter = RowCalendarAdapter {
-        }.apply {
-            submitList(sampleList)
-        }
+        with(binding.vpRowCalendar) {
+            // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
+            val dateViewAdapter = RowCalendarAdapter {
+            }.apply {
+                submitList(sampleList)
+            }
 
-        binding.vpRowCalendar.adapter = dateViewAdapter
+            adapter = dateViewAdapter
+
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+
+                    val nextPosition = position + 1
+                    if (nextPosition < dateViewAdapter.itemCount) {
+                        val recyclerView = getChildAt(0) as RecyclerView
+                        val viewHolder = recyclerView.findViewHolderForAdapterPosition(nextPosition)
+                        if (viewHolder is RowCalendarAdapter.DateItemViewHolder) {
+                            viewHolder.startShimmer()
+                        }
+                    }
+                }
+
+                // TODO : 데이터 로드 후 stopShimmer() 호출
+            })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

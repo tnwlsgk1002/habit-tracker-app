@@ -1,12 +1,14 @@
 package com.bibbidi.myrootineclone.ui
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bibbidi.myrootineclone.databinding.ItemRowCalendarBinding
 import com.bibbidi.myrootineclone.ui.customview.DateView
+import com.facebook.shimmer.ShimmerFrameLayout
 
 class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) : ListAdapter<Array<DateItem>, RowCalendarAdapter.DateItemViewHolder>(DateViewsDiffCallback) {
 
@@ -23,6 +25,7 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) : ListAdapte
 
         private val dateViews: Array<DateView>
         private var clickedDateViewIndex: Int = 0
+        private val shimmerLayout: ShimmerFrameLayout
 
         init {
             with(binding) {
@@ -35,6 +38,8 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) : ListAdapte
                     dateViewFri,
                     dateViewSat
                 )
+
+                shimmerLayout = shimmerFrameLayout.shimmerFrameLayout
             }
         }
 
@@ -59,6 +64,18 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) : ListAdapte
                     }
                 }
             }
+        }
+
+        fun startShimmer() {
+            dateViews.forEach { it.visibility = View.INVISIBLE }
+            shimmerLayout.visibility = View.VISIBLE
+            shimmerLayout.startShimmer()
+        }
+
+        fun stopShimmer() {
+            dateViews.forEach { it.visibility = View.VISIBLE }
+            shimmerLayout.visibility = View.INVISIBLE
+            shimmerLayout.stopShimmer()
         }
     }
 

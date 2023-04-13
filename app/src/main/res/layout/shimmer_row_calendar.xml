@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shimmer_frame_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:shimmer_auto_start="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="6dp">
+
+        <com.bibbidi.myrootineclone.ui.customview.DateView
+            android:id="@+id/date_view_sun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/date_view_mon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            custom:checked="false"
+            custom:date_state="gray"
+            custom:dayOfTheMonth="1"
+            custom:dayOfTheWeek="sun"
+            custom:isToday="false" />
+
+        <com.bibbidi.myrootineclone.ui.customview.DateView
+            android:id="@+id/date_view_mon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/date_view_tue"
+            app:layout_constraintStart_toEndOf="@+id/date_view_sun"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.14"
+            custom:checked="false"
+            custom:date_state="gray"
+            custom:dayOfTheMonth="12"
+            custom:dayOfTheWeek="mon"
+            custom:isToday="false" />
+
+        <com.bibbidi.myrootineclone.ui.customview.DateView
+            android:id="@+id/date_view_tue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/date_view_wed"
+            app:layout_constraintStart_toEndOf="@+id/date_view_mon"
+            app:layout_constraintTop_toTopOf="parent"
+            custom:checked="false"
+            custom:date_state="gray"
+            custom:dayOfTheMonth="1"
+            custom:dayOfTheWeek="tue"
+            custom:isToday="false" />
+
+        <com.bibbidi.myrootineclone.ui.customview.DateView
+            android:id="@+id/date_view_wed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/date_view_thu"
+            app:layout_constraintStart_toEndOf="@+id/date_view_tue"
+            app:layout_constraintTop_toTopOf="parent"
+            custom:checked="false"
+            custom:date_state="gray"
+            custom:dayOfTheMonth="1"
+            custom:dayOfTheWeek="wed"
+            custom:isToday="false" />
+
+        <com.bibbidi.myrootineclone.ui.customview.DateView
+            android:id="@+id/date_view_thu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/date_view_fri"
+            app:layout_constraintStart_toEndOf="@+id/date_view_wed"
+            app:layout_constraintTop_toTopOf="parent"
+            custom:checked="false"
+            custom:date_state="gray"
+            custom:dayOfTheMonth="1"
+            custom:dayOfTheWeek="thu"
+            custom:isToday="false" />
+
+        <com.bibbidi.myrootineclone.ui.customview.DateView
+            android:id="@+id/date_view_fri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/date_view_sat"
+            app:layout_constraintStart_toEndOf="@+id/date_view_thu"
+            app:layout_constraintTop_toTopOf="parent"
+            custom:checked="false"
+            custom:date_state="gray"
+            custom:dayOfTheMonth="1"
+            custom:dayOfTheWeek="fri"
+            custom:isToday="false" />
+
+        <com.bibbidi.myrootineclone.ui.customview.DateView
+            android:id="@+id/date_view_sat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_view_fri"
+            app:layout_constraintTop_toTopOf="parent"
+            custom:checked="false"
+            custom:date_state="gray"
+            custom:dayOfTheMonth="1"
+            custom:dayOfTheWeek="sat"
+            custom:isToday="false" />
+
+        <View
+            android:id="@+id/sv_tv_sun"
+            style="@style/ShimmerViewText"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="@id/date_view_sun"
+            app:layout_constraintStart_toStartOf="@id/date_view_sun"
+            app:layout_constraintTop_toTopOf="@id/date_view_sun" />
+
+        <View
+            android:id="@+id/sv_tv_mon"
+            style="@style/ShimmerViewText"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="@id/date_view_mon"
+            app:layout_constraintStart_toStartOf="@id/date_view_mon"
+            app:layout_constraintTop_toTopOf="@id/date_view_mon" />
+
+        <View
+            android:id="@+id/sv_tv_tue"
+            style="@style/ShimmerViewText"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="@id/date_view_tue"
+            app:layout_constraintStart_toStartOf="@id/date_view_tue"
+            app:layout_constraintTop_toTopOf="@id/date_view_tue" />
+
+        <View
+            android:id="@+id/sv_tv_wed"
+            style="@style/ShimmerViewText"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="@id/date_view_wed"
+            app:layout_constraintStart_toStartOf="@id/date_view_wed"
+            app:layout_constraintTop_toTopOf="@id/date_view_wed" />
+
+        <View
+            android:id="@+id/sv_tv_thu"
+            style="@style/ShimmerViewText"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="@id/date_view_thu"
+            app:layout_constraintStart_toStartOf="@id/date_view_thu"
+            app:layout_constraintTop_toTopOf="@id/date_view_thu" />
+
+        <View
+            android:id="@+id/sv_tv_fri"
+            style="@style/ShimmerViewText"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="@id/date_view_fri"
+            app:layout_constraintStart_toStartOf="@id/date_view_fri"
+            app:layout_constraintTop_toTopOf="@id/date_view_fri" />
+
+        <View
+            android:id="@+id/sv_tv_sat"
+            style="@style/ShimmerViewText"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="@id/date_view_sat"
+            app:layout_constraintStart_toStartOf="@id/date_view_sat"
+            app:layout_constraintTop_toTopOf="@id/date_view_sat" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/gray_04"
+            app:layout_constraintBottom_toBottomOf="@id/sv_tv_sun"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/sv_tv_sun"
+            app:layout_constraintStart_toStartOf="@id/sv_tv_sun"
+            app:layout_constraintTop_toTopOf="@id/sv_tv_sun" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/gray_04"
+            app:layout_constraintBottom_toBottomOf="@id/sv_tv_mon"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/sv_tv_mon"
+            app:layout_constraintStart_toStartOf="@id/sv_tv_mon"
+            app:layout_constraintTop_toTopOf="@id/sv_tv_mon" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/gray_04"
+            app:layout_constraintBottom_toBottomOf="@id/sv_tv_tue"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/sv_tv_tue"
+            app:layout_constraintStart_toStartOf="@id/sv_tv_tue"
+            app:layout_constraintTop_toTopOf="@id/sv_tv_tue" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/gray_04"
+            app:layout_constraintBottom_toBottomOf="@id/sv_tv_wed"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/sv_tv_wed"
+            app:layout_constraintStart_toStartOf="@id/sv_tv_wed"
+            app:layout_constraintTop_toTopOf="@id/sv_tv_wed" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/gray_04"
+            app:layout_constraintBottom_toBottomOf="@id/sv_tv_thu"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/sv_tv_thu"
+            app:layout_constraintStart_toStartOf="@id/sv_tv_thu"
+            app:layout_constraintTop_toTopOf="@id/sv_tv_thu" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/gray_04"
+            app:layout_constraintBottom_toBottomOf="@id/sv_tv_fri"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/sv_tv_fri"
+            app:layout_constraintStart_toStartOf="@id/sv_tv_fri"
+            app:layout_constraintTop_toTopOf="@id/sv_tv_fri" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/gray_04"
+            app:layout_constraintBottom_toBottomOf="@id/sv_tv_sat"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/sv_tv_sat"
+            app:layout_constraintStart_toStartOf="@id/sv_tv_sat"
+            app:layout_constraintTop_toTopOf="@id/sv_tv_sat" />
+
+        <View
+            style="@style/ShimmerViewCircle"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_view_sun"
+            app:layout_constraintEnd_toEndOf="@id/date_view_sun"
+            app:layout_constraintStart_toStartOf="@id/date_view_sun"
+            app:layout_constraintTop_toBottomOf="@id/sv_tv_sun" />
+
+        <View
+            style="@style/ShimmerViewCircle"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_view_mon"
+            app:layout_constraintEnd_toEndOf="@id/date_view_mon"
+            app:layout_constraintStart_toStartOf="@id/date_view_mon"
+            app:layout_constraintTop_toBottomOf="@id/sv_tv_mon" />
+
+        <View
+            style="@style/ShimmerViewCircle"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_view_tue"
+            app:layout_constraintEnd_toEndOf="@id/date_view_tue"
+            app:layout_constraintStart_toStartOf="@id/date_view_tue"
+            app:layout_constraintTop_toBottomOf="@id/sv_tv_tue" />
+
+        <View
+            style="@style/ShimmerViewCircle"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_view_wed"
+            app:layout_constraintEnd_toEndOf="@id/date_view_wed"
+            app:layout_constraintStart_toStartOf="@id/date_view_wed"
+            app:layout_constraintTop_toBottomOf="@id/sv_tv_wed" />
+
+        <View
+            style="@style/ShimmerViewCircle"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_view_thu"
+            app:layout_constraintEnd_toEndOf="@id/date_view_thu"
+            app:layout_constraintStart_toStartOf="@id/date_view_thu"
+            app:layout_constraintTop_toBottomOf="@id/sv_tv_thu" />
+
+        <View
+            style="@style/ShimmerViewCircle"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_view_thu"
+            app:layout_constraintEnd_toEndOf="@id/date_view_thu"
+            app:layout_constraintStart_toStartOf="@id/date_view_thu"
+            app:layout_constraintTop_toBottomOf="@id/sv_tv_thu" />
+
+        <View
+            style="@style/ShimmerViewCircle"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_view_fri"
+            app:layout_constraintEnd_toEndOf="@id/date_view_fri"
+            app:layout_constraintStart_toStartOf="@id/date_view_fri"
+            app:layout_constraintTop_toBottomOf="@id/sv_tv_fri" />
+
+        <View
+            style="@style/ShimmerViewCircle"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_view_sat"
+            app:layout_constraintEnd_toEndOf="@id/date_view_sat"
+            app:layout_constraintStart_toStartOf="@id/date_view_sat"
+            app:layout_constraintTop_toBottomOf="@id/sv_tv_sat" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>
