@@ -3,6 +3,7 @@ package com.bibbidi.myrootineclone.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -64,10 +65,12 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :
                     }
 
                     setOnClickListener {
-                        dateViews[index].checked = true
-                        dateViews[clickedDateViewIndex].checked = false
-                        clickedDateViewIndex = index
-                        onClick(item)
+                        if (!shimmerLayout.isVisible) {
+                            dateViews[index].checked = true
+                            dateViews[clickedDateViewIndex].checked = false
+                            clickedDateViewIndex = index
+                            onClick(item)
+                        }
                     }
                 }
             }
