@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone.ui
+package com.bibbidi.myrootineclone.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater

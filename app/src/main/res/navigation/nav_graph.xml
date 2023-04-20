@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.bibbidi.myrootineclone.ui.HomeFragment"
+        android:name="com.bibbidi.myrootineclone.ui.home.HomeFragment"
         android:label="homeFragment"
         tools:layout="@layout/fragment_home" />
 

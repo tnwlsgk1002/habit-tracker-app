@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone.ui
+package com.bibbidi.myrootineclone.ui.home
 
 import androidx.lifecycle.ViewModel
 

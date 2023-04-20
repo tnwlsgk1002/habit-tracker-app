@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone.ui
+package com.bibbidi.myrootineclone.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,18 +10,25 @@ import com.bibbidi.myrootineclone.databinding.ItemRowCalendarBinding
 import com.bibbidi.myrootineclone.ui.customview.DateView
 import com.facebook.shimmer.ShimmerFrameLayout
 
-class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) : ListAdapter<Array<DateItem>, RowCalendarAdapter.DateItemViewHolder>(DateViewsDiffCallback) {
+class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :
+    ListAdapter<Array<DateItem>, RowCalendarAdapter.DateItemViewHolder>(
+        DateViewsDiffCallback
+    ) {
 
     override fun onBindViewHolder(holder: DateItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateItemViewHolder {
-        val binding = ItemRowCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemRowCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DateItemViewHolder(binding, onClick)
     }
 
-    class DateItemViewHolder(binding: ItemRowCalendarBinding, private val onClick: (DateItem) -> Unit) : ViewHolder(binding.root) {
+    class DateItemViewHolder(
+        binding: ItemRowCalendarBinding,
+        private val onClick: (DateItem) -> Unit
+    ) : ViewHolder(binding.root) {
 
         private val dateViews: Array<DateView>
         private var clickedDateViewIndex: Int = 0

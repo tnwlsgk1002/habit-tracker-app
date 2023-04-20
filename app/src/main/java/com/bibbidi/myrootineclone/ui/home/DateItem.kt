@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone.ui
+package com.bibbidi.myrootineclone.ui.home
 
 import com.bibbidi.myrootineclone.ui.customview.DateState
 import com.bibbidi.myrootineclone.ui.customview.DayOfTheWeek
