@@ -1,0 +1,22 @@
+<resources>
+    <declare-styleable name="DateView">
+        <attr name="isToday" format="boolean" />
+        <attr name="checked" format="boolean" />
+        <attr name="dayOfTheWeek" format="enum">
+            <enum name="sun" value="0"/>
+            <enum name="mon" value="1"/>
+            <enum name="tue" value="2"/>
+            <enum name="wed" value="3"/>
+            <enum name="thu" value="4"/>
+            <enum name="fri" value="5"/>
+            <enum name="sat" value="6"/>
+        </attr>
+        <attr name="dayOfTheMonth" format="integer"/>
+        <attr name="date_state" format="enum">
+            <enum name="gray" value="0"/>
+            <enum name="red" value="1"/>
+            <enum name="yellow" value="2"/>
+            <enum name="green" value="3"/>
+        </attr>
+    </declare-styleable>
+</resources>

@@ -2,13 +2,19 @@ package com.bibbidi.myrootineclone.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.bibbidi.myrootineclone.R
+import com.bibbidi.myrootineclone.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
     }
 }

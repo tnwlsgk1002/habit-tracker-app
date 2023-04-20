@@ -1,0 +1,67 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="0dp"
+    tools:cardBackgroundColor="@color/gray_07">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:padding="6dp"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/tv_day_of_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textAppearance="@style/DateViewTextApparance.DayOfTheWeek"
+            app:layout_constraintBottom_toTopOf="@id/tv_day_of_month"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="일"
+            tools:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_today"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:background="@drawable/bg_circle"
+            app:layout_constraintBottom_toTopOf="@id/iv_day_of_month"
+            app:layout_constraintEnd_toEndOf="@id/iv_day_of_month" />
+
+        <ImageView
+            android:id="@+id/iv_day_of_month"
+            android:layout_width="25dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_circle"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintBottom_toBottomOf="@id/tv_day_of_month"
+            app:layout_constraintEnd_toEndOf="@id/tv_day_of_month"
+            app:layout_constraintStart_toStartOf="@id/tv_day_of_month"
+            app:layout_constraintTop_toTopOf="@id/tv_day_of_month" />
+
+        <TextView
+            android:id="@+id/tv_day_of_month"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textAppearance="@style/DateViewTextApparance.DayOfTheMonth"
+            android:ems="3"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_day_of_week"
+            tools:text="16"
+            android:maxLines="1"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
