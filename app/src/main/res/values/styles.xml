@@ -2,7 +2,7 @@
 <resources>
 
     <style name="ToolbarTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/pretendard_extrabold</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="ToolBarStyle" parent="Widget.MaterialComponents.Toolbar">
