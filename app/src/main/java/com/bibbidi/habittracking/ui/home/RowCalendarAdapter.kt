@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone.ui.home
+package com.bibbidi.habittracking.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.bibbidi.myrootineclone.databinding.ItemRowCalendarBinding
-import com.bibbidi.myrootineclone.ui.customview.DateView
+import com.bibbidi.habittracking.databinding.ItemRowCalendarBinding
+import com.bibbidi.habittracking.ui.customview.DateView
 import com.facebook.shimmer.ShimmerFrameLayout
 
 class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :

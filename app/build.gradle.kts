@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.bibbidi.myrootineclone"
+    namespace = "com.bibbidi.habittracking"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.bibbidi.myrootineclone"
+        applicationId = "com.bibbidi.habittracking"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

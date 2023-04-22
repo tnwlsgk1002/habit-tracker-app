@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone.ui.customview
+package com.bibbidi.habittracking.ui.customview
 
 import android.content.Context
 import android.graphics.Color
@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.bibbidi.myrootineclone.R
+import com.bibbidi.habittracking.R
 
 class DateView @JvmOverloads constructor(
     context: Context,

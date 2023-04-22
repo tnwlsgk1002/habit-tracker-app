@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone.ui.customview
+package com.bibbidi.habittracking.ui.customview
 
 enum class DateState {
     GRAY,

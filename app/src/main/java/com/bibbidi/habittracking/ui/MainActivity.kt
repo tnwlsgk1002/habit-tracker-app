@@ -1,8 +1,8 @@
-package com.bibbidi.myrootineclone.ui
+package com.bibbidi.habittracking.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.bibbidi.myrootineclone.databinding.ActivityMainBinding
+import com.bibbidi.habittracking.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

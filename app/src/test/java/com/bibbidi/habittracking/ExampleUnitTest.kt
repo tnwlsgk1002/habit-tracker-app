@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone
+package com.bibbidi.habittracking
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

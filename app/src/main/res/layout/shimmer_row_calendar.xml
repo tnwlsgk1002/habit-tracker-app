@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:padding="6dp">
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_sun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             custom:dayOfTheWeek="sun"
             custom:isToday="false" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_mon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             custom:dayOfTheWeek="mon"
             custom:isToday="false" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_tue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             custom:dayOfTheWeek="tue"
             custom:isToday="false" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_wed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             custom:dayOfTheWeek="wed"
             custom:isToday="false" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_thu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
             custom:dayOfTheWeek="thu"
             custom:isToday="false" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_fri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
             custom:dayOfTheWeek="fri"
             custom:isToday="false" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_sat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

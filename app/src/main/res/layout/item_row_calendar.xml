@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center">
 
-    <com.bibbidi.myrootineclone.ui.customview.DateView
+    <com.bibbidi.habittracking.ui.customview.DateView
         android:id="@+id/date_view_sun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         custom:isToday="true"
         tools:visibility="visible" />
 
-    <com.bibbidi.myrootineclone.ui.customview.DateView
+    <com.bibbidi.habittracking.ui.customview.DateView
         android:id="@+id/date_view_mon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         custom:isToday="false"
         tools:visibility="visible" />
 
-    <com.bibbidi.myrootineclone.ui.customview.DateView
+    <com.bibbidi.habittracking.ui.customview.DateView
         android:id="@+id/date_view_tue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         custom:isToday="false"
         tools:visibility="visible" />
 
-    <com.bibbidi.myrootineclone.ui.customview.DateView
+    <com.bibbidi.habittracking.ui.customview.DateView
         android:id="@+id/date_view_wed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
         custom:isToday="false"
         tools:visibility="visible" />
 
-    <com.bibbidi.myrootineclone.ui.customview.DateView
+    <com.bibbidi.habittracking.ui.customview.DateView
         android:id="@+id/date_view_thu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
         custom:isToday="false"
         tools:visibility="visible" />
 
-    <com.bibbidi.myrootineclone.ui.customview.DateView
+    <com.bibbidi.habittracking.ui.customview.DateView
         android:id="@+id/date_view_fri"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
         custom:isToday="false"
         tools:visibility="visible" />
 
-    <com.bibbidi.myrootineclone.ui.customview.DateView
+    <com.bibbidi.habittracking.ui.customview.DateView
         android:id="@+id/date_view_sat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

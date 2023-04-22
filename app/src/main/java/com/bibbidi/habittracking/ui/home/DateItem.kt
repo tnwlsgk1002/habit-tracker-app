@@ -1,7 +1,7 @@
-package com.bibbidi.myrootineclone.ui.home
+package com.bibbidi.habittracking.ui.home
 
-import com.bibbidi.myrootineclone.ui.customview.DateState
-import com.bibbidi.myrootineclone.ui.customview.DayOfTheWeek
+import com.bibbidi.habittracking.ui.customview.DateState
+import com.bibbidi.habittracking.ui.customview.DayOfTheWeek
 
 data class DateItem(
     val checked: Boolean,

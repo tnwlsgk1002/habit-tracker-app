@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyRootineClone</string>
+    <string name="app_name">HabitTracking</string>
     <string name="select_date">날짜 선택</string>
     <string name="set_up">설정</string>
     <string name="sunday">일</string>

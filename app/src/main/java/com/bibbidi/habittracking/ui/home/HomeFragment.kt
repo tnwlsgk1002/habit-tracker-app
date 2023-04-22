@@ -1,4 +1,4 @@
-package com.bibbidi.myrootineclone.ui.home
+package com.bibbidi.habittracking.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +11,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.bibbidi.myrootineclone.R
-import com.bibbidi.myrootineclone.databinding.FragmentHomeBinding
-import com.bibbidi.myrootineclone.ui.customview.DateState
-import com.bibbidi.myrootineclone.ui.customview.DayOfTheWeek
+import com.bibbidi.habittracking.R
+import com.bibbidi.habittracking.databinding.FragmentHomeBinding
+import com.bibbidi.habittracking.ui.customview.DateState
+import com.bibbidi.habittracking.ui.customview.DayOfTheWeek
 import com.google.android.material.datepicker.MaterialDatePicker
 
 class HomeFragment : Fragment() {
