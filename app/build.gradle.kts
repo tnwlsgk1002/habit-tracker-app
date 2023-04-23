@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.bibbidi.habittracking"
+    namespace = "com.bibbidi.myrootineclone"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.bibbidi.habittracking"
+        applicationId = "com.bibbidi.myrootineclone"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
@@ -66,6 +66,22 @@ dependencies {
 
     // shimmer
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // threetenabp
+    implementation("com.jakewharton.threetenabp:threetenabp:1.4.6")
+
+    // room
+    val room_version = "2.5.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+    // optional - Test helpers
+    testImplementation("androidx.room:room-testing:$room_version")
+    // optional - Paging 3 Integration
+    implementation("androidx.room:room-paging:$room_version")
 }
 
 // Allow references to generated code
