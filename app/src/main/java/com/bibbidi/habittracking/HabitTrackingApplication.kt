@@ -1,7 +1,7 @@
-package com.bibbidi.myrootineclone
+package com.bibbidi.habittracking
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MyRootineCloneApplication : Application()
+class HabitTrackingApplication : Application()

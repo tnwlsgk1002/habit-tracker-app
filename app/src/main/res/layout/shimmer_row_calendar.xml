@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shimmer_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,10 +9,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:padding="6dp">
+        android:layout_gravity="center">
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_sun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,14 +19,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/date_view_mon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            custom:checked="false"
-            custom:date_state="gray"
-            custom:dayOfTheMonth="1"
-            custom:dayOfTheWeek="sun"
-            custom:isToday="false" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_mon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,14 +30,9 @@
             app:layout_constraintEnd_toStartOf="@id/date_view_tue"
             app:layout_constraintStart_toEndOf="@+id/date_view_sun"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.14"
-            custom:checked="false"
-            custom:date_state="gray"
-            custom:dayOfTheMonth="12"
-            custom:dayOfTheWeek="mon"
-            custom:isToday="false" />
+            app:layout_constraintWidth_percent="0.14" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_tue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,14 +40,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/date_view_wed"
             app:layout_constraintStart_toEndOf="@+id/date_view_mon"
-            app:layout_constraintTop_toTopOf="parent"
-            custom:checked="false"
-            custom:date_state="gray"
-            custom:dayOfTheMonth="1"
-            custom:dayOfTheWeek="tue"
-            custom:isToday="false" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_wed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,14 +50,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/date_view_thu"
             app:layout_constraintStart_toEndOf="@+id/date_view_tue"
-            app:layout_constraintTop_toTopOf="parent"
-            custom:checked="false"
-            custom:date_state="gray"
-            custom:dayOfTheMonth="1"
-            custom:dayOfTheWeek="wed"
-            custom:isToday="false" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_thu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,14 +60,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/date_view_fri"
             app:layout_constraintStart_toEndOf="@+id/date_view_wed"
-            app:layout_constraintTop_toTopOf="parent"
-            custom:checked="false"
-            custom:date_state="gray"
-            custom:dayOfTheMonth="1"
-            custom:dayOfTheWeek="thu"
-            custom:isToday="false" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_fri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,14 +70,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/date_view_sat"
             app:layout_constraintStart_toEndOf="@+id/date_view_thu"
-            app:layout_constraintTop_toTopOf="parent"
-            custom:checked="false"
-            custom:date_state="gray"
-            custom:dayOfTheMonth="1"
-            custom:dayOfTheWeek="fri"
-            custom:isToday="false" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.bibbidi.myrootineclone.ui.customview.DateView
+        <com.bibbidi.habittracking.ui.customview.DateView
             android:id="@+id/date_view_sat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,12 +80,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/date_view_fri"
-            app:layout_constraintTop_toTopOf="parent"
-            custom:checked="false"
-            custom:date_state="gray"
-            custom:dayOfTheMonth="1"
-            custom:dayOfTheWeek="sat"
-            custom:isToday="false" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/sv_tv_sun"

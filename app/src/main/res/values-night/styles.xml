@@ -21,8 +21,8 @@
 
     <style name="DateViewStyle">
         <item name="android:visibility">visible</item>
-        <item name="checkedBackgroundColor">@color/pink_03</item>
-        <item name="notCheckedTextColor">@color/black</item>
+        <item name="checkedBackgroundColor">@color/pink_04</item>
+        <item name="notCheckedTextColor">@color/white</item>
         <item name="checkedTextColor">@color/white</item>
         <item name="checked">true</item>
         <item name="dayOfTheWeek">sun</item>

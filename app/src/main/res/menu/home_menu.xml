@@ -4,13 +4,6 @@
     <item
         android:id="@+id/menu_select_date"
         android:icon="@drawable/ic_filled_icalendar"
-        android:iconTint="@color/gray_02"
         android:title="@string/select_date"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_set_up"
-        android:icon="@drawable/ic_set_up"
-        android:iconTint="@color/gray_02"
-        android:title="@string/set_up"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 </menu>
