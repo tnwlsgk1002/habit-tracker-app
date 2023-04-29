@@ -1,4 +1,4 @@
-package com.bibbidi.habittracking.ui.customview
+package com.bibbidi.habittracker.ui.customview
 
 import android.content.Context
 import android.graphics.Color
@@ -7,10 +7,10 @@ import android.util.AttributeSet
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import com.bibbidi.habittracking.R
-import com.bibbidi.habittracking.utils.getBasicTextColor
-import com.bibbidi.habittracking.utils.getOnPrimaryColor
-import com.bibbidi.habittracking.utils.getPrimaryColor
+import com.bibbidi.habittracker.R
+import com.bibbidi.habittracker.utils.getBasicTextColor
+import com.bibbidi.habittracker.utils.getOnPrimaryColor
+import com.bibbidi.habittracker.utils.getPrimaryColor
 
 class DateView @JvmOverloads constructor(
     context: Context,

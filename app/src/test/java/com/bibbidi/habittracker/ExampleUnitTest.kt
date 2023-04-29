@@ -1,4 +1,4 @@
-package com.bibbidi.habittracking
+package com.bibbidi.habittracker
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.bibbidi.habittracking.ui.home
+package com.bibbidi.habittracker.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,20 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.bibbidi.habittracking.R
-import com.bibbidi.habittracking.databinding.FragmentHomeBinding
-import com.bibbidi.habittracking.ui.customview.DayOfTheWeek
+import com.bibbidi.habittracker.R
+import com.bibbidi.habittracker.databinding.FragmentHomeBinding
+import com.bibbidi.habittracker.ui.customview.DayOfTheWeek
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     companion object {
         const val datePickerTag = "datePicker"
     }
 
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModels()
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -147,7 +150,6 @@ class HomeFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 
     private fun showDatePicker() {
         // TODO: 선택한 날짜를 현재 선택된 날짜로 변경 (datePicker.selection)

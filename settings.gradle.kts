@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "HabitTracking"
+rootProject.name = "HabitTracker"
 include(":app")

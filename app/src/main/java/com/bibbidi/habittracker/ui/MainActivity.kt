@@ -1,8 +1,8 @@
-package com.bibbidi.habittracking.ui
+package com.bibbidi.habittracker.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.bibbidi.habittracking.databinding.ActivityMainBinding
+import com.bibbidi.habittracker.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

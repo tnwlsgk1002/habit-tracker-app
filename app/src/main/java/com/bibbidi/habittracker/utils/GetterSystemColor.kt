@@ -1,4 +1,4 @@
-package com.bibbidi.habittracking.utils
+package com.bibbidi.habittracker.utils
 
 import android.content.Context
 import android.util.TypedValue

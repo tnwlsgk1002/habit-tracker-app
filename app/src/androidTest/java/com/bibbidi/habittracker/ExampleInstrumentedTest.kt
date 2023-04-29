@@ -1,4 +1,4 @@
-package com.bibbidi.habittracking
+package com.bibbidi.habittracker
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -11,6 +11,6 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.bibbidi.HabitTracking", appContext.packageName)
+        assertEquals("com.bibbidi.HabitTracker", appContext.packageName)
     }
 }
