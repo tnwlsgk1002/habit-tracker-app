@@ -30,7 +30,7 @@
             android:maxLines="2"
             android:textAppearance="@style/HabitItemViewText.Title"
             app:layout_constraintBottom_toTopOf="@id/tv_when"
-            app:layout_constraintEnd_toStartOf="@id/ib_more"
+            app:layout_constraintEnd_toStartOf="@id/ib_menu"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_emoji"
@@ -74,7 +74,7 @@
             app:constraint_referenced_ids="tv_split_when_to_alarm, tv_alarm" />
 
         <ImageButton
-            android:id="@+id/ib_more"
+            android:id="@+id/ib_menu"
             style="@style/HabitItemViewMore"
             android:background="@drawable/ic_baseline_more_vert"
             android:contentDescription="@string/habit_edit"

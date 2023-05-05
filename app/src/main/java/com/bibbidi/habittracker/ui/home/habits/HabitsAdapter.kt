@@ -16,7 +16,8 @@ import com.bibbidi.habittracker.utils.toGoalTimeString
 class HabitsAdapter(
     private val onCheckBox: (CheckHabitItem, Boolean) -> Unit,
     private val onTurnStopWatch: (TimeHabitItem, Boolean) -> Unit,
-    private val onClickRecordButton: (TrackHabitItem) -> Unit
+    private val onClickRecordButton: (TrackHabitItem) -> Unit,
+    private val onClickMenu: (HabitItem, View) -> Unit
 ) :
     ListAdapter<HabitItem, BaseViewHolder<out HabitItem, out ViewBinding>>(
         HabitItemsDiffCallback
@@ -24,7 +25,8 @@ class HabitsAdapter(
 
     class CheckHabitItemViewHolder(
         private val binding: ItemHabitCheckBinding,
-        private val onCheck: (CheckHabitItem, Boolean) -> Unit
+        private val onCheck: (CheckHabitItem, Boolean) -> Unit,
+        private val onClickMenu: (CheckHabitItem, View) -> Unit
     ) : BaseViewHolder<CheckHabitItem, ItemHabitCheckBinding>(binding) {
 
         override fun bind(item: CheckHabitItem) {
@@ -41,6 +43,9 @@ class HabitsAdapter(
                 checkbox.setOnCheckedChangeListener { _, isChecked ->
                     onCheck(item, isChecked)
                 }
+                ibMenu.setOnClickListener {
+                    onClickMenu(item, it)
+                }
             }
         }
     }
@@ -48,6 +53,7 @@ class HabitsAdapter(
     class TimeHabitItemViewHolder(
         private val binding: ItemHabitTimeBinding,
         private val onTurn: (TimeHabitItem, Boolean) -> Unit,
+        private val onClickMenu: (TimeHabitItem, View) -> Unit
     ) : BaseViewHolder<TimeHabitItem, ItemHabitTimeBinding>(binding) {
 
         override fun bind(item: TimeHabitItem) {
@@ -64,13 +70,17 @@ class HabitsAdapter(
                 checkboxPlay.setOnCheckedChangeListener { _, isChecked ->
                     onTurn(item, isChecked)
                 }
+                ibMenu.setOnClickListener {
+                    onClickMenu(item, it)
+                }
             }
         }
     }
 
     class TrackHabitItemViewHolder(
         private val binding: ItemHabitTrackBinding,
-        private val onClick: (TrackHabitItem) -> Unit
+        private val onClickRecordButton: (TrackHabitItem) -> Unit,
+        private val onClickMenu: (TrackHabitItem, View) -> Unit
     ) : BaseViewHolder<TrackHabitItem, ItemHabitTrackBinding>(binding) {
 
         override fun bind(item: TrackHabitItem) {
@@ -85,7 +95,10 @@ class HabitsAdapter(
                 buttonLog.text =
                     item.value?.toString() ?: itemView.context.getString(R.string.record)
                 buttonLog.setOnClickListener {
-                    onClick(item)
+                    onClickRecordButton(item)
+                }
+                ibMenu.setOnClickListener {
+                    onClickMenu(item, it)
                 }
             }
         }
@@ -128,7 +141,8 @@ class HabitsAdapter(
                         parent.context
                     ), parent, false
                 ),
-                onCheckBox
+                onCheckBox,
+                onClickMenu
             )
             TIME_TYPE -> TimeHabitItemViewHolder(
                 ItemHabitTimeBinding.inflate(
@@ -136,7 +150,8 @@ class HabitsAdapter(
                         parent.context
                     ), parent, false
                 ),
-                onTurnStopWatch
+                onTurnStopWatch,
+                onClickMenu
             )
             TRACK_TYPE -> TrackHabitItemViewHolder(
                 ItemHabitTrackBinding.inflate(
@@ -144,7 +159,8 @@ class HabitsAdapter(
                         parent.context
                     ), parent, false
                 ),
-                onClickRecordButton
+                onClickRecordButton,
+                onClickMenu
             )
             else -> throw IllegalArgumentException("is not exist viewHolder type")
         }

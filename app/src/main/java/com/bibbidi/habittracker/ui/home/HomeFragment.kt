@@ -22,6 +22,7 @@ import com.bibbidi.habittracker.ui.home.habits.CheckHabitItem
 import com.bibbidi.habittracker.ui.home.habits.HabitsAdapter
 import com.bibbidi.habittracker.ui.home.habits.TimeHabitItem
 import com.bibbidi.habittracker.ui.home.habits.TrackHabitItem
+import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalTime
@@ -174,6 +175,15 @@ class HomeFragment : Fragment() {
                     Toast.makeText(context, "$timeHabitItem : $b", Toast.LENGTH_LONG).show()
                 }, onClickRecordButton = { trackHabitItem ->
                     Toast.makeText(context, "$trackHabitItem click", Toast.LENGTH_LONG).show()
+                }, onClickMenu = { _, view ->
+                    showMenu(view, R.menu.habit_menu) { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.option_edit -> Toast.makeText(context, "수정", Toast.LENGTH_SHORT).show()
+                            R.id.option_delete -> Toast.makeText(context, "삭제", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        true
+                    }
                 }).apply {
                 submitList(sampleHabits)
             }
