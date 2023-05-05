@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ToolbarTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/pretendard_semibold</item>
-    </style>
-
-    <style name="ToolBarStyle" parent="Widget.MaterialComponents.Toolbar">
-        <item name="titleTextAppearance">@style/ToolbarTextAppearance</item>
-    </style>
-
-    <style name="DateViewTextApparance.DayOfTheWeek" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="DateViewTextApparance.DayOfTheMonth" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/pretendard_semibold</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
     <style name="DateViewStyle">
         <item name="android:visibility">visible</item>
         <item name="checkedBackgroundColor">@color/pink_04</item>
@@ -41,9 +23,53 @@
 
     <style name="ShimmerViewCircle">
         <item name="android:layout_marginTop">3.5dp</item>
-        <item name="android:background">@drawable/bg_circle</item>
+        <item name="android:background">@drawable/bg_filled_circle</item>
         <item name="android:backgroundTint">@color/gray_04</item>
         <item name="layout_constraintDimensionRatio">1:1</item>
+    </style>
+
+    <!-- Habit Item View -->
+
+    <style name="HabitItemViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardBackgroundColor">@color/gray_09</item>
+    </style>
+
+    <style name="HabitItemViewText.Title" parent="HabitTracker.TextAppearance.Text14.Bold">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="HabitItemViewText.Caption" parent="HabitTracker.TextAppearance.Text12.Medium">
+        <item name="android:textColor">@color/gray_05</item>
+    </style>
+
+    <style name="HabitItemViewMore" parent="Widget.AppCompat.ImageButton">
+        <item name="android:layout_width">18dp</item>
+        <item name="android:layout_height">18dp</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="HabitItemViewBell">
+        <item name="android:backgroundTint">@color/gray_05</item>
+    </style>
+
+    <style name="HabitItemViewAddedLogButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="icon">@drawable/ic_thin_plus</item>
+        <item name="iconSize">12dp</item>
+        <item name="iconTint">@color/pink_04</item>
+        <item name="strokeColor">@color/pink_04</item>
+        <item name="rippleColor">@color/pink_04</item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text12.Medium</item>
+        <item name="android:textColor">@color/pink_04</item>
+    </style>
+
+    <style name="DividerLineView">
+        <item name="android:background">@color/pink_04</item>
+    </style>
+
+    <style name="DividerCircleView">
+        <item name="android:background">@drawable/bg_filled_circle</item>
+        <item name="android:backgroundTint">@color/pink_04</item>
     </style>
 
 </resources>

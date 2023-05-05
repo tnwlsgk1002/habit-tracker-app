@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.home
+package com.bibbidi.habittracker.ui.home.dates
 
 import com.bibbidi.habittracker.ui.customview.DayOfTheWeek
 
