@@ -9,4 +9,9 @@
     <string name="thursday">목</string>
     <string name="friday">금</string>
     <string name="saturday">토</string>
+    <string name="split_string">·</string>
+    <string name="habit_edit">습관 편집</string>
+    <string name="record">기록</string>
+    <string name="edit">수정</string>
+    <string name="all_delete">전체 삭제</string>
 </resources>

@@ -14,15 +14,26 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
+import com.bibbidi.habittracker.ui.ItemDecoration
 import com.bibbidi.habittracker.ui.customview.DayOfTheWeek
+import com.bibbidi.habittracker.ui.home.dates.DateItem
+import com.bibbidi.habittracker.ui.home.dates.RowCalendarAdapter
+import com.bibbidi.habittracker.ui.home.habits.CheckHabitItem
+import com.bibbidi.habittracker.ui.home.habits.HabitsAdapter
+import com.bibbidi.habittracker.ui.home.habits.TimeHabitItem
+import com.bibbidi.habittracker.ui.home.habits.TrackHabitItem
+import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.LocalTime
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     companion object {
         const val datePickerTag = "datePicker"
+
+        const val HabitItemPadding = 10
     }
 
     private val viewModel: HomeViewModel by viewModels()
@@ -58,7 +69,7 @@ class HomeFragment : Fragment() {
 
     private fun setUpAdapter() {
         // TODO : dummy data
-        val sampleList = mutableListOf(
+        val sampleDateViews = mutableListOf(
             arrayOf(
                 DateItem(false, 1, DayOfTheWeek.SUN, true),
                 DateItem(false, 2, DayOfTheWeek.MON, true),
@@ -97,11 +108,39 @@ class HomeFragment : Fragment() {
             )
         )
 
+        val sampleHabits = listOf(
+            CheckHabitItem(5L, 0, "💧", "체크", true, "저녁에", true),
+            CheckHabitItem(6L, 0, "✏", "체크", true, "저녁에", false),
+            TimeHabitItem(
+                1L,
+                0,
+                "💄",
+                "타이머1 - 기록있음",
+                true,
+                "아침에",
+                LocalTime.of(4, 0),
+                LocalTime.of(1, 0),
+                isStarted = false
+            ),
+            TimeHabitItem(
+                2L,
+                0,
+                "\uD83D\uDC84",
+                "타이머2 - 기록없음",
+                false,
+                "아침에",
+                LocalTime.of(4, 0),
+                LocalTime.of(0, 0),
+                isStarted = true
+            ),
+            TrackHabitItem(3L, 0, "💛", "추적1", true, "낮에", null),
+            TrackHabitItem(4L, 0, "✅", "추적2", false, "낮에", 84)
+        )
+
         with(binding.vpRowCalendar) {
             // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
-            val dateViewAdapter = RowCalendarAdapter {
-            }.apply {
-                submitList(sampleList)
+            val dateViewAdapter = RowCalendarAdapter {}.apply {
+                submitList(sampleDateViews)
             }
 
             adapter = dateViewAdapter
@@ -126,6 +165,31 @@ class HomeFragment : Fragment() {
 
                 // TODO : 데이터 로드 후 stopShimmer() 호출
             })
+        }
+
+        with(binding.rvNotFinishedHabits) {
+            // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
+            val finishedHabitAdapter = HabitsAdapter(onCheckBox = { checkHabitItem, b ->
+                Toast.makeText(context, "$checkHabitItem : $b", Toast.LENGTH_LONG).show()
+            }, onTurnStopWatch = { timeHabitItem, b ->
+                    Toast.makeText(context, "$timeHabitItem : $b", Toast.LENGTH_LONG).show()
+                }, onClickRecordButton = { trackHabitItem ->
+                    Toast.makeText(context, "$trackHabitItem click", Toast.LENGTH_LONG).show()
+                }, onClickMenu = { _, view ->
+                    showMenu(view, R.menu.habit_menu) { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.option_edit -> Toast.makeText(context, "수정", Toast.LENGTH_SHORT).show()
+                            R.id.option_delete -> Toast.makeText(context, "삭제", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        true
+                    }
+                }).apply {
+                submitList(sampleHabits)
+            }
+
+            adapter = finishedHabitAdapter
+            addItemDecoration(ItemDecoration(HabitItemPadding))
         }
     }
 

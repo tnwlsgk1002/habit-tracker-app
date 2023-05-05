@@ -9,7 +9,7 @@
         android:id="@+id/tv_day_of_week"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/DateViewTextApparance.DayOfTheWeek"
+        android:textAppearance="@style/HabitTracker.TextAppearance.Text12.Medium"
         tools:text="일"
         tools:textColor="@color/black" />
 
@@ -18,10 +18,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:background="@drawable/bg_circle"
+        android:background="@drawable/bg_filled_circle"
         android:backgroundTint="?android:attr/colorPrimary"
         android:gravity="center"
-        android:textAppearance="@style/DateViewTextApparance.DayOfTheMonth"
+        android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
         tools:text="1"
         tools:textColor="@color/white" />
 </LinearLayout>

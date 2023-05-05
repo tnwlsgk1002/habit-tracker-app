@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/HabitItemViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_habit_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="💛" />
+
+        <TextView
+            android:id="@+id/tv_habit_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/HabitItemViewText.Title"
+            app:layout_constraintBottom_toTopOf="@id/tv_when"
+            app:layout_constraintEnd_toStartOf="@id/ib_menu"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_emoji"
+            tools:text="몸무게 재기" />
+
+        <TextView
+            android:id="@+id/tv_when"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/HabitItemViewText.Caption"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_habit_title"
+            tools:text="공복" />
+
+        <TextView
+            android:id="@+id/tv_split_when_to_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/split_string"
+            android:textAppearance="@style/HabitItemViewText.Caption"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_when"
+            app:layout_constraintStart_toEndOf="@id/tv_when" />
+
+        <View
+            android:id="@+id/tv_alarm"
+            style="@style/HabitItemViewBell"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_outline_bell"
+            app:layout_constraintBottom_toBottomOf="@id/tv_split_when_to_alarm"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toEndOf="@id/tv_split_when_to_alarm"
+            app:layout_constraintTop_toTopOf="@id/tv_split_when_to_alarm" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="tv_split_when_to_alarm, tv_alarm"/>
+
+        <ImageButton
+            android:id="@+id/ib_menu"
+            style="@style/HabitItemViewMore"
+            android:background="@drawable/ic_baseline_more_vert"
+            android:contentDescription="@string/habit_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/tv_emoji"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_fake_habit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minLines="2"
+            android:textAppearance="@style/HabitItemViewText.Title"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_habit_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tv_habit_title"
+            app:layout_constraintTop_toTopOf="@id/tv_habit_title" />
+
+        <TextView
+            android:id="@+id/tv_fake_when"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/HabitItemViewText.Caption"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_fake_habit_title"
+            tools:text="침대 나서며" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_log"
+            style="@style/HabitItemViewAddedLogButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/record"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_fake_when" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
