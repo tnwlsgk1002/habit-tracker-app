@@ -14,6 +14,19 @@
         <item name="fontFamily">@font/pretendard_semibold</item>
     </style>
 
+    <style name="HabitTracker.TextAppearance.Text16" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/pretendard_black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="HabitTracker.TextAppearance.Text16.Bold">
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="HabitTracker.TextAppearance.Text16.SemiBold">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
     <style name="HabitTracker.TextAppearance.Text14" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/pretendard_black</item>
         <item name="android:textSize">14sp</item>
@@ -88,12 +101,21 @@
         <item name="layout_constraintDimensionRatio">1:1</item>
     </style>
 
-    <!-- Habit Item View -->
-
-    <style name="HabitItemViewStyle" parent="Widget.MaterialComponents.CardView">
+    <!-- CardView -->
+    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">10dp</item>
         <item name="cardBackgroundColor">@color/white</item>
     </style>
+
+    <style name="CardViewIconStyle">
+        <item name="tint">@color/black</item>
+    </style>
+
+    <style name="ImageButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="backgroundTint">@color/black</item>
+    </style>
+
+    <!-- Habit Item View -->
 
     <style name="HabitItemViewText.Title" parent="HabitTracker.TextAppearance.Text14.Bold">
         <item name="android:textColor">@color/black</item>
@@ -130,6 +152,15 @@
     <style name="DividerCircleView">
         <item name="android:background">@drawable/bg_filled_circle</item>
         <item name="android:backgroundTint">@color/pink_02</item>
+    </style>
+
+    <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:contentDescription">@string/add_habit</item>
+        <item name="android:backgroundTint">@color/pink_03</item>
+        <item name="srcCompat">@drawable/ic_thick_plus</item>
+        <item name="tint">@color/white</item>
+        <item name="fabSize">normal</item>
     </style>
 
 </resources>

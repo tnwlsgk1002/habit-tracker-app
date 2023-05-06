@@ -8,8 +8,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
@@ -63,8 +65,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = getString(R.string.date)
+        }?.show()
         setUpAdapter()
         setUpListener()
+        setUpFab()
     }
 
     private fun setUpAdapter() {
@@ -197,6 +203,12 @@ class HomeFragment : Fragment() {
         // TODO: 날짜 선택 시 변경
         datePicker.addOnPositiveButtonClickListener {
             Toast.makeText(context, "$it", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setUpFab() {
+        binding.fabMain.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_selectionHabitTypeFragment)
         }
     }
 
