@@ -14,6 +14,14 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.HabitTracker.Home" parent="Theme.HabitTracker">
         <item name="android:windowBackground">@color/pink_01</item>
     </style>
+
+    <style name="Theme.HabitTracker.Other" parent="Theme.HabitTracker">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
 </resources>

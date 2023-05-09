@@ -23,6 +23,7 @@ class HabitTypeSelectionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        activity?.setTheme(R.style.Theme_HabitTracker_Other)
         _binding = FragmentSelectHabitTypeBinding.inflate(inflater, container, false)
         return binding.root
     }

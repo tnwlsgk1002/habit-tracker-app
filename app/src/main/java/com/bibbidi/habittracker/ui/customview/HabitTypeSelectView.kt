@@ -61,10 +61,10 @@ class HabitTypeSelectView @JvmOverloads constructor(
             0
         )
 
-        icon = typedArray.getDrawable(R.styleable.HabitTypeSelectView_icon)
-        iconTint = typedArray.getColor(R.styleable.HabitTypeSelectView_iconTint, -1)
-        titleText = typedArray.getText(R.styleable.HabitTypeSelectView_titleText)
-        descriptionText = typedArray.getText(R.styleable.HabitTypeSelectView_descriptionText)
+        icon = typedArray.getDrawable(R.styleable.HabitTypeSelectView_habitTypeSelectView_icon)
+        iconTint = typedArray.getColor(R.styleable.HabitTypeSelectView_habitTypeSelectView_iconTint, -1)
+        titleText = typedArray.getText(R.styleable.HabitTypeSelectView_habitTypeSelectView_titleText)
+        descriptionText = typedArray.getText(R.styleable.HabitTypeSelectView_habitTypeSelectView_descriptionText)
         typedArray.recycle()
 
         setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))

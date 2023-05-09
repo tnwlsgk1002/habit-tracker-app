@@ -163,4 +163,24 @@
         <item name="fabSize">normal</item>
     </style>
 
+    <style name="DividerLineView.Gray">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray_03</item>
+    </style>
+
+    <!-- 습관 설정 -->
+    <style name="BottomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:background">@drawable/bg_filled_rounded_rect</item>
+        <item name="android:backgroundTint">@color/pink_03</item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text20.SemiBold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="RightArrowViewStyle">
+        <item name="android:background">@drawable/ic_thick_right_arrow</item>
+        <item name="android:backgroundTint">@color/gray_05</item>
+    </style>
+
 </resources>

@@ -58,6 +58,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        activity?.setTheme(R.style.Theme_HabitTracker_Home)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }

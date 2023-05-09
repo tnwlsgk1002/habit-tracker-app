@@ -14,7 +14,7 @@
         android:layout_height="32dp"
         android:layout_gravity="start"
         android:background="@drawable/ic_thick_close"
-        android:contentDescription="@string/close"/>
+        android:contentDescription="@string/close" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,28 +28,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        custom:descriptionText="@string/check_habit_description"
-        custom:icon="@drawable/ic_check_circle"
-        custom:iconTint="@color/green_04"
-        custom:titleText="@string/check_habit_title" />
+        custom:habitTypeSelectView_descriptionText="@string/check_habit_description"
+        custom:habitTypeSelectView_icon="@drawable/ic_check_circle"
+        custom:habitTypeSelectView_iconTint="@color/green_04"
+        custom:habitTypeSelectView_titleText="@string/check_habit_title" />
 
     <com.bibbidi.habittracker.ui.customview.HabitTypeSelectView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        custom:descriptionText="@string/track_habit_description"
-        custom:icon="@drawable/ic_outline_edit"
-        custom:iconTint="@color/orange_03"
-        custom:titleText="@string/track_habit_title" />
+        custom:habitTypeSelectView_descriptionText="@string/track_habit_description"
+        custom:habitTypeSelectView_icon="@drawable/ic_outline_edit"
+        custom:habitTypeSelectView_iconTint="@color/orange_03"
+        custom:habitTypeSelectView_titleText="@string/track_habit_title" />
 
     <com.bibbidi.habittracker.ui.customview.HabitTypeSelectView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        custom:descriptionText="@string/time_habit_description"
-        custom:icon="@drawable/bg_outline_play_circle"
-        custom:iconTint="@color/red_03"
         android:clipToPadding="true"
-        custom:titleText="@string/time_habit_title" />
+        custom:habitTypeSelectView_descriptionText="@string/time_habit_description"
+        custom:habitTypeSelectView_icon="@drawable/bg_outline_play_circle"
+        custom:habitTypeSelectView_iconTint="@color/red_03"
+        custom:habitTypeSelectView_titleText="@string/time_habit_title" />
 
 </LinearLayout>

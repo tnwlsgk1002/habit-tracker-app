@@ -25,4 +25,11 @@
     <string name="time_habit_title">스톱워치형 습관</string>
     <string name="check_habit_title">(기본) 투두형 습관</string>
     <string name="date">0000년 00월</string>
+    <string name="start">시작하기</string>
+    <string name="start_date">시작 날짜</string>
+    <string name="set_goal_time">목표 시간 설정</string>
+    <string name="when_will_you_do_it">언제 할래요?</string>
+    <string name="habit_repeats_day_of_the_weeks">습관 반복 주기</string>
+    <string name="habit_name_hint">습관 이름 ex) 물 1L 마시기</string>
+    <string name="set_up_habit_title">습관을 설정하세요</string>
 </resources>
