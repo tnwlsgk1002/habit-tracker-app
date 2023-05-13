@@ -32,4 +32,13 @@
     <string name="habit_repeats_day_of_the_weeks">습관 반복 주기</string>
     <string name="habit_name_hint">습관 이름 ex) 물 1L 마시기</string>
     <string name="set_up_habit_title">습관을 설정하세요</string>
+    <string name="when_example_1">아무때나</string>
+    <string name="when_example_2">침대에서</string>
+    <string name="when_example_3">출근 길에</string>
+    <string name="when_example_4">잠들기 전</string>
+    <string name="when_example_5">오후 10:00</string>
+    <string name="when_example_6">상시</string>
+    <string name="when_example_7">눈 뜨자마자</string>
+    <string name="semicolon">:</string>
+    <string name="set_repeat_day_of_the_weeks">반복 요일 설정</string>
 </resources>
