@@ -62,16 +62,16 @@
 
             <TextView
                 android:id="@+id/tv_alarm_title"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:text="@string/set_alarm"
                 android:textAppearance="@style/HabitTracker.TextAppearance.Text14.Medium"
                 app:layout_constraintBottom_toBottomOf="@id/switch_alarm"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/switch_alarm"
-                tools:text="알람 받기" />
+                app:layout_constraintTop_toTopOf="@id/switch_alarm" />
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switch_alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

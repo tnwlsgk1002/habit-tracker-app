@@ -41,4 +41,5 @@
     <string name="when_example_7">눈 뜨자마자</string>
     <string name="semicolon">:</string>
     <string name="set_repeat_day_of_the_weeks">반복 요일 설정</string>
+    <string name="set_alarm">알람 받기</string>
 </resources>
