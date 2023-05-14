@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.customview
+package com.bibbidi.habittracker.ui.model
 
 enum class DayOfTheWeek {
     SUN,

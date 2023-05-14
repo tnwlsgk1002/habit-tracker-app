@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.bibbidi.habittracker.R
+import com.bibbidi.habittracker.ui.model.DayOfTheWeek
 import com.bibbidi.habittracker.utils.getBasicTextColor
 import com.bibbidi.habittracker.utils.getOnPrimaryColor
 import com.bibbidi.habittracker.utils.getPrimaryColor

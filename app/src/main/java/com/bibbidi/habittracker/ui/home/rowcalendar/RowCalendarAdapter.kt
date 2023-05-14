@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.home.dates
+package com.bibbidi.habittracker.ui.home.rowcalendar
 
 import android.view.LayoutInflater
 import android.view.View

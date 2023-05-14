@@ -1,6 +1,6 @@
-package com.bibbidi.habittracker.ui.home.dates
+package com.bibbidi.habittracker.ui.home.rowcalendar
 
-import com.bibbidi.habittracker.ui.customview.DayOfTheWeek
+import com.bibbidi.habittracker.ui.model.DayOfTheWeek
 
 data class DateItem(
     val checked: Boolean,
