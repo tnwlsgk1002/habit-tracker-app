@@ -10,19 +10,6 @@
         android:label="homeFragment"
         tools:layout="@layout/fragment_home" >
 
-        <action
-            android:id="@+id/action_homeFragment_to_selectionHabitTypeFragment"
-            app:destination="@id/selectionHabitTypeFragment"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/selectionHabitTypeFragment"
-        android:name="com.bibbidi.habittracker.ui.addhabit.HabitTypeSelectionFragment"
-        android:label="selectionHabitTypeFragment"
-        tools:layout="@layout/fragment_select_habit_type" >
-        <action
-            android:id="@+id/action_selectionHabitTypeFragment_to_homeFragment"
-            app:destination="@id/homeFragment"/>
     </fragment>
 
 </navigation>

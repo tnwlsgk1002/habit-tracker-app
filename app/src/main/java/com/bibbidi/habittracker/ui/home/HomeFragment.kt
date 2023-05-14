@@ -11,26 +11,28 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.ItemDecoration
-import com.bibbidi.habittracker.ui.customview.DayOfTheWeek
-import com.bibbidi.habittracker.ui.home.dates.DateItem
-import com.bibbidi.habittracker.ui.home.dates.RowCalendarAdapter
 import com.bibbidi.habittracker.ui.home.habits.CheckHabitItem
 import com.bibbidi.habittracker.ui.home.habits.HabitsAdapter
 import com.bibbidi.habittracker.ui.home.habits.TimeHabitItem
 import com.bibbidi.habittracker.ui.home.habits.TrackHabitItem
+import com.bibbidi.habittracker.ui.home.rowcalendar.DateItem
+import com.bibbidi.habittracker.ui.home.rowcalendar.RowCalendarAdapter
+import com.bibbidi.habittracker.ui.model.DayOfTheWeek
+import com.bibbidi.habittracker.ui.model.habit.HabitType
 import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalTime
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment :
+    Fragment(),
+    SelectHabitTypeBottomSheetDialogFragment.OnHabitTypeButtonClickListener {
 
     companion object {
         const val datePickerTag = "datePicker"
@@ -47,6 +49,8 @@ class HomeFragment : Fragment() {
     private val datePicker = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
         .build()
+
+    private lateinit var bottomSheetDialogFragment: SelectHabitTypeBottomSheetDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +76,7 @@ class HomeFragment : Fragment() {
         setUpAdapter()
         setUpListener()
         setUpFab()
+        setUpBottomSheet()
     }
 
     private fun setUpAdapter() {
@@ -209,8 +214,13 @@ class HomeFragment : Fragment() {
 
     private fun setUpFab() {
         binding.fabMain.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_selectionHabitTypeFragment)
+            showSelectHabitTypeBottomSheet()
         }
+    }
+
+    private fun setUpBottomSheet() {
+        bottomSheetDialogFragment = SelectHabitTypeBottomSheetDialogFragment()
+        bottomSheetDialogFragment.setOnHabitTypeButtonClickListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -231,6 +241,14 @@ class HomeFragment : Fragment() {
     private fun showDatePicker() {
         // TODO: 선택한 날짜를 현재 선택된 날짜로 변경 (datePicker.selection)
         datePicker.show(parentFragmentManager, datePickerTag)
+    }
+
+    private fun showSelectHabitTypeBottomSheet() {
+        bottomSheetDialogFragment.show(parentFragmentManager, bottomSheetDialogFragment.tag)
+    }
+
+    override fun onHabitTypeButtonClick(type: HabitType) {
+        TODO("Not yet implemented")
     }
 
     override fun onDestroyView() {

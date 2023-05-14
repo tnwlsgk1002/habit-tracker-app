@@ -102,6 +102,7 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_filled_rounded_rect_20</item>
         <item name="android:backgroundTint">@color/gray_08</item>
+        <item name="android:layout_margin">16dp</item>
     </style>
 
 </resources>
