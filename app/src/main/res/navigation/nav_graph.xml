@@ -2,6 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -10,6 +11,23 @@
         android:label="homeFragment"
         tools:layout="@layout/fragment_home" >
 
+        <action
+            android:id="@+id/action_homeFragment_to_setHabitFragment"
+            app:destination="@id/setHabitFragment"
+            app:enterAnim="@anim/fragment_slide_end_show"
+            app:exitAnim="@anim/fragment_slide_start_exit"
+            app:popEnterAnim="@anim/fragment_slide_start_show"
+            app:popExitAnim="@anim/fragment_slide_end_exit">
+            <argument
+                android:name="habitTypeArg"
+                app:argType="string"/>
+        </action>
     </fragment>
+
+    <fragment
+        android:id="@+id/setHabitFragment"
+        android:name="com.bibbidi.habittracker.ui.addhabit.SetHabitFragment"
+        android:label="setHabitFragment"
+        tools:layout="@layout/fragment_set_habit" />
 
 </navigation>

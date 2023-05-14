@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.bibbidi.habittracker.R
-import com.bibbidi.habittracker.databinding.FragmentSelectHabitTypeBinding
+import com.bibbidi.habittracker.databinding.FragmentSetHabitBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HabitTypeSelectionFragment : Fragment() {
+class SetHabitFragment : Fragment() {
 
-    private var _binding: FragmentSelectHabitTypeBinding? = null
+    private lateinit var viewModel: SetHabitViewModel
+
+    private var _binding: FragmentSetHabitBinding? = null
 
     private val binding get() = _binding!!
 
@@ -24,21 +25,17 @@ class HabitTypeSelectionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         activity?.setTheme(R.style.Theme_HabitTracker_Other)
-        _binding = FragmentSelectHabitTypeBinding.inflate(inflater, container, false)
+
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = ""
+        }?.show()
+
+        _binding = FragmentSetHabitBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (activity as AppCompatActivity).supportActionBar?.hide()
-        setEventListener()
-    }
-
-    private fun setEventListener() {
-        binding.ivClose.setOnClickListener {
-            findNavController().navigate(R.id.action_selectionHabitTypeFragment_to_homeFragment)
-        }
     }
 
     override fun onDestroyView() {

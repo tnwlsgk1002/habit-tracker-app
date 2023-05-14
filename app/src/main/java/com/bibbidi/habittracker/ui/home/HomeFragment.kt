@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
@@ -248,7 +249,8 @@ class HomeFragment :
     }
 
     override fun onHabitTypeButtonClick(type: HabitType) {
-        TODO("Not yet implemented")
+        val action = HomeFragmentDirections.actionHomeFragmentToSetHabitFragment(type.name)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
