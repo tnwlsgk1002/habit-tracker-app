@@ -84,6 +84,9 @@ dependencies {
     testImplementation("androidx.room:room-testing:$room_version")
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:$room_version")
+
+    // emoji-picker
+    implementation("com.vanniktech:emoji-google-compat:0.16.0")
 }
 
 // Allow references to generated code
