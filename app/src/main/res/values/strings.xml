@@ -42,4 +42,6 @@
     <string name="semicolon">:</string>
     <string name="set_repeat_day_of_the_weeks">반복 요일 설정</string>
     <string name="set_alarm">알람 받기</string>
+    <string name="select_start_date">시작 날짜 선택</string>
+    <string name="input_alarm_time">알람 시간 입력</string>
 </resources>

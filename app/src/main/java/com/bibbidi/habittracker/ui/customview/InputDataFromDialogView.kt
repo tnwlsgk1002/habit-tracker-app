@@ -16,25 +16,31 @@ class InputDataFromDialogView @JvmOverloads constructor(
     private val tvTitle: TextView
     private val tvContent: TextView
 
-    private var titleText: CharSequence = ""
+    private var _titleText: CharSequence = ""
         set(value) {
             field = value
             tvTitle.text = value
             invalidate()
         }
 
-    private var contentText: CharSequence? = null
+    private var _contentText: CharSequence? = null
         set(value) {
             field = value
             tvContent.text = value ?: ""
             invalidate()
         }
 
-    private var background: Int = R.color.black
+    private var _background: Int = R.color.black
         set(value) {
             field = value
             setBackgroundResource(value)
             invalidate()
+        }
+
+    var contentText: CharSequence?
+        get() = _contentText
+        set(value) {
+            _contentText = value
         }
 
     init {
@@ -49,14 +55,14 @@ class InputDataFromDialogView @JvmOverloads constructor(
             0
         )
 
-        titleText =
+        _titleText =
             typedArray.getText(R.styleable.InputDataFromDialogView_inputDataFromDialogView_titleText)
-        contentText =
+        _contentText =
             typedArray.getText(R.styleable.InputDataFromDialogView_inputDataFromDialogView_contentText)
-        background =
+        _background =
             typedArray.getResourceId(
                 R.styleable.InputDataFromDialogView_inputDataFromDialogView_background,
-                background
+                _background
             )
         typedArray.recycle()
 
