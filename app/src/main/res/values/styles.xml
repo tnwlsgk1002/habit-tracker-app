@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- TextAppearance -->
+    <style name="HabitTracker.TextAppearance.Text34" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/pretendard_black</item>
+        <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="HabitTracker.TextAppearance.Text34.SemiBold" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="HabitTracker.TextAppearance.Text34.Medium" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
     <style name="HabitTracker.TextAppearance.Text20" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/pretendard_black</item>
         <item name="android:textSize">20sp</item>
@@ -11,6 +24,19 @@
     </style>
 
     <style name="HabitTracker.TextAppearance.Text20.SemiBold">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="HabitTracker.TextAppearance.Text16" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/pretendard_black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="HabitTracker.TextAppearance.Text16.Bold">
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="HabitTracker.TextAppearance.Text16.SemiBold">
         <item name="fontFamily">@font/pretendard_semibold</item>
     </style>
 
@@ -88,12 +114,21 @@
         <item name="layout_constraintDimensionRatio">1:1</item>
     </style>
 
-    <!-- Habit Item View -->
-
-    <style name="HabitItemViewStyle" parent="Widget.MaterialComponents.CardView">
+    <!-- CardView -->
+    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">10dp</item>
         <item name="cardBackgroundColor">@color/white</item>
     </style>
+
+    <style name="CardViewIconStyle">
+        <item name="tint">@color/black</item>
+    </style>
+
+    <style name="ImageButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="backgroundTint">@color/black</item>
+    </style>
+
+    <!-- Habit Item View -->
 
     <style name="HabitItemViewText.Title" parent="HabitTracker.TextAppearance.Text14.Bold">
         <item name="android:textColor">@color/black</item>
@@ -130,6 +165,58 @@
     <style name="DividerCircleView">
         <item name="android:background">@drawable/bg_filled_circle</item>
         <item name="android:backgroundTint">@color/pink_02</item>
+    </style>
+
+    <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:contentDescription">@string/add_habit</item>
+        <item name="android:backgroundTint">@color/pink_03</item>
+        <item name="srcCompat">@drawable/ic_thick_plus</item>
+        <item name="tint">@color/white</item>
+        <item name="fabSize">normal</item>
+    </style>
+
+    <style name="DividerLineView.Gray">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray_03</item>
+    </style>
+
+    <!-- 습관 설정 -->
+    <style name="BottomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:background">@drawable/bg_filled_rounded_rect_12</item>
+        <item name="android:backgroundTint">@color/pink_03</item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text16.SemiBold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="RightArrowViewStyle">
+        <item name="android:background">@drawable/ic_thick_right_arrow</item>
+        <item name="android:backgroundTint">@color/gray_05</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_filled_rounded_rect_20</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:layout_margin">16dp</item>
+    </style>
+
+    <style name="BottomSheetTitleStyle">
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text20.SemiBold</item>
+        <item name="android:layout_margin">32dp</item>
+    </style>
+
+    <style name="WhenChipStyle" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text16.SemiBold</item>
+    </style>
+
+    <style name="TimeInputEditEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">2</item>
+        <item name="android:text">00</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text34.SemiBold</item>
     </style>
 
 </resources>

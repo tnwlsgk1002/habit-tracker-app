@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/BottomSheetTitleStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_habit_type_guide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.bibbidi.habittracker.ui.customview.HabitTypeSelectView
+            android:id="@+id/btn_todo_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            custom:habitTypeSelectView_descriptionText="@string/check_habit_description"
+            custom:habitTypeSelectView_icon="@drawable/ic_check_circle"
+            custom:habitTypeSelectView_iconTint="@color/green_04"
+            custom:habitTypeSelectView_titleText="@string/check_habit_title" />
+
+        <com.bibbidi.habittracker.ui.customview.HabitTypeSelectView
+            android:id="@+id/btn_track_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/btn_todo_type"
+            custom:habitTypeSelectView_descriptionText="@string/track_habit_description"
+            custom:habitTypeSelectView_icon="@drawable/ic_outline_edit"
+            custom:habitTypeSelectView_iconTint="@color/orange_03"
+            custom:habitTypeSelectView_titleText="@string/track_habit_title" />
+
+        <com.bibbidi.habittracker.ui.customview.HabitTypeSelectView
+            android:id="@+id/btn_time_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:clipToPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/btn_track_type"
+            custom:habitTypeSelectView_descriptionText="@string/time_habit_description"
+            custom:habitTypeSelectView_icon="@drawable/bg_outline_play_circle"
+            custom:habitTypeSelectView_iconTint="@color/red_03"
+            custom:habitTypeSelectView_titleText="@string/time_habit_title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

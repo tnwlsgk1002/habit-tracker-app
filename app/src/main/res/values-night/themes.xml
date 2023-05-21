@@ -14,6 +14,18 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- Customize your theme here. -->
+        <item name="bottomSheetDialogTheme">@style/Theme.HabitTracker.BottomSheetDialog</item>
+    </style>
+
+    <style name="Theme.HabitTracker.Home" parent="Theme.HabitTracker">
         <item name="android:windowBackground">@color/gray_08</item>
+    </style>
+
+    <style name="Theme.HabitTracker.Other" parent="Theme.HabitTracker">
+        <item name="android:windowBackground">@color/gray_08</item>
+    </style>
+
+    <style name="Theme.HabitTracker.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 </resources>
