@@ -61,8 +61,8 @@ class HabitsAdapter(
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
                 tvWhen.text = item.whenRun
-                tvGoal.text = item.goalTime.toGoalTimeString()
-                tvCntTime.text = item.cntTime.toString()
+                tvGoal.text = item.goalDuration.toGoalTimeString()
+                tvCntTime.text = item.cntDuration.toString()
                 groupAlarm.visibility = when (item.isAlarm) {
                     true -> View.VISIBLE
                     false -> View.INVISIBLE

@@ -6,21 +6,8 @@ import android.widget.EditText
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
-
-fun LocalTime.toGoalTimeString(): String {
-    return if (hour == 0 && minute == 0) {
-        "0s"
-    } else if (hour == 0) {
-        "${minute}s"
-    } else if (minute == 0) {
-        "${hour}h"
-    } else {
-        "${hour}h ${minute}s"
-    }
-}
 
 fun Duration.toGoalTimeString(): String {
     val hour = toHoursPart()

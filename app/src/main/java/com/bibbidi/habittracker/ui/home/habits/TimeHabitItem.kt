@@ -1,6 +1,6 @@
 package com.bibbidi.habittracker.ui.home.habits
 
-import org.threeten.bp.LocalTime
+import org.threeten.bp.Duration
 
 data class TimeHabitItem(
     override val id: Long,
@@ -9,7 +9,7 @@ data class TimeHabitItem(
     override val name: String,
     override val isAlarm: Boolean,
     override val whenRun: String,
-    val goalTime: LocalTime,
-    val cntTime: LocalTime,
+    val goalDuration: Duration,
+    val cntDuration: Duration,
     val isStarted: Boolean
 ) : HabitItem

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.bibbidi.habittracker.data.entity.Habit
-import org.threeten.bp.LocalTime
+import org.threeten.bp.Duration
 
 @Entity(
     foreignKeys = [
@@ -20,5 +20,5 @@ data class TimeHabit(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val habitId: Long,
-    val goalTime: LocalTime
+    val goalDuration: Duration
 )

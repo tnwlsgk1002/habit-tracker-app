@@ -17,18 +17,14 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.ItemDecoration
-import com.bibbidi.habittracker.ui.home.habits.CheckHabitItem
+import com.bibbidi.habittracker.ui.home.habits.HabitItem
 import com.bibbidi.habittracker.ui.home.habits.HabitsAdapter
-import com.bibbidi.habittracker.ui.home.habits.TimeHabitItem
-import com.bibbidi.habittracker.ui.home.habits.TrackHabitItem
 import com.bibbidi.habittracker.ui.home.rowcalendar.DateItem
 import com.bibbidi.habittracker.ui.home.rowcalendar.RowCalendarAdapter
-import com.bibbidi.habittracker.ui.model.DayOfTheWeek
 import com.bibbidi.habittracker.ui.model.habit.HabitType
 import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import org.threeten.bp.LocalTime
 
 @AndroidEntryPoint
 class HomeFragment :
@@ -82,73 +78,8 @@ class HomeFragment :
 
     private fun setUpAdapter() {
         // TODO : dummy data
-        val sampleDateViews = mutableListOf(
-            arrayOf(
-                DateItem(false, 1, DayOfTheWeek.SUN, true),
-                DateItem(false, 2, DayOfTheWeek.MON, true),
-                DateItem(false, 3, DayOfTheWeek.TUE, true),
-                DateItem(false, 4, DayOfTheWeek.WED, true),
-                DateItem(false, 5, DayOfTheWeek.THU, true),
-                DateItem(true, 6, DayOfTheWeek.FRI, true),
-                DateItem(false, 7, DayOfTheWeek.SAT, true)
-            ),
-            arrayOf(
-                DateItem(true, 8, DayOfTheWeek.SUN, true),
-                DateItem(false, 9, DayOfTheWeek.MON, true),
-                DateItem(false, 10, DayOfTheWeek.TUE, true),
-                DateItem(false, 11, DayOfTheWeek.WED, true),
-                DateItem(false, 12, DayOfTheWeek.THU, true),
-                DateItem(true, 13, DayOfTheWeek.FRI, true),
-                DateItem(false, 14, DayOfTheWeek.SAT, true)
-            ),
-            arrayOf(
-                DateItem(true, 15, DayOfTheWeek.SUN, true),
-                DateItem(false, 16, DayOfTheWeek.MON, true),
-                DateItem(false, 17, DayOfTheWeek.TUE, true),
-                DateItem(false, 18, DayOfTheWeek.WED, true),
-                DateItem(true, 19, DayOfTheWeek.THU, true),
-                DateItem(false, 20, DayOfTheWeek.FRI, true),
-                DateItem(false, 21, DayOfTheWeek.SAT, true)
-            ),
-            arrayOf(
-                DateItem(true, 22, DayOfTheWeek.SUN, true),
-                DateItem(false, 23, DayOfTheWeek.MON, true),
-                DateItem(false, 24, DayOfTheWeek.TUE, true),
-                DateItem(false, 25, DayOfTheWeek.WED, true),
-                DateItem(false, 26, DayOfTheWeek.THU, true),
-                DateItem(false, 27, DayOfTheWeek.FRI, true),
-                DateItem(false, 28, DayOfTheWeek.SAT, true)
-            )
-        )
-
-        val sampleHabits = listOf(
-            CheckHabitItem(5L, 0, "💧", "체크", true, "저녁에", true),
-            CheckHabitItem(6L, 0, "✏", "체크", true, "저녁에", false),
-            TimeHabitItem(
-                1L,
-                0,
-                "💄",
-                "타이머1 - 기록있음",
-                true,
-                "아침에",
-                LocalTime.of(4, 0),
-                LocalTime.of(1, 0),
-                isStarted = false
-            ),
-            TimeHabitItem(
-                2L,
-                0,
-                "\uD83D\uDC84",
-                "타이머2 - 기록없음",
-                false,
-                "아침에",
-                LocalTime.of(4, 0),
-                LocalTime.of(0, 0),
-                isStarted = true
-            ),
-            TrackHabitItem(3L, 0, "💛", "추적1", true, "낮에", null),
-            TrackHabitItem(4L, 0, "✅", "추적2", false, "낮에", 84)
-        )
+        val sampleDateViews = listOf<Array<DateItem>>()
+        val sampleHabits = listOf<HabitItem>()
 
         with(binding.vpRowCalendar) {
             // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
