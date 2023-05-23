@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bibbidi.habittracker.databinding.ItemRowCalendarBinding
+import com.bibbidi.habittracker.ui.BaseViewHolder
 import com.bibbidi.habittracker.ui.customview.DateView
 import com.facebook.shimmer.ShimmerFrameLayout
 
@@ -29,7 +29,7 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :
     class DateItemViewHolder(
         binding: ItemRowCalendarBinding,
         private val onClick: (DateItem) -> Unit
-    ) : ViewHolder(binding.root) {
+    ) : BaseViewHolder<Array<DateItem>, ItemRowCalendarBinding>(binding) {
 
         private val dateViews: Array<DateView>
         private var clickedDateViewIndex: Int = 0
@@ -51,7 +51,7 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :
             }
         }
 
-        fun bind(items: Array<DateItem>) {
+        override fun bind(items: Array<DateItem>) {
             items.forEachIndexed { index, item ->
                 dateViews[index].apply {
                     checked = item.checked
