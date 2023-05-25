@@ -16,8 +16,8 @@ import org.threeten.bp.LocalDate
     ]
 )
 data class CheckHabitLog(
-    @PrimaryKey(autoGenerate = true)
     val id: Long,
+    @PrimaryKey(autoGenerate = true)
     val checkHabitId: Long,
     val date: LocalDate = LocalDate.now(),
     val isCompleted: Boolean = false

@@ -16,7 +16,7 @@ import com.bibbidi.habittracker.data.entity.Habit
     ]
 )
 data class CheckHabit(
-    @PrimaryKey(autoGenerate = true)
     val id: Long,
+    @PrimaryKey(autoGenerate = true)
     val habitId: Long
 )

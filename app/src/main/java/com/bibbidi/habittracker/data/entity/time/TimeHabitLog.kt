@@ -17,8 +17,8 @@ import org.threeten.bp.LocalDate
     ]
 )
 data class TimeHabitLog(
-    @PrimaryKey(autoGenerate = true)
     val id: Long,
+    @PrimaryKey(autoGenerate = true)
     val timeHabitId: Long,
     val date: LocalDate = LocalDate.now(),
     val time: Duration = Duration.ofHours(0L)

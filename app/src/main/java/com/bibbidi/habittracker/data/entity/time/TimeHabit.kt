@@ -17,8 +17,8 @@ import org.threeten.bp.Duration
     ]
 )
 data class TimeHabit(
-    @PrimaryKey(autoGenerate = true)
     val id: Long,
+    @PrimaryKey(autoGenerate = true)
     val habitId: Long,
     val goalDuration: Duration
 )

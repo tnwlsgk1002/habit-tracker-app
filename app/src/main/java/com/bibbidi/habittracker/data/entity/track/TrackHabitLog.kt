@@ -15,8 +15,8 @@ import androidx.room.PrimaryKey
     ]
 )
 data class TrackHabitLog(
-    @PrimaryKey(autoGenerate = true)
     val id: Long,
+    @PrimaryKey(autoGenerate = true)
     val trackHabitId: Long,
     val value: Long
 )
