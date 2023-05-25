@@ -6,7 +6,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 
 @Entity
-data class Habit(
+data class HabitEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val order: Int,

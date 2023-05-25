@@ -1,25 +1,24 @@
-package com.bibbidi.habittracker.data.entity.time
+package com.bibbidi.habittracker.data.entity.check
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import org.threeten.bp.Duration
 import org.threeten.bp.LocalDate
 
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = TimeHabit::class,
+            entity = CheckHabitEntity::class,
             parentColumns = ["id"],
-            childColumns = ["timeHabitId"],
+            childColumns = ["checkHabitId"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class TimeHabitLog(
+data class CheckHabitLogEntity(
     val id: Long,
     @PrimaryKey(autoGenerate = true)
-    val timeHabitId: Long,
+    val checkHabitId: Long,
     val date: LocalDate = LocalDate.now(),
-    val time: Duration = Duration.ofHours(0L)
+    val isCompleted: Boolean = false
 )

@@ -1,24 +1,22 @@
-package com.bibbidi.habittracker.data.entity.time
+package com.bibbidi.habittracker.data.entity.track
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.bibbidi.habittracker.data.entity.Habit
-import org.threeten.bp.Duration
 
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = Habit::class,
+            entity = TrackHabitEntity::class,
             parentColumns = ["id"],
-            childColumns = ["habitId"],
+            childColumns = ["trackHabitId"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class TimeHabit(
+data class TrackHabitLogEntity(
     val id: Long,
     @PrimaryKey(autoGenerate = true)
-    val habitId: Long,
-    val goalDuration: Duration
+    val trackHabitId: Long,
+    val value: Long
 )
