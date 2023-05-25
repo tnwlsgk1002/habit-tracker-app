@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.addhabit.dialog
+package com.bibbidi.habittracker.ui.common.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater

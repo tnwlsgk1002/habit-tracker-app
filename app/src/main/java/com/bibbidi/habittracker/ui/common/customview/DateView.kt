@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.customview
+package com.bibbidi.habittracker.ui.common.customview
 
 import android.content.Context
 import android.graphics.Color

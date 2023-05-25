@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui
+package com.bibbidi.habittracker.ui.common
 
 import android.graphics.Rect
 import android.view.View

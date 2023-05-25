@@ -7,8 +7,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.bibbidi.habittracker.databinding.ItemRowCalendarBinding
-import com.bibbidi.habittracker.ui.BaseViewHolder
-import com.bibbidi.habittracker.ui.customview.DateView
+import com.bibbidi.habittracker.ui.common.BaseViewHolder
+import com.bibbidi.habittracker.ui.common.customview.DateView
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.facebook.shimmer.ShimmerFrameLayout
 

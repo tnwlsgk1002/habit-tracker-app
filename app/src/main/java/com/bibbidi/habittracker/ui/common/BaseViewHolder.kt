@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui
+package com.bibbidi.habittracker.ui.common
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding

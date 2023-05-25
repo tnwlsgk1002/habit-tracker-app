@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center">
 
-    <com.bibbidi.habittracker.ui.customview.DateView
+    <com.bibbidi.habittracker.ui.common.customview.DateView
         style="@style/DateViewStyle"
         android:id="@+id/date_view_sun"
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <com.bibbidi.habittracker.ui.customview.DateView
+    <com.bibbidi.habittracker.ui.common.customview.DateView
         style="@style/DateViewStyle"
         android:id="@+id/date_view_mon"
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         custom:checked="false" />
 
-    <com.bibbidi.habittracker.ui.customview.DateView
+    <com.bibbidi.habittracker.ui.common.customview.DateView
         style="@style/DateViewStyle"
         android:id="@+id/date_view_tue"
         android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="parent"
         custom:checked="false" />
 
-    <com.bibbidi.habittracker.ui.customview.DateView
+    <com.bibbidi.habittracker.ui.common.customview.DateView
         style="@style/DateViewStyle"
         android:id="@+id/date_view_wed"
         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="parent"
         custom:checked="false" />
 
-    <com.bibbidi.habittracker.ui.customview.DateView
+    <com.bibbidi.habittracker.ui.common.customview.DateView
         style="@style/DateViewStyle"
         android:id="@+id/date_view_thu"
         android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="parent"
         custom:checked="false" />
 
-    <com.bibbidi.habittracker.ui.customview.DateView
+    <com.bibbidi.habittracker.ui.common.customview.DateView
         style="@style/DateViewStyle"
         android:id="@+id/date_view_fri"
         android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         app:layout_constraintTop_toTopOf="parent"
         custom:checked="false" />
 
-    <com.bibbidi.habittracker.ui.customview.DateView
+    <com.bibbidi.habittracker.ui.common.customview.DateView
         style="@style/DateViewStyle"
         android:id="@+id/date_view_sat"
         android:layout_width="wrap_content"

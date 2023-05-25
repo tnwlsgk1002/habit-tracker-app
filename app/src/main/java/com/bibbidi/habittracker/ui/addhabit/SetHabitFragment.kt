@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentSetHabitBinding
-import com.bibbidi.habittracker.ui.addhabit.dialog.EmojiPickerBottomSheetDialogFragment
-import com.bibbidi.habittracker.ui.addhabit.dialog.GoalTimePickerBottomSheetDialogFragment
-import com.bibbidi.habittracker.ui.addhabit.dialog.RepeatDayOfTheWeeksPickerBottomSheetDialogFragment
-import com.bibbidi.habittracker.ui.addhabit.dialog.WhenRunInputBottomSheetDialogFragment
+import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheetDialogFragment
+import com.bibbidi.habittracker.ui.common.dialog.GoalTimePickerBottomSheetDialogFragment
+import com.bibbidi.habittracker.ui.common.dialog.RepeatDayOfTheWeeksPickerBottomSheetDialogFragment
+import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheetDialogFragment
 import com.bibbidi.habittracker.ui.model.DayOfTheWeekUiModel
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong

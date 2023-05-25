@@ -10,7 +10,7 @@ import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ItemHabitCheckBinding
 import com.bibbidi.habittracker.databinding.ItemHabitTimeBinding
 import com.bibbidi.habittracker.databinding.ItemHabitTrackBinding
-import com.bibbidi.habittracker.ui.BaseViewHolder
+import com.bibbidi.habittracker.ui.common.BaseViewHolder
 import com.bibbidi.habittracker.ui.model.habit.log.CheckHabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.TimeHabitLogIUiModel
