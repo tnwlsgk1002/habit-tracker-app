@@ -3,8 +3,8 @@ package com.bibbidi.habittracker.data.entity.time
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import org.threeten.bp.Duration
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
 
 @Entity(
     foreignKeys = [
@@ -21,5 +21,5 @@ data class TimeHabitLog(
     val id: Long,
     val timeHabitId: Long,
     val date: LocalDate = LocalDate.now(),
-    val time: LocalTime = LocalTime.MIN
+    val time: Duration = Duration.ofHours(0L)
 )
