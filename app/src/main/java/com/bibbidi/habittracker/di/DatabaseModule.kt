@@ -2,8 +2,8 @@ package com.bibbidi.habittracker.di
 
 import android.content.Context
 import androidx.room.Room
-import com.bibbidi.habittracker.data.source.local.HabitsDao
-import com.bibbidi.habittracker.data.source.local.HabitsTrackerDatabase
+import com.bibbidi.habittracker.data.source.database.HabitsDao
+import com.bibbidi.habittracker.data.source.database.HabitsTrackerDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

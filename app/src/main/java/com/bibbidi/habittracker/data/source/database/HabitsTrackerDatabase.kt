@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.data.source.local
+package com.bibbidi.habittracker.data.source.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
