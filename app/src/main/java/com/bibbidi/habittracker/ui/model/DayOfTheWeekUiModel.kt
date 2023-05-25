@@ -6,7 +6,7 @@ import com.bibbidi.habittracker.R
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-enum class DayOfTheWeek(@StringRes val resId: Int) : Parcelable {
+enum class DayOfTheWeekUiModel(@StringRes val resId: Int) : Parcelable {
     SUN(R.string.sunday),
     MON(R.string.monday),
     TUE(R.string.tuesday),

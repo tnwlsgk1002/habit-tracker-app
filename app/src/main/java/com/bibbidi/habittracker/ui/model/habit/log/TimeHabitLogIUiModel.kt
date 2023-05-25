@@ -1,8 +1,8 @@
-package com.bibbidi.habittracker.ui.home.habits
+package com.bibbidi.habittracker.ui.model.habit.log
 
 import org.threeten.bp.Duration
 
-data class TimeHabitItem(
+data class TimeHabitLogIUiModel(
     override val id: Long,
     override val order: Int,
     override val emoji: String,
@@ -12,4 +12,4 @@ data class TimeHabitItem(
     val goalDuration: Duration,
     val cntDuration: Duration,
     val isStarted: Boolean
-) : HabitItem
+) : HabitLogUiModel

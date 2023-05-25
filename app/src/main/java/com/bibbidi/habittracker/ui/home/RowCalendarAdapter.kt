@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.home.rowcalendar
+package com.bibbidi.habittracker.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bibbidi.habittracker.databinding.ItemRowCalendarBinding
 import com.bibbidi.habittracker.ui.BaseViewHolder
 import com.bibbidi.habittracker.ui.customview.DateView
+import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.facebook.shimmer.ShimmerFrameLayout
 
 class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :

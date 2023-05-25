@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.bibbidi.habittracker.R
-import com.bibbidi.habittracker.ui.model.DayOfTheWeek
+import com.bibbidi.habittracker.ui.model.DayOfTheWeekUiModel
 import com.bibbidi.habittracker.utils.getBasicTextColor
 import com.bibbidi.habittracker.utils.getOnPrimaryColor
 import com.bibbidi.habittracker.utils.getPrimaryColor
@@ -57,18 +57,18 @@ class DateView @JvmOverloads constructor(
             invalidate()
         }
 
-    var dayOfTheWeek: DayOfTheWeek = DayOfTheWeek.SUN
+    var dayOfTheWeek: DayOfTheWeekUiModel = DayOfTheWeekUiModel.SUN
         set(value) {
             field = value
 
             tvDayOfTheWeek.text = when (value) {
-                DayOfTheWeek.SUN -> context.getString(R.string.sunday)
-                DayOfTheWeek.MON -> context.getString(R.string.monday)
-                DayOfTheWeek.TUE -> context.getString(R.string.tuesday)
-                DayOfTheWeek.WED -> context.getString(R.string.wednesday)
-                DayOfTheWeek.THU -> context.getString(R.string.thursday)
-                DayOfTheWeek.FRI -> context.getString(R.string.friday)
-                DayOfTheWeek.SAT -> context.getString(R.string.saturday)
+                DayOfTheWeekUiModel.SUN -> context.getString(R.string.sunday)
+                DayOfTheWeekUiModel.MON -> context.getString(R.string.monday)
+                DayOfTheWeekUiModel.TUE -> context.getString(R.string.tuesday)
+                DayOfTheWeekUiModel.WED -> context.getString(R.string.wednesday)
+                DayOfTheWeekUiModel.THU -> context.getString(R.string.thursday)
+                DayOfTheWeekUiModel.FRI -> context.getString(R.string.friday)
+                DayOfTheWeekUiModel.SAT -> context.getString(R.string.saturday)
             }
             invalidate()
         }
@@ -110,10 +110,10 @@ class DateView @JvmOverloads constructor(
 
         isToday = typedArray.getBoolean(R.styleable.DateView_isToday, false)
         checked = typedArray.getBoolean(R.styleable.DateView_checked, false)
-        dayOfTheWeek = DayOfTheWeek.values()[
+        dayOfTheWeek = DayOfTheWeekUiModel.values()[
             typedArray.getInt(
                 R.styleable.DateView_dayOfTheWeek,
-                DayOfTheWeek.SUN.ordinal
+                DayOfTheWeekUiModel.SUN.ordinal
             )
         ]
         dayOfTheMonth = typedArray.getInt(R.styleable.DateView_dayOfTheMonth, 1)

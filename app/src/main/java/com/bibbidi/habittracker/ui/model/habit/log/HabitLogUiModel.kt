@@ -1,6 +1,6 @@
-package com.bibbidi.habittracker.ui.home.habits
+package com.bibbidi.habittracker.ui.model.habit.log
 
-sealed interface HabitItem {
+sealed interface HabitLogUiModel {
     val id: Long
     val order: Int
     val emoji: String

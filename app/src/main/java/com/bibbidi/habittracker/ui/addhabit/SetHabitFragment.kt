@@ -13,7 +13,7 @@ import com.bibbidi.habittracker.ui.addhabit.dialog.EmojiPickerBottomSheetDialogF
 import com.bibbidi.habittracker.ui.addhabit.dialog.GoalTimePickerBottomSheetDialogFragment
 import com.bibbidi.habittracker.ui.addhabit.dialog.RepeatDayOfTheWeeksPickerBottomSheetDialogFragment
 import com.bibbidi.habittracker.ui.addhabit.dialog.WhenRunInputBottomSheetDialogFragment
-import com.bibbidi.habittracker.ui.model.DayOfTheWeek
+import com.bibbidi.habittracker.ui.model.DayOfTheWeekUiModel
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.toGoalTimeString
@@ -124,7 +124,7 @@ class SetHabitFragment : Fragment() {
             }
         repeatDayOfTheWeeksPickerBottomSheetDialogFragment =
             RepeatDayOfTheWeeksPickerBottomSheetDialogFragment.newInstance(
-                viewModel.repeatsDayOfTheWeeks.value ?: DayOfTheWeek.values().toSet()
+                viewModel.repeatsDayOfTheWeeks.value ?: DayOfTheWeekUiModel.values().toSet()
             ) { dayOfTheWeeks -> viewModel.repeatsDayOfTheWeeks.value = dayOfTheWeeks }
         whenRunInputBottomSheetDialogFragment = WhenRunInputBottomSheetDialogFragment.newInstance(
             viewModel.whenRun.value ?: ""

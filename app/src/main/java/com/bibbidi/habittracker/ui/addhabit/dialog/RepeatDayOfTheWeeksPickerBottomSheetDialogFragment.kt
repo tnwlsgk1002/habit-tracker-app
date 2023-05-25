@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import com.bibbidi.habittracker.databinding.BottomSheetInputRepeatDayOfTheWeeksBinding
-import com.bibbidi.habittracker.ui.model.DayOfTheWeek
+import com.bibbidi.habittracker.ui.model.DayOfTheWeekUiModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -16,8 +16,8 @@ class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFrag
         private const val DAY_OF_THE_WEEKS_KEY = "DAY_OF_THE_WEEKS"
 
         fun newInstance(
-            dayOfTheWeeks: Set<DayOfTheWeek>,
-            onCancelListener: (Set<DayOfTheWeek>) -> Unit
+            dayOfTheWeeks: Set<DayOfTheWeekUiModel>,
+            onCancelListener: (Set<DayOfTheWeekUiModel>) -> Unit
         ): RepeatDayOfTheWeeksPickerBottomSheetDialogFragment {
             val args = Bundle().apply {
                 putParcelableArrayList(DAY_OF_THE_WEEKS_KEY, ArrayList(dayOfTheWeeks))
@@ -34,14 +34,14 @@ class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFrag
 
     private val binding get() = _binding!!
 
-    private var dayOfTheWeeks: Set<DayOfTheWeek> = DayOfTheWeek.values().toSet()
+    private var dayOfTheWeeks: Set<DayOfTheWeekUiModel> = DayOfTheWeekUiModel.values().toSet()
 
-    private var onCancelListener: ((Set<DayOfTheWeek>) -> Unit)? = null
+    private var onCancelListener: ((Set<DayOfTheWeekUiModel>) -> Unit)? = null
 
-    private val dayOfTheWeekToView = mutableMapOf<DayOfTheWeek, CheckBox>()
-    private val viewToDayOfTheWeek = mutableMapOf<CheckBox, DayOfTheWeek>()
+    private val dayOfTheWeekToView = mutableMapOf<DayOfTheWeekUiModel, CheckBox>()
+    private val viewToDayOfTheWeek = mutableMapOf<CheckBox, DayOfTheWeekUiModel>()
 
-    fun setOnCancelListener(listener: ((Set<DayOfTheWeek>) -> Unit)?) {
+    fun setOnCancelListener(listener: ((Set<DayOfTheWeekUiModel>) -> Unit)?) {
         this.onCancelListener = listener
     }
 
@@ -49,7 +49,7 @@ class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFrag
         super.onCreate(savedInstanceState)
 
         dayOfTheWeeks =
-            arguments?.getParcelableArrayList<DayOfTheWeek>(DAY_OF_THE_WEEKS_KEY)?.toSet()
+            arguments?.getParcelableArrayList<DayOfTheWeekUiModel>(DAY_OF_THE_WEEKS_KEY)?.toSet()
                 ?: dayOfTheWeeks
     }
 
@@ -69,13 +69,13 @@ class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFrag
     }
 
     private fun setUpMapData() {
-        dayOfTheWeekToView[DayOfTheWeek.SUN] = binding.checkboxSun
-        dayOfTheWeekToView[DayOfTheWeek.MON] = binding.checkboxMon
-        dayOfTheWeekToView[DayOfTheWeek.TUE] = binding.checkboxTue
-        dayOfTheWeekToView[DayOfTheWeek.WED] = binding.checkboxWed
-        dayOfTheWeekToView[DayOfTheWeek.THU] = binding.checkboxThu
-        dayOfTheWeekToView[DayOfTheWeek.FRI] = binding.checkboxFri
-        dayOfTheWeekToView[DayOfTheWeek.SAT] = binding.checkboxSat
+        dayOfTheWeekToView[DayOfTheWeekUiModel.SUN] = binding.checkboxSun
+        dayOfTheWeekToView[DayOfTheWeekUiModel.MON] = binding.checkboxMon
+        dayOfTheWeekToView[DayOfTheWeekUiModel.TUE] = binding.checkboxTue
+        dayOfTheWeekToView[DayOfTheWeekUiModel.WED] = binding.checkboxWed
+        dayOfTheWeekToView[DayOfTheWeekUiModel.THU] = binding.checkboxThu
+        dayOfTheWeekToView[DayOfTheWeekUiModel.FRI] = binding.checkboxFri
+        dayOfTheWeekToView[DayOfTheWeekUiModel.SAT] = binding.checkboxSat
 
         dayOfTheWeekToView.forEach { (dayOfTheWeeks, view) ->
             viewToDayOfTheWeek[view] = dayOfTheWeeks

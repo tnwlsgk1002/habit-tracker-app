@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.home.habits
+package com.bibbidi.habittracker.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,25 +11,29 @@ import com.bibbidi.habittracker.databinding.ItemHabitCheckBinding
 import com.bibbidi.habittracker.databinding.ItemHabitTimeBinding
 import com.bibbidi.habittracker.databinding.ItemHabitTrackBinding
 import com.bibbidi.habittracker.ui.BaseViewHolder
+import com.bibbidi.habittracker.ui.model.habit.log.CheckHabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.TimeHabitLogIUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.TrackHabitLogUiModel
 import com.bibbidi.habittracker.utils.toGoalTimeString
 
 class HabitsAdapter(
-    private val onCheckBox: (CheckHabitItem, Boolean) -> Unit,
-    private val onTurnStopWatch: (TimeHabitItem, Boolean) -> Unit,
-    private val onClickRecordButton: (TrackHabitItem) -> Unit,
-    private val onClickMenu: (HabitItem, View) -> Unit
+    private val onCheckBox: (CheckHabitLogUiModel, Boolean) -> Unit,
+    private val onTurnStopWatch: (TimeHabitLogIUiModel, Boolean) -> Unit,
+    private val onClickRecordButton: (TrackHabitLogUiModel) -> Unit,
+    private val onClickMenu: (HabitLogUiModel, View) -> Unit
 ) :
-    ListAdapter<HabitItem, BaseViewHolder<out HabitItem, out ViewBinding>>(
+    ListAdapter<HabitLogUiModel, BaseViewHolder<out HabitLogUiModel, out ViewBinding>>(
         HabitItemsDiffCallback
     ) {
 
     class CheckHabitItemViewHolder(
         private val binding: ItemHabitCheckBinding,
-        private val onCheck: (CheckHabitItem, Boolean) -> Unit,
-        private val onClickMenu: (CheckHabitItem, View) -> Unit
-    ) : BaseViewHolder<CheckHabitItem, ItemHabitCheckBinding>(binding) {
+        private val onCheck: (CheckHabitLogUiModel, Boolean) -> Unit,
+        private val onClickMenu: (CheckHabitLogUiModel, View) -> Unit
+    ) : BaseViewHolder<CheckHabitLogUiModel, ItemHabitCheckBinding>(binding) {
 
-        override fun bind(item: CheckHabitItem) {
+        override fun bind(item: CheckHabitLogUiModel) {
             with(binding) {
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
@@ -52,11 +56,11 @@ class HabitsAdapter(
 
     class TimeHabitItemViewHolder(
         private val binding: ItemHabitTimeBinding,
-        private val onTurn: (TimeHabitItem, Boolean) -> Unit,
-        private val onClickMenu: (TimeHabitItem, View) -> Unit
-    ) : BaseViewHolder<TimeHabitItem, ItemHabitTimeBinding>(binding) {
+        private val onTurn: (TimeHabitLogIUiModel, Boolean) -> Unit,
+        private val onClickMenu: (TimeHabitLogIUiModel, View) -> Unit
+    ) : BaseViewHolder<TimeHabitLogIUiModel, ItemHabitTimeBinding>(binding) {
 
-        override fun bind(item: TimeHabitItem) {
+        override fun bind(item: TimeHabitLogIUiModel) {
             with(binding) {
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
@@ -79,11 +83,11 @@ class HabitsAdapter(
 
     class TrackHabitItemViewHolder(
         private val binding: ItemHabitTrackBinding,
-        private val onClickRecordButton: (TrackHabitItem) -> Unit,
-        private val onClickMenu: (TrackHabitItem, View) -> Unit
-    ) : BaseViewHolder<TrackHabitItem, ItemHabitTrackBinding>(binding) {
+        private val onClickRecordButton: (TrackHabitLogUiModel) -> Unit,
+        private val onClickMenu: (TrackHabitLogUiModel, View) -> Unit
+    ) : BaseViewHolder<TrackHabitLogUiModel, ItemHabitTrackBinding>(binding) {
 
-        override fun bind(item: TrackHabitItem) {
+        override fun bind(item: TrackHabitLogUiModel) {
             with(binding) {
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
@@ -112,34 +116,36 @@ class HabitsAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is CheckHabitItem -> CHECK_TYPE
-            is TimeHabitItem -> TIME_TYPE
-            is TrackHabitItem -> TRACK_TYPE
+            is CheckHabitLogUiModel -> CHECK_TYPE
+            is TimeHabitLogIUiModel -> TIME_TYPE
+            is TrackHabitLogUiModel -> TRACK_TYPE
         }
     }
 
     override fun onBindViewHolder(
-        holder: BaseViewHolder<out HabitItem, out ViewBinding>,
+        holder: BaseViewHolder<out HabitLogUiModel, out ViewBinding>,
         position: Int
     ) {
         val item = getItem(position)
         when (holder) {
-            is CheckHabitItemViewHolder -> holder.bind(item as CheckHabitItem)
-            is TimeHabitItemViewHolder -> holder.bind(item as TimeHabitItem)
-            is TrackHabitItemViewHolder -> holder.bind(item as TrackHabitItem)
+            is CheckHabitItemViewHolder -> holder.bind(item as CheckHabitLogUiModel)
+            is TimeHabitItemViewHolder -> holder.bind(item as TimeHabitLogIUiModel)
+            is TrackHabitItemViewHolder -> holder.bind(item as TrackHabitLogUiModel)
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<out HabitItem, out ViewBinding> {
+    ): BaseViewHolder<out HabitLogUiModel, out ViewBinding> {
         return when (viewType) {
             CHECK_TYPE -> CheckHabitItemViewHolder(
                 ItemHabitCheckBinding.inflate(
                     LayoutInflater.from(
                         parent.context
-                    ), parent, false
+                    ),
+                    parent,
+                    false
                 ),
                 onCheckBox,
                 onClickMenu
@@ -148,7 +154,9 @@ class HabitsAdapter(
                 ItemHabitTimeBinding.inflate(
                     LayoutInflater.from(
                         parent.context
-                    ), parent, false
+                    ),
+                    parent,
+                    false
                 ),
                 onTurnStopWatch,
                 onClickMenu
@@ -157,7 +165,9 @@ class HabitsAdapter(
                 ItemHabitTrackBinding.inflate(
                     LayoutInflater.from(
                         parent.context
-                    ), parent, false
+                    ),
+                    parent,
+                    false
                 ),
                 onClickRecordButton,
                 onClickMenu
@@ -166,12 +176,12 @@ class HabitsAdapter(
         }
     }
 
-    object HabitItemsDiffCallback : DiffUtil.ItemCallback<HabitItem>() {
-        override fun areItemsTheSame(oldItem: HabitItem, newItem: HabitItem): Boolean {
+    object HabitItemsDiffCallback : DiffUtil.ItemCallback<HabitLogUiModel>() {
+        override fun areItemsTheSame(oldItem: HabitLogUiModel, newItem: HabitLogUiModel): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: HabitItem, newItem: HabitItem): Boolean {
+        override fun areContentsTheSame(oldItem: HabitLogUiModel, newItem: HabitLogUiModel): Boolean {
             return oldItem == newItem
         }
     }
