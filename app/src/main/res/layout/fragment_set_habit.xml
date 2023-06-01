@@ -38,7 +38,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_page_title" />
 
-            <com.bibbidi.habittracker.ui.customview.InputDataFromDialogView
+            <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
                 android:id="@+id/button_set_emoji"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 tools:ignore="UseSwitchCompatOrMaterialXml"
                 tools:text="09:00" />
 
-            <com.bibbidi.habittracker.ui.customview.InputDataFromDialogView
+            <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
                 android:id="@+id/button_set_when"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                 custom:inputDataFromDialogView_titleText="@string/when_will_you_do_it"
                 tools:inputDataFromDialogView_contentText="출근길" />
 
-            <com.bibbidi.habittracker.ui.customview.InputDataFromDialogView
+            <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
                 android:id="@+id/button_set_repeats_day_of_the_weeks"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 custom:inputDataFromDialogView_contentText="일, 월, 화, 수, 목, 금, 토"
                 custom:inputDataFromDialogView_titleText="@string/habit_repeats_day_of_the_weeks" />
 
-            <com.bibbidi.habittracker.ui.customview.InputDataFromDialogView
+            <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
                 android:id="@+id/button_set_goal_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_set_goal_time" />
 
-            <com.bibbidi.habittracker.ui.customview.InputDataFromDialogView
+            <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
                 android:id="@+id/button_set_start_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bibbidi.habittracker.databinding.BottomSheetSelectHabitTypeBinding
-import com.bibbidi.habittracker.ui.model.habit.HabitType
+import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class SelectHabitTypeBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -15,7 +15,7 @@ class SelectHabitTypeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     interface OnHabitTypeButtonClickListener {
-        fun onHabitTypeButtonClick(type: HabitType)
+        fun onHabitTypeButtonClick(type: HabitTypeUiModel)
     }
 
     private var listener: OnHabitTypeButtonClickListener? = null
@@ -40,15 +40,15 @@ class SelectHabitTypeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun setUpClickListener() {
         binding.btnTodoType.setOnClickListener {
-            listener?.onHabitTypeButtonClick(HabitType.CheckType)
+            listener?.onHabitTypeButtonClick(HabitTypeUiModel.CheckType)
             dismiss()
         }
         binding.btnTimeType.setOnClickListener {
-            listener?.onHabitTypeButtonClick(HabitType.TimeType)
+            listener?.onHabitTypeButtonClick(HabitTypeUiModel.TimeType)
             dismiss()
         }
         binding.btnTrackType.setOnClickListener {
-            listener?.onHabitTypeButtonClick(HabitType.TrackType)
+            listener?.onHabitTypeButtonClick(HabitTypeUiModel.TrackType)
             dismiss()
         }
     }

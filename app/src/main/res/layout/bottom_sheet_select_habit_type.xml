@@ -20,7 +20,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.bibbidi.habittracker.ui.customview.HabitTypeSelectView
+        <com.bibbidi.habittracker.ui.common.customview.HabitTypeSelectView
             android:id="@+id/btn_todo_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             custom:habitTypeSelectView_iconTint="@color/green_04"
             custom:habitTypeSelectView_titleText="@string/check_habit_title" />
 
-        <com.bibbidi.habittracker.ui.customview.HabitTypeSelectView
+        <com.bibbidi.habittracker.ui.common.customview.HabitTypeSelectView
             android:id="@+id/btn_track_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             custom:habitTypeSelectView_iconTint="@color/orange_03"
             custom:habitTypeSelectView_titleText="@string/track_habit_title" />
 
-        <com.bibbidi.habittracker.ui.customview.HabitTypeSelectView
+        <com.bibbidi.habittracker.ui.common.customview.HabitTypeSelectView
             android:id="@+id/btn_time_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

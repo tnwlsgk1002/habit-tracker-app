@@ -16,12 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
-import com.bibbidi.habittracker.ui.ItemDecoration
-import com.bibbidi.habittracker.ui.home.habits.HabitItem
-import com.bibbidi.habittracker.ui.home.habits.HabitsAdapter
-import com.bibbidi.habittracker.ui.home.rowcalendar.DateItem
-import com.bibbidi.habittracker.ui.home.rowcalendar.RowCalendarAdapter
-import com.bibbidi.habittracker.ui.model.habit.HabitType
+import com.bibbidi.habittracker.ui.common.ItemDecoration
+import com.bibbidi.habittracker.ui.model.date.DateItem
+import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
 import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,7 +77,7 @@ class HomeFragment :
     private fun setUpAdapter() {
         // TODO : dummy data
         val sampleDateViews = listOf<Array<DateItem>>()
-        val sampleHabits = listOf<HabitItem>()
+        val sampleHabits = listOf<HabitLogUiModel>()
 
         with(binding.vpRowCalendar) {
             // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
@@ -179,7 +177,7 @@ class HomeFragment :
         bottomSheetDialogFragment.show(parentFragmentManager, bottomSheetDialogFragment.tag)
     }
 
-    override fun onHabitTypeButtonClick(type: HabitType) {
+    override fun onHabitTypeButtonClick(type: HabitTypeUiModel) {
         val action = HomeFragmentDirections.actionHomeFragmentToSetHabitFragment(type.name)
         findNavController().navigate(action)
     }
