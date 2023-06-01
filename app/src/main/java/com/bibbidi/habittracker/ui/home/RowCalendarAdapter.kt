@@ -57,7 +57,7 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :
                 dateViews[index].apply {
                     checked = item.checked
                     dayOfTheMonth = item.dayOfTheMonth
-                    dayOfTheWeek = item.dayOfTheWeek
+                    dayOfWeek = item.dayOfWeek
                     isToday = item.isToday
 
                     if (checked) {

@@ -1,10 +1,10 @@
 package com.bibbidi.habittracker.ui.model.date
 
-import com.bibbidi.habittracker.ui.model.DayOfTheWeekUiModel
+import org.threeten.bp.DayOfWeek
 
 data class DateItem(
     val checked: Boolean,
     val dayOfTheMonth: Int,
-    val dayOfTheWeek: DayOfTheWeekUiModel,
+    val dayOfWeek: DayOfWeek,
     val isToday: Boolean
 )

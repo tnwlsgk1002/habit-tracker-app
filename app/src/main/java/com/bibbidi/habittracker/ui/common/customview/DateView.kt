@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.bibbidi.habittracker.R
-import com.bibbidi.habittracker.ui.model.DayOfTheWeekUiModel
+import com.bibbidi.habittracker.utils.dayOfWeekValues
 import com.bibbidi.habittracker.utils.getBasicTextColor
 import com.bibbidi.habittracker.utils.getOnPrimaryColor
 import com.bibbidi.habittracker.utils.getPrimaryColor
+import com.bibbidi.habittracker.utils.toString
+import org.threeten.bp.DayOfWeek
 
 class DateView @JvmOverloads constructor(
     context: Context,
@@ -19,7 +21,7 @@ class DateView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private val tvDayOfTheWeek: TextView
+    private val tvDayOfWeek: TextView
     private val tvDayOfTheMonth: TextView
     private val bgDayOfTheMonth: GradientDrawable
 
@@ -57,19 +59,10 @@ class DateView @JvmOverloads constructor(
             invalidate()
         }
 
-    var dayOfTheWeek: DayOfTheWeekUiModel = DayOfTheWeekUiModel.SUN
+    var dayOfWeek: DayOfWeek = DayOfWeek.SUNDAY
         set(value) {
             field = value
-
-            tvDayOfTheWeek.text = when (value) {
-                DayOfTheWeekUiModel.SUN -> context.getString(R.string.sunday)
-                DayOfTheWeekUiModel.MON -> context.getString(R.string.monday)
-                DayOfTheWeekUiModel.TUE -> context.getString(R.string.tuesday)
-                DayOfTheWeekUiModel.WED -> context.getString(R.string.wednesday)
-                DayOfTheWeekUiModel.THU -> context.getString(R.string.thursday)
-                DayOfTheWeekUiModel.FRI -> context.getString(R.string.friday)
-                DayOfTheWeekUiModel.SAT -> context.getString(R.string.saturday)
-            }
+            tvDayOfWeek.text = value.toString(context)
             invalidate()
         }
 
@@ -86,7 +79,7 @@ class DateView @JvmOverloads constructor(
 
     init {
         val view = inflate(context, R.layout.customview_date_view, this)
-        tvDayOfTheWeek = view.findViewById(R.id.tv_day_of_week)
+        tvDayOfWeek = view.findViewById(R.id.tv_day_of_week)
         tvDayOfTheMonth = view.findViewById(R.id.tv_day_of_month)
         bgDayOfTheMonth = tvDayOfTheMonth.background as GradientDrawable
 
@@ -110,10 +103,10 @@ class DateView @JvmOverloads constructor(
 
         isToday = typedArray.getBoolean(R.styleable.DateView_isToday, false)
         checked = typedArray.getBoolean(R.styleable.DateView_checked, false)
-        dayOfTheWeek = DayOfTheWeekUiModel.values()[
+        dayOfWeek = dayOfWeekValues[
             typedArray.getInt(
                 R.styleable.DateView_dayOfTheWeek,
-                DayOfTheWeekUiModel.SUN.ordinal
+                DayOfWeek.SUNDAY.ordinal
             )
         ]
         dayOfTheMonth = typedArray.getInt(R.styleable.DateView_dayOfTheMonth, 1)
