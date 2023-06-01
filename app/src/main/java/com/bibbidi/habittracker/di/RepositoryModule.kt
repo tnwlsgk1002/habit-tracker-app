@@ -1,7 +1,7 @@
 package com.bibbidi.habittracker.di
 
 import com.bibbidi.habittracker.data.source.DefaultHabitsRepository
-import com.bibbidi.habittracker.data.source.HabitsRepository
+import com.bibbidi.habittracker.domain.HabitsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
