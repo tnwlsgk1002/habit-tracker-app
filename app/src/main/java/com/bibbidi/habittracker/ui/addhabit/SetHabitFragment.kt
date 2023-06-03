@@ -13,10 +13,10 @@ import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheetDialogFra
 import com.bibbidi.habittracker.ui.common.dialog.GoalTimePickerBottomSheetDialogFragment
 import com.bibbidi.habittracker.ui.common.dialog.RepeatDayOfTheWeeksPickerBottomSheetDialogFragment
 import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheetDialogFragment
-import com.bibbidi.habittracker.ui.model.DayOfTheWeekUiModel
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.toGoalTimeString
+import com.bibbidi.habittracker.utils.toString
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -24,6 +24,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.DayOfWeek
 import org.threeten.bp.Duration
 import org.threeten.bp.LocalTime
 
@@ -124,7 +125,7 @@ class SetHabitFragment : Fragment() {
             }
         repeatDayOfTheWeeksPickerBottomSheetDialogFragment =
             RepeatDayOfTheWeeksPickerBottomSheetDialogFragment.newInstance(
-                viewModel.repeatsDayOfTheWeeks.value ?: DayOfTheWeekUiModel.values().toSet()
+                viewModel.repeatsDayOfTheWeeks.value ?: DayOfWeek.values().toSet()
             ) { dayOfTheWeeks -> viewModel.repeatsDayOfTheWeeks.value = dayOfTheWeeks }
         whenRunInputBottomSheetDialogFragment = WhenRunInputBottomSheetDialogFragment.newInstance(
             viewModel.whenRun.value ?: ""
@@ -181,7 +182,7 @@ class SetHabitFragment : Fragment() {
         viewModel.repeatsDayOfTheWeeks.observe(viewLifecycleOwner) { dayOfTheWeeks ->
             binding.buttonSetRepeatsDayOfTheWeeks.contentText =
                 dayOfTheWeeks.joinToString(separator = ",") {
-                    requireContext().getString(it.resId)
+                    it.toString(requireContext())
                 }
         }
         viewModel.goalTime.observe(viewLifecycleOwner) {

@@ -3,8 +3,9 @@ package com.bibbidi.habittracker.ui.addhabit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bibbidi.habittracker.domain.HabitsRepository
-import com.bibbidi.habittracker.ui.model.DayOfTheWeekUiModel
+import com.bibbidi.habittracker.utils.dayOfWeekValues
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.threeten.bp.DayOfWeek
 import org.threeten.bp.Duration
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
@@ -20,7 +21,7 @@ class SetHabitViewModel @Inject constructor(
         const val DEFAULT_EMOJI = "✅"
         val DEFAULT_ALARM_TIME = null
         const val DEFAULT_WHEN_RUN = ""
-        val DEFAULT_REPEATS_DAY_OF_THE_WEEKS = DayOfTheWeekUiModel.values().toSet()
+        val DEFAULT_REPEATS_DAY_OF_THE_WEEKS = dayOfWeekValues.toSet()
         val DEFAULT_GOAL_TIME: Duration = Duration.ofHours(1L)
         val DEFAULT_START_DATE: LocalDate
             get() = LocalDate.now()
@@ -42,7 +43,7 @@ class SetHabitViewModel @Inject constructor(
         MutableLiveData(DEFAULT_WHEN_RUN)
     }
 
-    val repeatsDayOfTheWeeks: MutableLiveData<Set<DayOfTheWeekUiModel>> by lazy {
+    val repeatsDayOfTheWeeks: MutableLiveData<Set<DayOfWeek>> by lazy {
         MutableLiveData(DEFAULT_REPEATS_DAY_OF_THE_WEEKS)
     }
 
