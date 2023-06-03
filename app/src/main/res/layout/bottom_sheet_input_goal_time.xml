@@ -30,6 +30,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
+            android:maxLength="2"
             android:autofillHints=""
             tools:ignore="LabelFor" />
 
@@ -51,6 +52,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/edit_text_hour"
             app:layout_constraintStart_toEndOf="@id/tv_semicolon_hour_to_minute"
             android:importantForAutofill="no"
+            android:maxLength="2"
             tools:ignore="LabelFor" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

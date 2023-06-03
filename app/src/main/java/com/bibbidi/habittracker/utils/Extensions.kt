@@ -34,19 +34,17 @@ fun LocalDate.asLong(): Long {
     return zoneDateTime.toInstant().toEpochMilli()
 }
 
-fun Int?.toTwoDigits(): String {
-    return String.format("%02d", this ?: 0)
-}
+fun String.toTwoDigits(): String = padStart(2, '0')
 
-fun Editable?.toTwoDigits(): String {
-    val number = toString().toInt()
-    return number.toTwoDigits()
-}
+fun Int.toTwoDigits(): String = toString().toTwoDigits()
+
+fun Editable.toTwoDigits(): String = toString().toTwoDigits()
 
 fun EditText.toFixToTwoDigits() {
     onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
         if (!hasFocus) {
-            setText(text.toTwoDigits())
+            val paddedText = text.toTwoDigits()
+            setText(paddedText)
         }
     }
 }
