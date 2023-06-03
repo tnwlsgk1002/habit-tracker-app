@@ -1,12 +1,10 @@
 package com.bibbidi.habittracker.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -17,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.common.ItemDecoration
+import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
@@ -26,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment :
-    Fragment(),
+    Fragment(R.layout.fragment_home),
     SelectHabitTypeBottomSheetDialogFragment.OnHabitTypeButtonClickListener {
 
     companion object {
@@ -37,9 +36,7 @@ class HomeFragment :
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private var _binding: FragmentHomeBinding? = null
-
-    private val binding get() = _binding!!
+    private val binding by viewBindings(FragmentHomeBinding::bind)
 
     private val datePicker = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
@@ -52,19 +49,10 @@ class HomeFragment :
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        activity?.setTheme(R.style.Theme_HabitTracker_Home)
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.setTheme(R.style.Theme_HabitTracker_Home)
         (activity as AppCompatActivity).supportActionBar?.apply {
             title = getString(R.string.date)
         }?.show()
@@ -180,10 +168,5 @@ class HomeFragment :
     override fun onHabitTypeButtonClick(type: HabitTypeUiModel) {
         val action = HomeFragmentDirections.actionHomeFragmentToSetHabitFragment(type.name)
         findNavController().navigate(action)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

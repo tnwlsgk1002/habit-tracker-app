@@ -1,9 +1,7 @@
 package com.bibbidi.habittracker.ui.addhabit
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,6 +11,7 @@ import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheetDialogFra
 import com.bibbidi.habittracker.ui.common.dialog.GoalTimePickerBottomSheetDialogFragment
 import com.bibbidi.habittracker.ui.common.dialog.RepeatDayOfTheWeeksPickerBottomSheetDialogFragment
 import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheetDialogFragment
+import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.getStringResource
@@ -29,7 +28,7 @@ import org.threeten.bp.Duration
 import org.threeten.bp.LocalTime
 
 @AndroidEntryPoint
-class SetHabitFragment : Fragment() {
+class SetHabitFragment : Fragment(R.layout.fragment_set_habit) {
 
     companion object {
         const val EMOJI_PICKER_TAG = "emojiPicker"
@@ -42,9 +41,7 @@ class SetHabitFragment : Fragment() {
 
     private val viewModel: SetHabitViewModel by viewModels()
 
-    private var _binding: FragmentSetHabitBinding? = null
-
-    private val binding get() = _binding!!
+    private val binding by viewBindings(FragmentSetHabitBinding::bind)
 
     private lateinit var emojiPickerBottomSheetDialogFragment: EmojiPickerBottomSheetDialogFragment
     private lateinit var goalTimePickerBottomSheetDialogFragment: GoalTimePickerBottomSheetDialogFragment
@@ -87,23 +84,12 @@ class SetHabitFragment : Fragment() {
         materialTimePicker
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         activity?.setTheme(R.style.Theme_HabitTracker_Other)
-
         (activity as AppCompatActivity).supportActionBar?.apply {
             title = ""
         }?.show()
-
-        _binding = FragmentSetHabitBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initBottomSheet()
         setEventListener()
         observeData()
@@ -191,10 +177,5 @@ class SetHabitFragment : Fragment() {
         viewModel.startDate.observe(viewLifecycleOwner) {
             binding.buttonSetStartDate.contentText = it.toString()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
