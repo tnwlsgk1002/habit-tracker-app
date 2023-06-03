@@ -25,6 +25,9 @@ import com.bibbidi.habittracker.data.model.entity.time.TimeHabitLogEntity;
 import com.bibbidi.habittracker.data.model.entity.track.TrackHabitEntity;
 import com.bibbidi.habittracker.data.model.entity.track.TrackHabitLogEntity;
 import com.bibbidi.habittracker.data.model.joined.HabitAndChildren;
+import com.bibbidi.habittracker.data.model.joined.check.HabitAndCheckHabitEntity;
+import com.bibbidi.habittracker.data.model.joined.time.HabitAndTimeHabitEntity;
+import com.bibbidi.habittracker.data.model.joined.track.HabitAndTrackHabitEntity;
 import java.lang.Class;
 import java.lang.Exception;
 import java.lang.Long;
@@ -657,21 +660,21 @@ public final class HabitsDao_Impl implements HabitsDao {
   }
 
   @Override
-  public Object insertHabitAndCheckHabit(final HabitEntity habit, final CheckHabitEntity checkHabit,
+  public Object insertHabitAndCheckHabit(final HabitAndCheckHabitEntity habitAndCheckHabitEntity,
       final Continuation<? super Unit> continuation) {
-    return RoomDatabaseKt.withTransaction(__db, (__cont) -> HabitsDao.DefaultImpls.insertHabitAndCheckHabit(HabitsDao_Impl.this, habit, checkHabit, __cont), continuation);
+    return RoomDatabaseKt.withTransaction(__db, (__cont) -> HabitsDao.DefaultImpls.insertHabitAndCheckHabit(HabitsDao_Impl.this, habitAndCheckHabitEntity, __cont), continuation);
   }
 
   @Override
-  public Object insertHabitAndTimeHabit(final HabitEntity habit, final TimeHabitEntity timeHabit,
+  public Object insertHabitAndTimeHabit(final HabitAndTimeHabitEntity habitAndTimeHabitEntity,
       final Continuation<? super Unit> continuation) {
-    return RoomDatabaseKt.withTransaction(__db, (__cont) -> HabitsDao.DefaultImpls.insertHabitAndTimeHabit(HabitsDao_Impl.this, habit, timeHabit, __cont), continuation);
+    return RoomDatabaseKt.withTransaction(__db, (__cont) -> HabitsDao.DefaultImpls.insertHabitAndTimeHabit(HabitsDao_Impl.this, habitAndTimeHabitEntity, __cont), continuation);
   }
 
   @Override
-  public Object insertHabitAndTrackHabit(final HabitEntity habit, final TrackHabitEntity trackHabit,
+  public Object insertHabitAndTrackHabit(final HabitAndTrackHabitEntity habitAndTrackHabitEntity,
       final Continuation<? super Unit> continuation) {
-    return RoomDatabaseKt.withTransaction(__db, (__cont) -> HabitsDao.DefaultImpls.insertHabitAndTrackHabit(HabitsDao_Impl.this, habit, trackHabit, __cont), continuation);
+    return RoomDatabaseKt.withTransaction(__db, (__cont) -> HabitsDao.DefaultImpls.insertHabitAndTrackHabit(HabitsDao_Impl.this, habitAndTrackHabitEntity, __cont), continuation);
   }
 
   @Override

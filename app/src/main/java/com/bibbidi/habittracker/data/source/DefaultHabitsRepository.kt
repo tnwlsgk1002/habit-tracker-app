@@ -31,7 +31,7 @@ class DefaultHabitsRepository @Inject constructor(
     }
 
     override suspend fun insertHabit(habitInfo: HabitInfo) {
-        return when (habitInfo) {
+        when (habitInfo) {
             is CheckHabitInfo -> dao.insertHabitAndCheckHabit(habitInfo.asData())
             is TimeHabitInfo -> dao.insertHabitAndTimeHabit(habitInfo.asData())
             is TrackHabitInfo -> dao.insertHabitAndTrackHabit(habitInfo.asData())
@@ -39,11 +39,11 @@ class DefaultHabitsRepository @Inject constructor(
     }
 
     override suspend fun deleteHabitById(id: Long) {
-        return dao.deleteHabitById(id)
+        dao.deleteHabitById(id)
     }
 
     override suspend fun updateHabit(habit: HabitInfo) {
-        return dao.updateHabits(habit.asData())
+        dao.updateHabits(habit.asData())
     }
 
     override suspend fun getHabitAndHabitLogsByDate(date: LocalDate) = flow {
@@ -96,7 +96,7 @@ class DefaultHabitsRepository @Inject constructor(
     }
 
     override suspend fun updateHabitLog(habitLog: HabitLog) {
-        return when (habitLog) {
+        when (habitLog) {
             is CheckHabitLog -> dao.updateCheckHabitLog(habitLog.asData())
             is TimeHabitLog -> dao.updateTimeHabitLog(habitLog.asData())
             is TrackHabitLog -> dao.updateTrackHabitLog(habitLog.asData())
