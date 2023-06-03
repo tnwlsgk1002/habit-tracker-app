@@ -15,8 +15,8 @@ import com.bibbidi.habittracker.ui.common.dialog.RepeatDayOfTheWeeksPickerBottom
 import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheetDialogFragment
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
+import com.bibbidi.habittracker.utils.getStringResource
 import com.bibbidi.habittracker.utils.toGoalTimeString
-import com.bibbidi.habittracker.utils.toString
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -182,7 +182,7 @@ class SetHabitFragment : Fragment() {
         viewModel.repeatsDayOfTheWeeks.observe(viewLifecycleOwner) { dayOfTheWeeks ->
             binding.buttonSetRepeatsDayOfTheWeeks.contentText =
                 dayOfTheWeeks.joinToString(separator = ",") {
-                    it.toString(requireContext())
+                    it.getStringResource(requireContext())
                 }
         }
         viewModel.goalTime.observe(viewLifecycleOwner) {
