@@ -67,16 +67,15 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
         val constraintsBuilder = CalendarConstraints.Builder()
             .setStart(System.currentTimeMillis())
             .setValidator(DateValidatorPointForward.now())
-        val materialDatePicker = MaterialDatePicker.Builder.datePicker()
+        MaterialDatePicker.Builder.datePicker()
             .setTitleText(getString(R.string.select_start_date))
             .setSelection(viewModel.startDateFlow.value?.asLong())
             .setCalendarConstraints(constraintsBuilder.build())
-            .build()
-
-        materialDatePicker.addOnPositiveButtonClickListener {
-            viewModel.setStartDate(it.asLocalDate())
-        }
-        materialDatePicker
+            .build().apply {
+                addOnPositiveButtonClickListener {
+                    viewModel.setStartDate(it.asLocalDate())
+                }
+            }
     }
 
     private val alarmTimePicker: MaterialTimePicker by lazy {
