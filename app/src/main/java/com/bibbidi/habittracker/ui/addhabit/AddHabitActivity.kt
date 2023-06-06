@@ -32,6 +32,7 @@ class AddHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiModel
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
+            title = ""
         }
         initFragment()
     }
