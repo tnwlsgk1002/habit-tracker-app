@@ -107,8 +107,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_alarm_title"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
                     bind:bind_contentText="@{viewmodel.whenRunFlow}"
+                    custom:inputDataFromDialogView_background="@color/gray_05"
                     custom:inputDataFromDialogView_titleText="@string/when_will_you_do_it"
                     tools:inputDataFromDialogView_contentText="출근길" />
 

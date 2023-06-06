@@ -184,9 +184,7 @@
 
     <!-- 습관 설정 -->
     <style name="BottomButtonStyle" parent="Widget.AppCompat.Button">
-        <item name="android:layout_margin">12dp</item>
-        <item name="android:background">@drawable/bg_filled_rounded_rect_12</item>
-        <item name="android:backgroundTint">@color/pink_03</item>
+        <item name="android:background">@drawable/selector_bottom_button_light</item>
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text16.SemiBold</item>
         <item name="android:textColor">@color/white</item>
     </style>
