@@ -4,7 +4,7 @@ import android.content.Context
 import com.bibbidi.habittracker.R
 import org.threeten.bp.DayOfWeek
 
-fun DayOfWeek.toString(context: Context) = context.getString(
+fun DayOfWeek.getStringResource(context: Context) = context.getString(
     when (this) {
         DayOfWeek.SUNDAY -> R.string.sunday
         DayOfWeek.MONDAY -> R.string.monday

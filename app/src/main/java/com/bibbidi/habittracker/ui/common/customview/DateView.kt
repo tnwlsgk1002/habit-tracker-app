@@ -12,7 +12,7 @@ import com.bibbidi.habittracker.utils.dayOfWeekValues
 import com.bibbidi.habittracker.utils.getBasicTextColor
 import com.bibbidi.habittracker.utils.getOnPrimaryColor
 import com.bibbidi.habittracker.utils.getPrimaryColor
-import com.bibbidi.habittracker.utils.toString
+import com.bibbidi.habittracker.utils.getStringResource
 import org.threeten.bp.DayOfWeek
 
 class DateView @JvmOverloads constructor(
@@ -62,7 +62,7 @@ class DateView @JvmOverloads constructor(
     var dayOfWeek: DayOfWeek = DayOfWeek.SUNDAY
         set(value) {
             field = value
-            tvDayOfWeek.text = value.toString(context)
+            tvDayOfWeek.text = value.getStringResource(context)
             invalidate()
         }
 

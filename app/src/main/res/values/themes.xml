@@ -17,11 +17,11 @@
         <item name="bottomSheetDialogTheme">@style/Theme.HabitTracker.BottomSheetDialog</item>
     </style>
 
-    <style name="Theme.HabitTracker.Home" parent="Theme.HabitTracker">
+    <style name="Theme.HabitTracker.Main" parent="Theme.HabitTracker">
         <item name="android:windowBackground">@color/pink_01</item>
     </style>
 
-    <style name="Theme.HabitTracker.Other" parent="Theme.HabitTracker">
+    <style name="Theme.HabitTracker.Edit" parent="Theme.HabitTracker">
         <item name="android:windowBackground">@color/white</item>
     </style>
 

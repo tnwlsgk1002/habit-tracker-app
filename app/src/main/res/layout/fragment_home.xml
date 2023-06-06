@@ -1,96 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_coordinator"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:layout_width="match_parent">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_row_calendar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/scroll_view"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vp_row_calendar">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_row_calendar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/scroll_view"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vp_row_calendar">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_not_finished_habits"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:spanCount="2"
-                tools:listitem="@layout/item_habit_check" />
-
-            <View
-                android:id="@+id/divider_line"
-                style="@style/DividerLineView"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_margin="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_not_finished_habits" />
-
-            <View
-                android:id="@+id/divider_circle"
-                style="@style/DividerCircleView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:layout_constraintBottom_toBottomOf="@id/divider_line"
-                app:layout_constraintEnd_toEndOf="@id/divider_line"
-                app:layout_constraintStart_toStartOf="@id/divider_line"
-                app:layout_constraintTop_toTopOf="@id/divider_line" />
-
-            <View
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:background="@drawable/ic_check_circle"
-                app:layout_constraintBottom_toBottomOf="@id/divider_circle"
-                app:layout_constraintEnd_toEndOf="@id/divider_circle"
-                app:layout_constraintStart_toStartOf="@id/divider_circle"
-                app:layout_constraintTop_toTopOf="@id/divider_circle" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_finished_habits"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_line"
-                app:spanCount="2"
-                tools:listitem="@layout/item_habit_check" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_not_finished_habits"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:spanCount="2"
+                    tools:listitem="@layout/item_habit_check" />
+
+                <View
+                    android:id="@+id/divider_line"
+                    style="@style/DividerLineView"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_margin="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rv_not_finished_habits" />
+
+                <View
+                    android:id="@+id/divider_circle"
+                    style="@style/DividerCircleView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:layout_constraintBottom_toBottomOf="@id/divider_line"
+                    app:layout_constraintEnd_toEndOf="@id/divider_line"
+                    app:layout_constraintStart_toStartOf="@id/divider_line"
+                    app:layout_constraintTop_toTopOf="@id/divider_line" />
+
+                <View
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:background="@drawable/ic_check_circle"
+                    app:layout_constraintBottom_toBottomOf="@id/divider_circle"
+                    app:layout_constraintEnd_toEndOf="@id/divider_circle"
+                    app:layout_constraintStart_toStartOf="@id/divider_circle"
+                    app:layout_constraintTop_toTopOf="@id/divider_circle" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_finished_habits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_line"
+                    app:spanCount="2"
+                    tools:listitem="@layout/item_habit_check" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_main"
         style="@style/FloatingActionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_anchor="@id/layout_constraint"
+        app:layout_anchorGravity="right|bottom"
         tools:ignore="ContentDescription" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

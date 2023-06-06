@@ -3,6 +3,12 @@ package com.bibbidi.habittracker.utils
 import android.text.Editable
 import android.view.View
 import android.widget.EditText
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
@@ -34,19 +40,23 @@ fun LocalDate.asLong(): Long {
     return zoneDateTime.toInstant().toEpochMilli()
 }
 
-fun Int?.toTwoDigits(): String {
-    return String.format("%02d", this ?: 0)
-}
+fun String.toTwoDigits(): String = padStart(2, '0')
 
-fun Editable?.toTwoDigits(): String {
-    val number = toString().toInt()
-    return number.toTwoDigits()
-}
+fun Int.toTwoDigits(): String = toString().toTwoDigits()
+
+fun Editable.toTwoDigits(): String = toString().toTwoDigits()
 
 fun EditText.toFixToTwoDigits() {
     onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
         if (!hasFocus) {
-            setText(text.toTwoDigits())
+            val paddedText = text.toTwoDigits()
+            setText(paddedText)
         }
+    }
+}
+
+fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
+    lifecycleScope.launch {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
     }
 }

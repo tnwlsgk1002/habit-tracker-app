@@ -1,32 +1,39 @@
 package com.bibbidi.habittracker.ui.home
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
+import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity
+import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_INFO_KEY
+import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_TYPE_KEY
 import com.bibbidi.habittracker.ui.common.ItemDecoration
+import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
+import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class HomeFragment :
-    Fragment(),
+    Fragment(R.layout.fragment_home),
     SelectHabitTypeBottomSheetDialogFragment.OnHabitTypeButtonClickListener {
 
     companion object {
@@ -37,9 +44,7 @@ class HomeFragment :
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private var _binding: FragmentHomeBinding? = null
-
-    private val binding get() = _binding!!
+    private val binding by viewBindings(FragmentHomeBinding::bind)
 
     private val datePicker = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
@@ -47,31 +52,31 @@ class HomeFragment :
 
     private lateinit var bottomSheetDialogFragment: SelectHabitTypeBottomSheetDialogFragment
 
+    private val launchSetHabitActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    val data: Intent? = result.data
+                    data?.extras?.getParcelable<HabitInfoUiModel>(HABIT_INFO_KEY)?.let {
+                        viewModel.setHabit(it)
+                    }
+                }
+                else -> {}
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        activity?.setTheme(R.style.Theme_HabitTracker_Home)
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (activity as AppCompatActivity).supportActionBar?.apply {
-            title = getString(R.string.date)
-        }?.show()
         setUpAdapter()
         setUpListener()
         setUpFab()
         setUpBottomSheet()
+        collectEvent()
     }
 
     private fun setUpAdapter() {
@@ -177,13 +182,25 @@ class HomeFragment :
         bottomSheetDialogFragment.show(parentFragmentManager, bottomSheetDialogFragment.tag)
     }
 
-    override fun onHabitTypeButtonClick(type: HabitTypeUiModel) {
-        val action = HomeFragmentDirections.actionHomeFragmentToSetHabitFragment(type.name)
-        findNavController().navigate(action)
+    private fun collectEvent() {
+        repeatOnStarted {
+            viewModel.messageEvent.collectLatest {
+                val message = getString(
+                    when (it) {
+                        HomeMessageEvent.SuccessAddHabit -> R.string.set_habit_success_message
+                    }
+                )
+                Snackbar.make(binding.layoutCoordinator, message, Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onHabitTypeButtonClick(type: HabitTypeUiModel) {
+        val intent = Intent(activity, AddHabitActivity::class.java)
+        val bundle = Bundle().apply {
+            putParcelable(HABIT_TYPE_KEY, type)
+        }
+        intent.putExtras(bundle)
+        launchSetHabitActivity.launch(intent)
     }
 }
