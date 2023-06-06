@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:checked="true"
-            android:text="@string/thursday"
+            android:text="@string/wednesday"
             android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:checked="true"
-            android:text="@string/friday"
+            android:text="@string/thursday"
             android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:checked="true"
-            android:text="@string/saturday"
+            android:text="@string/friday"
             android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
@@ -102,7 +102,7 @@
             android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_thu"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_fri"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

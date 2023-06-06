@@ -44,4 +44,13 @@
     <string name="set_alarm">알람 받기</string>
     <string name="select_start_date">시작 날짜 선택</string>
     <string name="input_alarm_time">알람 시간 입력</string>
+    <string name="set_emoji">이모티콘 설정</string>
+    <string name="example_day_of_weeks">일, 월, 화, 수, 목, 금, 토</string>
+    <string name="example_when_run">출근길</string>
+    <string name="example_goal_time">3시간</string>
+    <string name="example_start_date">2023-05-09</string>
+    <string name="set_emoij">이모티콘 설정</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="set_habit">습관 추가하기</string>
+    <string name="set_habit_success_message">습관이 성공적으로 추가되었어요!🎉</string>
 </resources>

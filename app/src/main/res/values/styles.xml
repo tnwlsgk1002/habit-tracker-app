@@ -219,4 +219,10 @@
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text34.SemiBold</item>
     </style>
 
+    <!-- 습관 설정 시 사용하는 Style -->
+    <style name="NameInputEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:hint">@string/habit_name_hint</item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text16.SemiBold</item>
+    </style>
+
 </resources>

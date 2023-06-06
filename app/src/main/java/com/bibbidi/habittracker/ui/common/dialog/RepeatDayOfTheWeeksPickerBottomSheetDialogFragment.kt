@@ -44,6 +44,9 @@ class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFrag
     private val dayOfTheWeekToView = mutableMapOf<DayOfWeek, CheckBox>()
     private val viewToDayOfTheWeek = mutableMapOf<CheckBox, DayOfWeek>()
 
+    private val checkedDayOfTheWeeks
+        get() = viewToDayOfTheWeek.filterKeys { it.isChecked }.values.toSet()
+
     fun setOnCancelListener(listener: ((Set<DayOfWeek>) -> Unit)?) {
         this.onCancelListener = listener
     }
@@ -73,6 +76,9 @@ class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFrag
     }
 
     private fun setUpMapData() {
+        dayOfTheWeekToView.clear()
+        viewToDayOfTheWeek.clear()
+
         dayOfTheWeekToView[DayOfWeek.SUNDAY] = binding.checkboxSun
         dayOfTheWeekToView[DayOfWeek.MONDAY] = binding.checkboxMon
         dayOfTheWeekToView[DayOfWeek.TUESDAY] = binding.checkboxTue
@@ -94,8 +100,6 @@ class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFrag
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-
-        val checkedDayOfTheWeeks = viewToDayOfTheWeek.filterKeys { it.isChecked }.values.toSet()
         onCancelListener?.invoke(checkedDayOfTheWeeks)
     }
 

@@ -3,6 +3,12 @@ package com.bibbidi.habittracker.utils
 import android.text.Editable
 import android.view.View
 import android.widget.EditText
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
@@ -46,5 +52,11 @@ fun EditText.toFixToTwoDigits() {
             val paddedText = text.toTwoDigits()
             setText(paddedText)
         }
+    }
+}
+
+fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
+    lifecycleScope.launch {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
     }
 }
