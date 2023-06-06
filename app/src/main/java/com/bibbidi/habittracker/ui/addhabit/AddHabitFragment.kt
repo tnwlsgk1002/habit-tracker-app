@@ -18,6 +18,7 @@ import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
 import com.google.android.material.timepicker.TimeFormat
@@ -141,6 +142,17 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
         repeatOnStarted {
             viewModel.submitEvent.collectLatest {
                 submitEventListener?.sendEvent(it)
+            }
+        }
+
+        repeatOnStarted {
+            viewModel.messageEvent.collectLatest {
+                val message = getString(
+                    when (it) {
+                        AddHabitMessageEvent.StartDateIsBeforeNowEvent -> R.string.start_date_is_before_now_error_message
+                    }
+                )
+                Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
             }
         }
     }

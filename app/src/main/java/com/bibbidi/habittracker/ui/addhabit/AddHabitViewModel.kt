@@ -31,6 +31,8 @@ abstract class AddHabitViewModel : ViewModel() {
     val repeatsDayOfTheWeeksClickEvent = MutableEventFlow<Set<DayOfWeek>>()
     val startDateClickEvent = MutableEventFlow<LocalDate>()
 
+    val messageEvent = MutableEventFlow<AddHabitMessageEvent>()
+
     open val isEnabled: StateFlow<Boolean> = combine(
         nameFlow,
         emojiFlow,
@@ -39,6 +41,11 @@ abstract class AddHabitViewModel : ViewModel() {
     ) { name, emoji, whenRun, repeatsDayOfTheWeeks ->
         (name.isNotEmpty()) && (emoji.isNotEmpty()) && (whenRun.isNotEmpty()) && (repeatsDayOfTheWeeks.isNotEmpty())
     }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    open val isValid: Boolean
+        get() = !startDateFlow.value.isBefore(LocalDate.now())
+
+    abstract val cntHabitInfo: HabitInfoUiModel
 
     fun setEmoji(emojiString: String) {
         viewModelScope.launch {
@@ -104,5 +111,13 @@ abstract class AddHabitViewModel : ViewModel() {
         }
     }
 
-    abstract fun setHabitEvent()
+    fun addHabit() {
+        viewModelScope.launch {
+            if (isValid) {
+                submitEvent.emit(cntHabitInfo)
+            } else {
+                messageEvent.emit(AddHabitMessageEvent.StartDateIsBeforeNowEvent)
+            }
+        }
+    }
 }

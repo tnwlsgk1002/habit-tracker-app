@@ -53,4 +53,5 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="set_habit">습관 추가하기</string>
     <string name="set_habit_success_message">습관이 성공적으로 추가되었어요!🎉</string>
+    <string name="start_date_is_before_now_error_message">시작일은 오늘보다 전이어야 해요!</string>
 </resources>
