@@ -81,20 +81,17 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
 
     private val alarmTimePicker: MaterialTimePicker by lazy {
         val nowLocalTime = LocalTime.now()
-        val materialTimePicker = MaterialTimePicker.Builder()
+        MaterialTimePicker.Builder()
             .setInputMode(INPUT_MODE_KEYBOARD)
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setHour(nowLocalTime.hour)
             .setMinute(nowLocalTime.minute)
-            .setTitleText(getString(R.string.input_alarm_time)).build()
-
-        materialTimePicker.addOnPositiveButtonClickListener {
-            val hourOfPromise = materialTimePicker.hour
-            val minuteOfPromise = materialTimePicker.minute
-            viewModel.setAlarmTime(LocalTime.of(hourOfPromise, minuteOfPromise))
-        }
-
-        materialTimePicker
+            .setTitleText(getString(R.string.input_alarm_time)).build().apply {
+                addOnPositiveButtonClickListener {
+                    viewModel.setAlarmTime(LocalTime.of(hour, minute))
+                }
+                isCancelable = false
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
