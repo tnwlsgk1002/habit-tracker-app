@@ -182,7 +182,7 @@ class HomeFragment :
         bottomSheetDialogFragment.show(parentFragmentManager, bottomSheetDialogFragment.tag)
     }
 
-    fun collectEvent() {
+    private fun collectEvent() {
         repeatOnStarted {
             viewModel.messageEvent.collectLatest {
                 val message = getString(
@@ -190,7 +190,7 @@ class HomeFragment :
                         HomeMessageEvent.SuccessAddHabit -> R.string.set_habit_success_message
                     }
                 )
-                Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.layoutCoordinator, message, Snackbar.LENGTH_SHORT).show()
             }
         }
     }
