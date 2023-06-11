@@ -21,6 +21,7 @@ import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.showMenu
@@ -48,7 +49,7 @@ class HomeFragment :
         .setSelection(date.asLong())
         .build().apply {
             addOnPositiveButtonClickListener {
-                // TODO("선택된 date 변경")
+                viewModel.setDate(it.asLocalDate())
             }
         }
 
