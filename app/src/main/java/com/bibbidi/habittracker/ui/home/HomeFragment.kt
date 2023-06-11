@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bibbidi.habittracker.R
@@ -16,7 +17,6 @@ import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_TYPE_KEY
-import com.bibbidi.habittracker.ui.common.ItemDecoration
 import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
@@ -37,7 +37,6 @@ class HomeFragment :
 
     companion object {
         const val DATE_PICKER_TAG = "datePicker"
-        const val HABIT_ITEM_PADDING = 10
     }
 
     private val viewModel: HomeViewModel by viewModels()
@@ -79,26 +78,47 @@ class HomeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpAdapter()
-        setUpFab()
+        initBindingData()
         collectEvent()
     }
 
-    private fun setUpAdapter() {
-        with(binding.vpRowCalendar) {
-            val dateViewAdapter = RowCalendarAdapter {}
-            adapter = dateViewAdapter
-        }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
-        with(binding.rvHabits) {
-            val habitsAdapter = HabitsAdapter(
-                onCheckBox = { _, _ -> },
-                onTurnStopWatch = { _, _ -> },
-                onClickRecordButton = { _ -> },
-                onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
-            )
-            adapter = habitsAdapter
-            addItemDecoration(ItemDecoration(HABIT_ITEM_PADDING))
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_select_date -> {
+                viewModel.clickDateIcon()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun initBindingData() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewmodel = viewModel
+        binding.calendarAdapter = RowCalendarAdapter {}
+        binding.habitsAdapter = HabitsAdapter(
+            onCheckBox = { _, _ -> },
+            onTurnStopWatch = { _, _ -> },
+            onClickRecordButton = { _ -> },
+            onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
+        )
+    }
+
+    private fun collectEvent() {
+        repeatOnStarted {
+            viewModel.event.collectLatest {
+                when (it) {
+                    is HomeEvent.ShowDatePicker -> showDatePicker(it.date)
+                    HomeEvent.ShowSelectHabitType -> showSelectHabitTypeBottomSheet()
+                    HomeEvent.ShowTrackValueDialog -> {}
+                    HomeEvent.SuccessAddHabit -> showSnackBar(R.string.set_habit_success_message)
+                }
+            }
         }
     }
 
@@ -113,27 +133,6 @@ class HomeFragment :
         }
     }
 
-    private fun setUpFab() {
-        binding.fabMain.setOnClickListener {
-            showSelectHabitTypeBottomSheet()
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.home_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_select_date -> {
-                // TODO("datePickerEvent")
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     private fun showDatePicker(date: LocalDate) {
         getDatePicker(date).show(parentFragmentManager, DATE_PICKER_TAG)
     }
@@ -142,17 +141,8 @@ class HomeFragment :
         addHabitBottomSheet.show(parentFragmentManager, addHabitBottomSheet.tag)
     }
 
-    private fun collectEvent() {
-        repeatOnStarted {
-            viewModel.messageEvent.collectLatest {
-                val message = getString(
-                    when (it) {
-                        HomeMessageEvent.SuccessAddHabit -> R.string.set_habit_success_message
-                    }
-                )
-                Snackbar.make(binding.layoutCoordinator, message, Snackbar.LENGTH_SHORT).show()
-            }
-        }
+    private fun showSnackBar(@StringRes resId: Int) {
+        Snackbar.make(binding.layoutCoordinator, getString(resId), Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onHabitTypeButtonClick(type: HabitTypeUiModel) {
