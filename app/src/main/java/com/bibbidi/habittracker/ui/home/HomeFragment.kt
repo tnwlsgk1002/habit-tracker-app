@@ -21,12 +21,14 @@ import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import org.threeten.bp.LocalDate
 
 @AndroidEntryPoint
 class HomeFragment :
@@ -34,20 +36,28 @@ class HomeFragment :
     SelectHabitTypeBottomSheetDialogFragment.OnHabitTypeButtonClickListener {
 
     companion object {
-        const val datePickerTag = "datePicker"
-
-        const val HabitItemPadding = 10
+        const val DATE_PICKER_TAG = "datePicker"
+        const val HABIT_ITEM_PADDING = 10
     }
 
     private val viewModel: HomeViewModel by viewModels()
 
     private val binding by viewBindings(FragmentHomeBinding::bind)
 
-    private val datePicker = MaterialDatePicker.Builder.datePicker()
+    private fun getDatePicker(date: LocalDate) = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
-        .build()
+        .setSelection(date.asLong())
+        .build().apply {
+            addOnPositiveButtonClickListener {
+                // TODO("선택된 date 변경")
+            }
+        }
 
-    private lateinit var bottomSheetDialogFragment: SelectHabitTypeBottomSheetDialogFragment
+    private val addHabitBottomSheet: SelectHabitTypeBottomSheetDialogFragment by lazy {
+        SelectHabitTypeBottomSheetDialogFragment().apply {
+            setOnHabitTypeButtonClickListener(this@HomeFragment)
+        }
+    }
 
     private val launchSetHabitActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -70,9 +80,7 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpAdapter()
-        setUpListener()
         setUpFab()
-        setUpBottomSheet()
         collectEvent()
     }
 
@@ -90,7 +98,7 @@ class HomeFragment :
                 onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
             )
             adapter = habitsAdapter
-            addItemDecoration(ItemDecoration(HabitItemPadding))
+            addItemDecoration(ItemDecoration(HABIT_ITEM_PADDING))
         }
     }
 
@@ -105,22 +113,10 @@ class HomeFragment :
         }
     }
 
-    private fun setUpListener() {
-        // TODO: 날짜 선택 시 변경
-        datePicker.addOnPositiveButtonClickListener {
-            Toast.makeText(context, "$it", Toast.LENGTH_LONG).show()
-        }
-    }
-
     private fun setUpFab() {
         binding.fabMain.setOnClickListener {
             showSelectHabitTypeBottomSheet()
         }
-    }
-
-    private fun setUpBottomSheet() {
-        bottomSheetDialogFragment = SelectHabitTypeBottomSheetDialogFragment()
-        bottomSheetDialogFragment.setOnHabitTypeButtonClickListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -131,20 +127,19 @@ class HomeFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_select_date -> {
-                showDatePicker()
+                // TODO("datePickerEvent")
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun showDatePicker() {
-        // TODO: 선택한 날짜를 현재 선택된 날짜로 변경 (datePicker.selection)
-        datePicker.show(parentFragmentManager, datePickerTag)
+    private fun showDatePicker(date: LocalDate) {
+        getDatePicker(date).show(parentFragmentManager, DATE_PICKER_TAG)
     }
 
     private fun showSelectHabitTypeBottomSheet() {
-        bottomSheetDialogFragment.show(parentFragmentManager, bottomSheetDialogFragment.tag)
+        addHabitBottomSheet.show(parentFragmentManager, addHabitBottomSheet.tag)
     }
 
     private fun collectEvent() {
