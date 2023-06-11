@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_not_finished_habits"
+                    android:id="@+id/rv_habits"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -47,46 +47,6 @@
                     app:spanCount="2"
                     tools:listitem="@layout/item_habit_check" />
 
-                <View
-                    android:id="@+id/divider_line"
-                    style="@style/DividerLineView"
-                    android:layout_width="0dp"
-                    android:layout_height="2dp"
-                    android:layout_margin="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_not_finished_habits" />
-
-                <View
-                    android:id="@+id/divider_circle"
-                    style="@style/DividerCircleView"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:layout_constraintBottom_toBottomOf="@id/divider_line"
-                    app:layout_constraintEnd_toEndOf="@id/divider_line"
-                    app:layout_constraintStart_toStartOf="@id/divider_line"
-                    app:layout_constraintTop_toTopOf="@id/divider_line" />
-
-                <View
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:background="@drawable/ic_check_circle"
-                    app:layout_constraintBottom_toBottomOf="@id/divider_circle"
-                    app:layout_constraintEnd_toEndOf="@id/divider_circle"
-                    app:layout_constraintStart_toStartOf="@id/divider_circle"
-                    app:layout_constraintTop_toTopOf="@id/divider_circle" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_finished_habits"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider_line"
-                    app:spanCount="2"
-                    tools:listitem="@layout/item_habit_check" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

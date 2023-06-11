@@ -11,8 +11,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity
@@ -20,7 +18,6 @@ import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_INF
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_TYPE_KEY
 import com.bibbidi.habittracker.ui.common.ItemDecoration
 import com.bibbidi.habittracker.ui.common.viewBindings
-import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
@@ -80,63 +77,31 @@ class HomeFragment :
     }
 
     private fun setUpAdapter() {
-        // TODO : dummy data
-        val sampleDateViews = listOf<Array<DateItem>>()
-        val sampleHabits = listOf<HabitLogUiModel>()
-
         with(binding.vpRowCalendar) {
-            // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
-            val dateViewAdapter = RowCalendarAdapter {}.apply {
-                submitList(sampleDateViews)
-            }
-
+            val dateViewAdapter = RowCalendarAdapter {}
             adapter = dateViewAdapter
-
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-
-                    val nextPosition = position + 1
-                    if (nextPosition < dateViewAdapter.itemCount) {
-                        val recyclerView = getChildAt(0) as RecyclerView
-                        val viewHolder = recyclerView.findViewHolderForAdapterPosition(nextPosition)
-                        if (viewHolder is RowCalendarAdapter.DateItemViewHolder) {
-                            viewHolder.startShimmer()
-                        }
-                    }
-                }
-
-                // TODO : 데이터 로드 후 stopShimmer() 호출
-            })
         }
 
-        with(binding.rvNotFinishedHabits) {
-            // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
-            val finishedHabitAdapter = HabitsAdapter(onCheckBox = { checkHabitItem, b ->
-                Toast.makeText(context, "$checkHabitItem : $b", Toast.LENGTH_LONG).show()
-            }, onTurnStopWatch = { timeHabitItem, b ->
-                    Toast.makeText(context, "$timeHabitItem : $b", Toast.LENGTH_LONG).show()
-                }, onClickRecordButton = { trackHabitItem ->
-                    Toast.makeText(context, "$trackHabitItem click", Toast.LENGTH_LONG).show()
-                }, onClickMenu = { _, view ->
-                    showMenu(view, R.menu.habit_menu) { menuItem ->
-                        when (menuItem.itemId) {
-                            R.id.option_edit -> Toast.makeText(context, "수정", Toast.LENGTH_SHORT).show()
-                            R.id.option_delete -> Toast.makeText(context, "삭제", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                        true
-                    }
-                }).apply {
-                submitList(sampleHabits)
-            }
-
-            adapter = finishedHabitAdapter
+        with(binding.rvHabits) {
+            val habitsAdapter = HabitsAdapter(
+                onCheckBox = { _, _ -> },
+                onTurnStopWatch = { _, _ -> },
+                onClickRecordButton = { _ -> },
+                onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
+            )
+            adapter = habitsAdapter
             addItemDecoration(ItemDecoration(HabitItemPadding))
+        }
+    }
+
+    private fun showMenuInHabitLog(habitLog: HabitLogUiModel, view: View) {
+        showMenu(view, R.menu.habit_menu) { menuItem ->
+            when (menuItem.itemId) {
+                R.id.option_edit -> Toast.makeText(context, "수정", Toast.LENGTH_SHORT).show()
+                R.id.option_delete -> Toast.makeText(context, "삭제", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            true
         }
     }
 
