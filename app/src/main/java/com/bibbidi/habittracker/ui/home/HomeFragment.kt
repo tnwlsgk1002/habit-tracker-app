@@ -186,7 +186,7 @@ class HomeFragment :
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         binding.vpRowCalendar.unregisterOnPageChangeCallback(rowCalendarViewPagerCallback)
+        super.onDestroyView()
     }
 }
