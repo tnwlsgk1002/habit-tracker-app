@@ -11,9 +11,12 @@ import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.mapper.habitinfo.asDomain
 import com.bibbidi.habittracker.ui.mapper.habitlog.asUiModel
 import com.bibbidi.habittracker.ui.model.date.DateItem
+import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.utils.getStartOfTheWeek
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +29,10 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val habitsRepository: HabitsRepository
 ) : ViewModel() {
+
+    companion object {
+        const val DATE_ITEM_DELAY = 500L
+    }
 
     private val _dateFlow: MutableStateFlow<LocalDate> = MutableStateFlow(LocalDate.now())
     val dateFlow: StateFlow<LocalDate> = _dateFlow.asStateFlow()
@@ -48,6 +55,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadData() {
         viewModelScope.launch {
+            setDateItems(dateFlow.value)
             dateFlow.collectLatest { date ->
                 habitsRepository.getHabitAndHabitLogsByDate(date).collectLatest { result ->
                     _habitsFlow.value = when (result) {
@@ -60,15 +68,50 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun setDate(date: LocalDate) {
+    private fun setDate(date: LocalDate) {
         viewModelScope.launch {
             _dateFlow.value = date
+        }
+    }
+
+    private fun setDateItems(date: LocalDate) {
+        viewModelScope.launch {
+            _dateItemsFlow.value = listOf(
+                UiState.Loading,
+                UiState.Success(getDateItemsByDate(date)),
+                UiState.Loading
+            )
+        }
+    }
+
+    fun pickDate(date: LocalDate) {
+        viewModelScope.launch {
+            setDateItems(date)
+            setDate(date)
         }
     }
 
     fun clickDateIcon() {
         viewModelScope.launch {
             _event.emit(HomeEvent.ShowDatePicker(date = _dateFlow.value))
+        }
+    }
+
+    fun clickDateItem(dateItem: DateItem) {
+        viewModelScope.launch {
+            setDate(dateItem.date)
+        }
+    }
+
+    fun swipeDatePages(position: PageAction) {
+        viewModelScope.launch {
+            val date = when (position) {
+                PageAction.PREV -> dateFlow.value.plusDays(-7)
+                PageAction.NEXT -> dateFlow.value.plusDays(7)
+            }.getStartOfTheWeek()
+            delay(DATE_ITEM_DELAY)
+            setDateItems(date)
+            setDate(date)
         }
     }
 

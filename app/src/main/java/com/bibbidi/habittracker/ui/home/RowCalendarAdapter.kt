@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bibbidi.habittracker.databinding.ItemRowCalendarBinding
 import com.bibbidi.habittracker.ui.common.BaseViewHolder
 import com.bibbidi.habittracker.ui.common.UiState
@@ -12,7 +13,10 @@ import com.bibbidi.habittracker.ui.common.customview.DateView
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.facebook.shimmer.ShimmerFrameLayout
 
-class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :
+class RowCalendarAdapter(
+    private val onClick: (DateItem) -> (Unit),
+    itemRangeInserted: () -> Unit
+) :
     ListAdapter<UiState<Array<DateItem>>, RowCalendarAdapter.DateItemViewHolder>(
         DateViewsDiffCallback
     ) {
@@ -92,6 +96,17 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :
         }
     }
 
+    private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            itemRangeInserted.invoke()
+        }
+    }
+
+    init {
+        registerAdapterDataObserver(adapterDataObserver)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateItemViewHolder {
         val binding =
             ItemRowCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -122,5 +137,10 @@ class RowCalendarAdapter(private val onClick: (DateItem) -> (Unit)) :
         ): Boolean {
             return oldItem.contentEquals(newItem)
         }
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        unregisterAdapterDataObserver(adapterDataObserver)
+        super.onDetachedFromRecyclerView(recyclerView)
     }
 }

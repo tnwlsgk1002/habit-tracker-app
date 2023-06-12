@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity
@@ -38,6 +39,9 @@ class HomeFragment :
 
     companion object {
         const val DATE_PICKER_TAG = "datePicker"
+        const val PREV_POS = 0
+        const val NEXT_POS = 2
+        const val CENTER_POS = 1
     }
 
     private val viewModel: HomeViewModel by viewModels()
@@ -49,7 +53,7 @@ class HomeFragment :
         .setSelection(date.asLong())
         .build().apply {
             addOnPositiveButtonClickListener {
-                viewModel.setDate(it.asLocalDate())
+                viewModel.pickDate(it.asLocalDate())
             }
         }
 
@@ -71,6 +75,36 @@ class HomeFragment :
                 else -> {}
             }
         }
+
+    private val rowCalendarViewAdapter by lazy {
+        RowCalendarAdapter(
+            onClick = { dateItem -> viewModel.clickDateItem(dateItem) },
+            itemRangeInserted = {
+                binding.vpRowCalendar.post { binding.vpRowCalendar.setCurrentItem(CENTER_POS, false) }
+            }
+        )
+    }
+
+    private val habitsAdapter by lazy {
+        HabitsAdapter(
+            onCheckBox = { _, _ -> },
+            onTurnStopWatch = { _, _ -> },
+            onClickRecordButton = { _ -> },
+            onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
+        )
+    }
+
+    private val rowCalendarViewPagerCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+            if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                when (binding.vpRowCalendar.currentItem) {
+                    PREV_POS -> viewModel.swipeDatePages(PageAction.PREV)
+                    NEXT_POS -> viewModel.swipeDatePages(PageAction.NEXT)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,13 +135,9 @@ class HomeFragment :
     private fun initBindingData() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
-        binding.calendarAdapter = RowCalendarAdapter {}
-        binding.habitsAdapter = HabitsAdapter(
-            onCheckBox = { _, _ -> },
-            onTurnStopWatch = { _, _ -> },
-            onClickRecordButton = { _ -> },
-            onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
-        )
+        binding.calendarAdapter = rowCalendarViewAdapter
+        binding.habitsAdapter = habitsAdapter
+        binding.vpRowCalendar.registerOnPageChangeCallback(rowCalendarViewPagerCallback)
     }
 
     private fun collectEvent() {
@@ -153,5 +183,10 @@ class HomeFragment :
         }
         intent.putExtras(bundle)
         launchSetHabitActivity.launch(intent)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.vpRowCalendar.unregisterOnPageChangeCallback(rowCalendarViewPagerCallback)
     }
 }
