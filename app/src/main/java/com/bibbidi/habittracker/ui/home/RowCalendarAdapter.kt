@@ -48,8 +48,8 @@ class RowCalendarAdapter(
                         dateView.setOnClickListener {
                             val item = (cntItem as? UiState.Success)
                                 ?: return@setOnClickListener
-                            this[index].checked = true
                             this[clickedDateViewIndex].checked = false
+                            this[index].checked = true
                             clickedDateViewIndex = index
                             onClick(item.data[index])
                         }
