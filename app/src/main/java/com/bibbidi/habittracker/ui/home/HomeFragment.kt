@@ -81,7 +81,10 @@ class HomeFragment :
         RowCalendarAdapter(
             onClick = { dateItem -> viewModel.clickDateItem(dateItem) },
             itemRangeInserted = {
-                binding.vpRowCalendar.post { binding.vpRowCalendar.setCurrentItem(CENTER_POS, false) }
+                binding.vpRowCalendar.post {
+                    binding.vpRowCalendar.setCurrentItem(CENTER_POS, false)
+                    binding.vpRowCalendar.isUserInputEnabled = true
+                }
             }
         )
     }
@@ -99,10 +102,14 @@ class HomeFragment :
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
             if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                when (binding.vpRowCalendar.currentItem) {
-                    PREV_POS -> viewModel.swipeDatePages(PageAction.PREV)
-                    NEXT_POS -> viewModel.swipeDatePages(PageAction.NEXT)
-                }
+                viewModel.swipeDatePages(
+                    when (binding.vpRowCalendar.currentItem) {
+                        PREV_POS -> PageAction.PREV
+                        NEXT_POS -> PageAction.NEXT
+                        else -> return
+                    }
+                )
+                binding.vpRowCalendar.isUserInputEnabled = false
             }
         }
     }
