@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -114,6 +115,7 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBindingData()
+        setActionBar()
         collectEvent()
     }
 
@@ -138,6 +140,10 @@ class HomeFragment :
         binding.calendarAdapter = rowCalendarViewAdapter
         binding.habitsAdapter = habitsAdapter
         binding.vpRowCalendar.registerOnPageChangeCallback(rowCalendarViewPagerCallback)
+    }
+
+    private fun setActionBar() {
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
     }
 
     private fun collectEvent() {
