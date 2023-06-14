@@ -223,4 +223,7 @@
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text16.SemiBold</item>
     </style>
 
+    <style name="HabitTracker.Button" parent="Widget.Material3.Button">
+
+    </style>
 </resources>

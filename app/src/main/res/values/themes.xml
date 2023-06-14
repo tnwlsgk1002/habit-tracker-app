@@ -1,10 +1,10 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.HabitTracker" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.HabitTracker" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pink_03</item>
         <item name="colorPrimaryVariant">@color/pink_02</item>
-        <item name="colorOnPrimary">@color/pink_04</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/pink_02</item>
         <item name="colorSecondaryVariant">@color/pink_03</item>
@@ -25,7 +25,7 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
-    <style name="Theme.HabitTracker.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="Theme.HabitTracker.BottomSheetDialog" parent="Theme.Material3.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 </resources>
