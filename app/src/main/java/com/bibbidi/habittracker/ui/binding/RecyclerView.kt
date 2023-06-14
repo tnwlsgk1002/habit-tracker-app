@@ -1,5 +1,6 @@
 package com.bibbidi.habittracker.ui.binding
 
+import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -31,6 +32,9 @@ fun setItemList(view: ViewPager2, itemList: List<UiState<Array<DateItem>>>?) {
 @BindingAdapter("bind:itemList")
 fun setItemList(view: RecyclerView, itemList: UiState<List<HabitLogUiModel>>?) {
     if (itemList is UiState.Success) {
+        view.visibility = View.VISIBLE
         (view.adapter as? HabitsAdapter)?.submitList(itemList.data)
+    } else if (itemList is UiState.Empty) {
+        view.visibility = View.GONE
     }
 }

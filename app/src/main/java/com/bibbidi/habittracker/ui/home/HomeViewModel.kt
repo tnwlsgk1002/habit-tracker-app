@@ -1,5 +1,6 @@
 package com.bibbidi.habittracker.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.domain.HabitsRepository
@@ -58,9 +59,11 @@ class HomeViewModel @Inject constructor(
             setDateItems(dateFlow.value)
             dateFlow.collectLatest { date ->
                 habitsRepository.getHabitAndHabitLogsByDate(date).collectLatest { result ->
+                    Log.d("HomeViewModel", "result: $result")
                     _habitsFlow.value = when (result) {
                         is DBResult.Success -> UiState.Success(result.data.map { it.asUiModel() })
                         is DBResult.Loading -> UiState.Loading
+                        is DBResult.Empty -> UiState.Empty
                         else -> return@collectLatest
                     }
                 }
@@ -115,7 +118,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun clickFab() {
+    fun clickAddHabit() {
         viewModelScope.launch {
             _event.emit(HomeEvent.ShowSelectHabitType)
         }
