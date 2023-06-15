@@ -103,3 +103,9 @@ kapt {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+detekt {
+    buildUponDefaultConfig = true
+    allRules = false
+    config = files("$rootDir/config/detekt.yml")
+}
