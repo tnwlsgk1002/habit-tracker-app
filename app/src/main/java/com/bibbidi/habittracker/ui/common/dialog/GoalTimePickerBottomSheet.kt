@@ -6,26 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bibbidi.habittracker.databinding.BottomSheetInputGoalTimeBinding
+import com.bibbidi.habittracker.ui.common.Constants.HOUR_KEY
+import com.bibbidi.habittracker.ui.common.Constants.MINUTE_KEY
 import com.bibbidi.habittracker.utils.toFixToTwoDigits
 import com.bibbidi.habittracker.utils.toTwoDigits
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class GoalTimePickerBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class GoalTimePickerBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
-        private const val HOUR_KEY = "HOUR"
-        private const val MINUTE_KEY = "MINUTE"
 
         fun newInstance(
             hour: Int,
             minute: Int,
             onCancelListener: (Int, Int) -> Unit
-        ): GoalTimePickerBottomSheetDialogFragment {
+        ): GoalTimePickerBottomSheet {
             val args = Bundle().apply {
                 putInt(HOUR_KEY, hour)
                 putInt(MINUTE_KEY, minute)
             }
-            return GoalTimePickerBottomSheetDialogFragment().apply {
+            return GoalTimePickerBottomSheet().apply {
                 arguments = args
                 setOnCancelListener(onCancelListener)
             }

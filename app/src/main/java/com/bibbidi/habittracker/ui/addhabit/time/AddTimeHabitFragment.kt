@@ -4,7 +4,8 @@ import androidx.fragment.app.viewModels
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentAddTimeHabitBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitFragment
-import com.bibbidi.habittracker.ui.common.dialog.GoalTimePickerBottomSheetDialogFragment
+import com.bibbidi.habittracker.ui.common.Constants.GOAL_TIME_PICKER_TAG
+import com.bibbidi.habittracker.ui.common.dialog.GoalTimePickerBottomSheet
 import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,8 +19,8 @@ class AddTimeHabitFragment : AddHabitFragment(R.layout.fragment_add_time_habit) 
 
     override val binding by viewBindings(FragmentAddTimeHabitBinding::bind)
 
-    private val goalTimePickerBottomSheetDialogFragment: GoalTimePickerBottomSheetDialogFragment by lazy {
-        GoalTimePickerBottomSheetDialogFragment.newInstance(
+    private val goalTimePickerBottomSheetDialogFragment: GoalTimePickerBottomSheet by lazy {
+        GoalTimePickerBottomSheet.newInstance(
             viewModel.goalTimeFlow.value.toHoursPart(),
             viewModel.goalTimeFlow.value.toMillisPart()
         ) { hour, minute ->

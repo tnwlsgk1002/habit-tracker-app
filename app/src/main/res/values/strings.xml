@@ -24,7 +24,6 @@
     <string name="track_habit_description">달성 시 수치를 기록해요.\nex. 몸무게 기록, 걸음 수 기록</string>
     <string name="time_habit_title">스톱워치형 습관</string>
     <string name="check_habit_title">(기본) 투두형 습관</string>
-    <string name="date">0000년 00월</string>
     <string name="start">시작하기</string>
     <string name="start_date">시작 날짜</string>
     <string name="set_goal_time">목표 시간 설정</string>
@@ -54,4 +53,6 @@
     <string name="set_habit">습관 추가하기</string>
     <string name="set_habit_success_message">습관이 성공적으로 추가되었어요!🎉</string>
     <string name="start_date_is_before_now_error_message">시작일은 오늘보다 전이어야 해요!</string>
+    <string name="date">%d년 %d월</string>
+    <string name="empty_habit_message">오늘 해야 할 습관이 없네요</string>
 </resources>

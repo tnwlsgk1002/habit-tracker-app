@@ -80,7 +80,7 @@ class DefaultHabitsRepository @Inject constructor(
                                 )
                                 TrackHabitLog.createHabitLog(it.habit, type, log)
                             }
-                            else -> throw IllegalStateException()
+                            else -> error("invalid join of getHabitAndChildren()")
                         }
                     }
                 }.onSuccess {

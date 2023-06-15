@@ -8,14 +8,14 @@ import com.bibbidi.habittracker.databinding.BottomSheetInputEmojiBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vanniktech.emoji.listeners.OnEmojiClickListener
 
-class EmojiPickerBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class EmojiPickerBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
 
         fun newInstance(
             onEmojiClickListener: OnEmojiClickListener
-        ): EmojiPickerBottomSheetDialogFragment {
-            return EmojiPickerBottomSheetDialogFragment().apply {
+        ): EmojiPickerBottomSheet {
+            return EmojiPickerBottomSheet().apply {
                 setOnEmojiClickListener(onEmojiClickListener)
             }
         }

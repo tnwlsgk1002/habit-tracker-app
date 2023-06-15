@@ -13,13 +13,13 @@ import com.bibbidi.habittracker.databinding.ItemHabitTrackBinding
 import com.bibbidi.habittracker.ui.common.BaseViewHolder
 import com.bibbidi.habittracker.ui.model.habit.log.CheckHabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
-import com.bibbidi.habittracker.ui.model.habit.log.TimeHabitLogIUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.TimeHabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.TrackHabitLogUiModel
 import com.bibbidi.habittracker.utils.toGoalTimeString
 
 class HabitsAdapter(
     private val onCheckBox: (CheckHabitLogUiModel, Boolean) -> Unit,
-    private val onTurnStopWatch: (TimeHabitLogIUiModel, Boolean) -> Unit,
+    private val onTurnStopWatch: (TimeHabitLogUiModel, Boolean) -> Unit,
     private val onClickRecordButton: (TrackHabitLogUiModel) -> Unit,
     private val onClickMenu: (HabitLogUiModel, View) -> Unit
 ) :
@@ -38,7 +38,7 @@ class HabitsAdapter(
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
                 tvWhen.text = item.whenRun
-                groupAlarm.visibility = when (item.isAlarm) {
+                groupAlarm.visibility = when (item.alarmTime != null) {
                     true -> View.VISIBLE
                     false -> View.INVISIBLE
                 }
@@ -56,18 +56,18 @@ class HabitsAdapter(
 
     class TimeHabitItemViewHolder(
         private val binding: ItemHabitTimeBinding,
-        private val onTurn: (TimeHabitLogIUiModel, Boolean) -> Unit,
-        private val onClickMenu: (TimeHabitLogIUiModel, View) -> Unit
-    ) : BaseViewHolder<TimeHabitLogIUiModel, ItemHabitTimeBinding>(binding) {
+        private val onTurn: (TimeHabitLogUiModel, Boolean) -> Unit,
+        private val onClickMenu: (TimeHabitLogUiModel, View) -> Unit
+    ) : BaseViewHolder<TimeHabitLogUiModel, ItemHabitTimeBinding>(binding) {
 
-        override fun bind(item: TimeHabitLogIUiModel) {
+        override fun bind(item: TimeHabitLogUiModel) {
             with(binding) {
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
                 tvWhen.text = item.whenRun
                 tvGoal.text = item.goalDuration.toGoalTimeString()
                 tvCntTime.text = item.cntDuration.toString()
-                groupAlarm.visibility = when (item.isAlarm) {
+                groupAlarm.visibility = when (item.alarmTime != null) {
                     true -> View.VISIBLE
                     false -> View.INVISIBLE
                 }
@@ -92,7 +92,7 @@ class HabitsAdapter(
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
                 tvWhen.text = item.whenRun
-                groupAlarm.visibility = when (item.isAlarm) {
+                groupAlarm.visibility = when (item.alarmTime != null) {
                     true -> View.VISIBLE
                     false -> View.INVISIBLE
                 }
@@ -117,7 +117,7 @@ class HabitsAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is CheckHabitLogUiModel -> CHECK_TYPE
-            is TimeHabitLogIUiModel -> TIME_TYPE
+            is TimeHabitLogUiModel -> TIME_TYPE
             is TrackHabitLogUiModel -> TRACK_TYPE
         }
     }
@@ -129,7 +129,7 @@ class HabitsAdapter(
         val item = getItem(position)
         when (holder) {
             is CheckHabitItemViewHolder -> holder.bind(item as CheckHabitLogUiModel)
-            is TimeHabitItemViewHolder -> holder.bind(item as TimeHabitLogIUiModel)
+            is TimeHabitItemViewHolder -> holder.bind(item as TimeHabitLogUiModel)
             is TrackHabitItemViewHolder -> holder.bind(item as TrackHabitLogUiModel)
         }
     }
@@ -178,7 +178,7 @@ class HabitsAdapter(
 
     object HabitItemsDiffCallback : DiffUtil.ItemCallback<HabitLogUiModel>() {
         override fun areItemsTheSame(oldItem: HabitLogUiModel, newItem: HabitLogUiModel): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.logId == newItem.logId
         }
 
         override fun areContentsTheSame(oldItem: HabitLogUiModel, newItem: HabitLogUiModel): Boolean {

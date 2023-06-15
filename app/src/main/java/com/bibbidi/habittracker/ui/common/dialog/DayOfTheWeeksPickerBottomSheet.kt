@@ -7,18 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import com.bibbidi.habittracker.databinding.BottomSheetInputRepeatDayOfTheWeeksBinding
+import com.bibbidi.habittracker.ui.common.Constants.DAY_OF_THE_WEEKS_KEY
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.threeten.bp.DayOfWeek
 
-class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class DayOfTheWeeksPickerBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
-        private const val DAY_OF_THE_WEEKS_KEY = "DAY_OF_THE_WEEKS"
 
         fun newInstance(
             dayOfTheWeeks: Set<DayOfWeek>,
             onCancelListener: (Set<DayOfWeek>) -> Unit
-        ): RepeatDayOfTheWeeksPickerBottomSheetDialogFragment {
+        ): DayOfTheWeeksPickerBottomSheet {
             val args = Bundle().apply {
                 putStringArray(
                     DAY_OF_THE_WEEKS_KEY,
@@ -26,7 +26,7 @@ class RepeatDayOfTheWeeksPickerBottomSheetDialogFragment : BottomSheetDialogFrag
                 )
             }
 
-            return RepeatDayOfTheWeeksPickerBottomSheetDialogFragment().apply {
+            return DayOfTheWeeksPickerBottomSheet().apply {
                 arguments = args
                 setOnCancelListener(onCancelListener)
             }

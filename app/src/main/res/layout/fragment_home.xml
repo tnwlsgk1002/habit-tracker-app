@@ -1,103 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_coordinator"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_constraint"
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.bibbidi.habittracker.ui.home.HomeViewModel" />
+
+        <variable
+            name="calendarAdapter"
+            type="com.bibbidi.habittracker.ui.home.RowCalendarAdapter" />
+
+        <variable
+            name="habitsAdapter"
+            type="com.bibbidi.habittracker.ui.home.HabitsAdapter" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment">
+        android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_row_calendar"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.home.HomeFragment">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/ToolBarStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:title="@{viewmodel.dateFlow}"
+                tools:title="@string/date" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_row_calendar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                bind:adapter="@{calendarAdapter}"
+                bind:itemList="@{viewmodel.dateItemsFlow}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+
+            <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tv_empty_message, button_add_habit"
+                bind:item_visibility="@{viewmodel.habitsFlow}" />
+
+            <TextView
+                android:id="@+id/tv_empty_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_habit_message"
+                android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+                app:layout_constraintBottom_toTopOf="@id/button_add_habit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vp_row_calendar"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <Button
+                android:id="@+id/button_add_habit"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:onClick="@{()->viewmodel.clickAddHabit()}"
+                android:text="@string/add_habit"
+                app:icon="@drawable/ic_thick_plus"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_empty_message" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_habits"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                bind:adapter="@{habitsAdapter}"
+                bind:itemList="@{viewmodel.habitsFlow}"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vp_row_calendar"
+                app:spanCount="2"
+                tools:listitem="@layout/item_habit_check" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_loading"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:item_visibility="@{viewmodel.habitsFlow}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_main"
+            style="@style/FloatingActionButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/scroll_view"/>
+            android:onClick="@{()->viewmodel.clickAddHabit()}"
+            app:layout_anchor="@id/layout_constraint"
+            app:layout_anchorGravity="right|bottom"
+            tools:ignore="ContentDescription" />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scroll_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vp_row_calendar">
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_not_finished_habits"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:spanCount="2"
-                    tools:listitem="@layout/item_habit_check" />
-
-                <View
-                    android:id="@+id/divider_line"
-                    style="@style/DividerLineView"
-                    android:layout_width="0dp"
-                    android:layout_height="2dp"
-                    android:layout_margin="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_not_finished_habits" />
-
-                <View
-                    android:id="@+id/divider_circle"
-                    style="@style/DividerCircleView"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:layout_constraintBottom_toBottomOf="@id/divider_line"
-                    app:layout_constraintEnd_toEndOf="@id/divider_line"
-                    app:layout_constraintStart_toStartOf="@id/divider_line"
-                    app:layout_constraintTop_toTopOf="@id/divider_line" />
-
-                <View
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:background="@drawable/ic_check_circle"
-                    app:layout_constraintBottom_toBottomOf="@id/divider_circle"
-                    app:layout_constraintEnd_toEndOf="@id/divider_circle"
-                    app:layout_constraintStart_toStartOf="@id/divider_circle"
-                    app:layout_constraintTop_toTopOf="@id/divider_circle" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_finished_habits"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider_line"
-                    app:spanCount="2"
-                    tools:listitem="@layout/item_habit_check" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_main"
-        style="@style/FloatingActionButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/layout_constraint"
-        app:layout_anchorGravity="right|bottom"
-        tools:ignore="ContentDescription" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

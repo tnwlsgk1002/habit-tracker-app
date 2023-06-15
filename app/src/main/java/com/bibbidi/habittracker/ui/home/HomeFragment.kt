@@ -9,48 +9,57 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity
-import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_INFO_KEY
-import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_TYPE_KEY
-import com.bibbidi.habittracker.ui.common.ItemDecoration
+import com.bibbidi.habittracker.ui.common.Constants.DATE_PICKER_TAG
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_TYPE_KEY
+import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_CENTER_POS
+import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_NEXT_POS
+import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_PREV_POS
 import com.bibbidi.habittracker.ui.common.viewBindings
-import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.utils.asLocalDate
+import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import org.threeten.bp.LocalDate
 
 @AndroidEntryPoint
 class HomeFragment :
     Fragment(R.layout.fragment_home),
     SelectHabitTypeBottomSheetDialogFragment.OnHabitTypeButtonClickListener {
 
-    companion object {
-        const val datePickerTag = "datePicker"
-
-        const val HabitItemPadding = 10
-    }
-
     private val viewModel: HomeViewModel by viewModels()
 
     private val binding by viewBindings(FragmentHomeBinding::bind)
 
-    private val datePicker = MaterialDatePicker.Builder.datePicker()
+    private fun getDatePicker(date: LocalDate) = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
-        .build()
+        .setSelection(date.asLong())
+        .build().apply {
+            addOnPositiveButtonClickListener {
+                viewModel.pickDate(it.asLocalDate())
+            }
+        }
 
-    private lateinit var bottomSheetDialogFragment: SelectHabitTypeBottomSheetDialogFragment
+    private val addHabitBottomSheet: SelectHabitTypeBottomSheetDialogFragment by lazy {
+        SelectHabitTypeBottomSheetDialogFragment().apply {
+            setOnHabitTypeButtonClickListener(this@HomeFragment)
+        }
+    }
 
     private val launchSetHabitActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -65,6 +74,43 @@ class HomeFragment :
             }
         }
 
+    private val rowCalendarViewAdapter by lazy {
+        RowCalendarAdapter(
+            onClick = { dateItem -> viewModel.clickDateItem(dateItem) },
+            itemRangeInserted = {
+                binding.vpRowCalendar.post {
+                    binding.vpRowCalendar.setCurrentItem(ROW_CALENDAR_CENTER_POS, false)
+                    binding.vpRowCalendar.isUserInputEnabled = true
+                }
+            }
+        )
+    }
+
+    private val habitsAdapter by lazy {
+        HabitsAdapter(
+            onCheckBox = { _, _ -> },
+            onTurnStopWatch = { _, _ -> },
+            onClickRecordButton = { _ -> },
+            onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
+        )
+    }
+
+    private val rowCalendarViewPagerCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+            if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                viewModel.swipeDatePages(
+                    when (binding.vpRowCalendar.currentItem) {
+                        ROW_CALENDAR_PREV_POS -> PageAction.PREV
+                        ROW_CALENDAR_NEXT_POS -> PageAction.NEXT
+                        else -> return
+                    }
+                )
+                binding.vpRowCalendar.isUserInputEnabled = false
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -72,90 +118,9 @@ class HomeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpAdapter()
-        setUpListener()
-        setUpFab()
-        setUpBottomSheet()
+        initBindingData()
+        setActionBar()
         collectEvent()
-    }
-
-    private fun setUpAdapter() {
-        // TODO : dummy data
-        val sampleDateViews = listOf<Array<DateItem>>()
-        val sampleHabits = listOf<HabitLogUiModel>()
-
-        with(binding.vpRowCalendar) {
-            // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
-            val dateViewAdapter = RowCalendarAdapter {}.apply {
-                submitList(sampleDateViews)
-            }
-
-            adapter = dateViewAdapter
-
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-
-                    val nextPosition = position + 1
-                    if (nextPosition < dateViewAdapter.itemCount) {
-                        val recyclerView = getChildAt(0) as RecyclerView
-                        val viewHolder = recyclerView.findViewHolderForAdapterPosition(nextPosition)
-                        if (viewHolder is RowCalendarAdapter.DateItemViewHolder) {
-                            viewHolder.startShimmer()
-                        }
-                    }
-                }
-
-                // TODO : 데이터 로드 후 stopShimmer() 호출
-            })
-        }
-
-        with(binding.rvNotFinishedHabits) {
-            // TODO : 아이템 클릭 시 발생시킬 이벤트 추가
-            val finishedHabitAdapter = HabitsAdapter(onCheckBox = { checkHabitItem, b ->
-                Toast.makeText(context, "$checkHabitItem : $b", Toast.LENGTH_LONG).show()
-            }, onTurnStopWatch = { timeHabitItem, b ->
-                    Toast.makeText(context, "$timeHabitItem : $b", Toast.LENGTH_LONG).show()
-                }, onClickRecordButton = { trackHabitItem ->
-                    Toast.makeText(context, "$trackHabitItem click", Toast.LENGTH_LONG).show()
-                }, onClickMenu = { _, view ->
-                    showMenu(view, R.menu.habit_menu) { menuItem ->
-                        when (menuItem.itemId) {
-                            R.id.option_edit -> Toast.makeText(context, "수정", Toast.LENGTH_SHORT).show()
-                            R.id.option_delete -> Toast.makeText(context, "삭제", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                        true
-                    }
-                }).apply {
-                submitList(sampleHabits)
-            }
-
-            adapter = finishedHabitAdapter
-            addItemDecoration(ItemDecoration(HabitItemPadding))
-        }
-    }
-
-    private fun setUpListener() {
-        // TODO: 날짜 선택 시 변경
-        datePicker.addOnPositiveButtonClickListener {
-            Toast.makeText(context, "$it", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun setUpFab() {
-        binding.fabMain.setOnClickListener {
-            showSelectHabitTypeBottomSheet()
-        }
-    }
-
-    private fun setUpBottomSheet() {
-        bottomSheetDialogFragment = SelectHabitTypeBottomSheetDialogFragment()
-        bottomSheetDialogFragment.setOnHabitTypeButtonClickListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -166,33 +131,63 @@ class HomeFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_select_date -> {
-                showDatePicker()
+                viewModel.clickDateIcon()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun showDatePicker() {
-        // TODO: 선택한 날짜를 현재 선택된 날짜로 변경 (datePicker.selection)
-        datePicker.show(parentFragmentManager, datePickerTag)
+    private fun initBindingData() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewmodel = viewModel
+        binding.calendarAdapter = rowCalendarViewAdapter
+        binding.habitsAdapter = habitsAdapter
+        binding.vpRowCalendar.registerOnPageChangeCallback(rowCalendarViewPagerCallback)
     }
 
-    private fun showSelectHabitTypeBottomSheet() {
-        bottomSheetDialogFragment.show(parentFragmentManager, bottomSheetDialogFragment.tag)
+    private fun setActionBar() {
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
     }
 
     private fun collectEvent() {
         repeatOnStarted {
-            viewModel.messageEvent.collectLatest {
-                val message = getString(
-                    when (it) {
-                        HomeMessageEvent.SuccessAddHabit -> R.string.set_habit_success_message
-                    }
-                )
-                Snackbar.make(binding.layoutCoordinator, message, Snackbar.LENGTH_SHORT).show()
+            viewModel.event.collectLatest {
+                when (it) {
+                    is HomeEvent.ShowDatePicker -> showDatePicker(it.date)
+                    HomeEvent.ShowSelectHabitType -> showSelectHabitTypeBottomSheet()
+                    HomeEvent.ShowTrackValueDialog -> {}
+                    HomeEvent.SuccessAddHabit -> showSnackBar(R.string.set_habit_success_message)
+                }
             }
         }
+    }
+
+    private fun showMenuInHabitLog(habitLog: HabitLogUiModel, view: View) {
+        showMenu(view, R.menu.habit_menu) { menuItem ->
+            Toast.makeText(
+                context,
+                when (menuItem.itemId) {
+                    R.id.option_edit -> "수정: $habitLog"
+                    R.id.option_delete -> "삭제: $habitLog"
+                    else -> "그외"
+                },
+                Toast.LENGTH_SHORT
+            ).show()
+            true
+        }
+    }
+
+    private fun showDatePicker(date: LocalDate) {
+        getDatePicker(date).show(parentFragmentManager, DATE_PICKER_TAG)
+    }
+
+    private fun showSelectHabitTypeBottomSheet() {
+        addHabitBottomSheet.show(parentFragmentManager, addHabitBottomSheet.tag)
+    }
+
+    private fun showSnackBar(@StringRes resId: Int) {
+        Snackbar.make(binding.layoutCoordinator, getString(resId), Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onHabitTypeButtonClick(type: HabitTypeUiModel) {
@@ -202,5 +197,10 @@ class HomeFragment :
         }
         intent.putExtras(bundle)
         launchSetHabitActivity.launch(intent)
+    }
+
+    override fun onDestroyView() {
+        binding.vpRowCalendar.unregisterOnPageChangeCallback(rowCalendarViewPagerCallback)
+        super.onDestroyView()
     }
 }

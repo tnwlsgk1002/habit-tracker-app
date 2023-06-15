@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.HabitTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.HabitTracker" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pink_04</item>
         <item name="colorPrimaryVariant">@color/pink_03</item>
@@ -25,7 +25,7 @@
         <item name="android:windowBackground">@color/gray_08</item>
     </style>
 
-    <style name="Theme.HabitTracker.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+    <style name="Theme.HabitTracker.BottomSheetDialog" parent="Theme.Material3.Dark.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 </resources>

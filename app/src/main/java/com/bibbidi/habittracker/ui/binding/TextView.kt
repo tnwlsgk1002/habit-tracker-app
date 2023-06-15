@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.bindingadapter
+package com.bibbidi.habittracker.ui.binding
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter

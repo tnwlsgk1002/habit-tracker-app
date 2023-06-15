@@ -84,7 +84,7 @@
 
         <View
             android:id="@+id/sv_tv_sun"
-            style="@style/ShimmerViewText"
+            style="@style/ShimmerView.Text"
             android:layout_width="10dp"
             android:layout_height="10dp"
             app:layout_constraintEnd_toEndOf="@id/date_view_sun"
@@ -93,7 +93,7 @@
 
         <View
             android:id="@+id/sv_tv_mon"
-            style="@style/ShimmerViewText"
+            style="@style/ShimmerView.Text"
             android:layout_width="10dp"
             android:layout_height="10dp"
             app:layout_constraintEnd_toEndOf="@id/date_view_mon"
@@ -102,7 +102,7 @@
 
         <View
             android:id="@+id/sv_tv_tue"
-            style="@style/ShimmerViewText"
+            style="@style/ShimmerView.Text"
             android:layout_width="10dp"
             android:layout_height="10dp"
             app:layout_constraintEnd_toEndOf="@id/date_view_tue"
@@ -111,7 +111,7 @@
 
         <View
             android:id="@+id/sv_tv_wed"
-            style="@style/ShimmerViewText"
+            style="@style/ShimmerView.Text"
             android:layout_width="10dp"
             android:layout_height="10dp"
             app:layout_constraintEnd_toEndOf="@id/date_view_wed"
@@ -120,7 +120,7 @@
 
         <View
             android:id="@+id/sv_tv_thu"
-            style="@style/ShimmerViewText"
+            style="@style/ShimmerView.Text"
             android:layout_width="10dp"
             android:layout_height="10dp"
             app:layout_constraintEnd_toEndOf="@id/date_view_thu"
@@ -129,7 +129,7 @@
 
         <View
             android:id="@+id/sv_tv_fri"
-            style="@style/ShimmerViewText"
+            style="@style/ShimmerView.Text"
             android:layout_width="10dp"
             android:layout_height="10dp"
             app:layout_constraintEnd_toEndOf="@id/date_view_fri"
@@ -138,7 +138,7 @@
 
         <View
             android:id="@+id/sv_tv_sat"
-            style="@style/ShimmerViewText"
+            style="@style/ShimmerView.Text"
             android:layout_width="10dp"
             android:layout_height="10dp"
             app:layout_constraintEnd_toEndOf="@id/date_view_sat"
@@ -158,8 +158,8 @@
             app:layout_constraintTop_toTopOf="@id/sv_tv_sun" />
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="8dp"
+            android:layout_height="6dp"
             android:background="@color/gray_04"
             app:layout_constraintBottom_toBottomOf="@id/sv_tv_mon"
             app:layout_constraintDimensionRatio="1:1"
@@ -218,7 +218,7 @@
             app:layout_constraintTop_toTopOf="@id/sv_tv_sat" />
 
         <View
-            style="@style/ShimmerViewCircle"
+            style="@style/ShimmerView.Circle"
             android:layout_width="25dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/date_view_sun"
@@ -227,7 +227,7 @@
             app:layout_constraintTop_toBottomOf="@id/sv_tv_sun" />
 
         <View
-            style="@style/ShimmerViewCircle"
+            style="@style/ShimmerView.Circle"
             android:layout_width="25dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/date_view_mon"
@@ -236,7 +236,7 @@
             app:layout_constraintTop_toBottomOf="@id/sv_tv_mon" />
 
         <View
-            style="@style/ShimmerViewCircle"
+            style="@style/ShimmerView.Circle"
             android:layout_width="25dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/date_view_tue"
@@ -245,7 +245,7 @@
             app:layout_constraintTop_toBottomOf="@id/sv_tv_tue" />
 
         <View
-            style="@style/ShimmerViewCircle"
+            style="@style/ShimmerView.Circle"
             android:layout_width="25dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/date_view_wed"
@@ -254,7 +254,7 @@
             app:layout_constraintTop_toBottomOf="@id/sv_tv_wed" />
 
         <View
-            style="@style/ShimmerViewCircle"
+            style="@style/ShimmerView.Circle"
             android:layout_width="25dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/date_view_thu"
@@ -263,7 +263,7 @@
             app:layout_constraintTop_toBottomOf="@id/sv_tv_thu" />
 
         <View
-            style="@style/ShimmerViewCircle"
+            style="@style/ShimmerView.Circle"
             android:layout_width="25dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/date_view_thu"
@@ -272,7 +272,7 @@
             app:layout_constraintTop_toBottomOf="@id/sv_tv_thu" />
 
         <View
-            style="@style/ShimmerViewCircle"
+            style="@style/ShimmerView.Circle"
             android:layout_width="25dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/date_view_fri"
@@ -281,7 +281,7 @@
             app:layout_constraintTop_toBottomOf="@id/sv_tv_fri" />
 
         <View
-            style="@style/ShimmerViewCircle"
+            style="@style/ShimmerView.Circle"
             android:layout_width="25dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/date_view_sat"

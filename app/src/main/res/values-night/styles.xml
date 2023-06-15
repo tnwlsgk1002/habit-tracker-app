@@ -12,7 +12,7 @@
         <item name="isToday">true</item>
     </style>
 
-    <style name="ShimmerViewText">
+    <style name="ShimmerView.Text">
         <item name="android:layout_height">10dp</item>
         <item name="android:layout_width">10dp</item>
         <item name="android:layout_marginTop">6dp</item>
@@ -21,7 +21,7 @@
         <item name="layout_constraintDimensionRatio">1:1</item>
     </style>
 
-    <style name="ShimmerViewCircle">
+    <style name="ShimmerView.Circle">
         <item name="android:layout_marginTop">3.5dp</item>
         <item name="android:background">@drawable/bg_filled_circle</item>
         <item name="android:backgroundTint">@color/gray_04</item>

@@ -1,0 +1,16 @@
+complexity:
+  active: true
+  TooManyFunctions:
+    active: true
+    thresholdInFiles: 20
+    thresholdInClasses: 20
+    thresholdInInterfaces: 30
+    thresholdInObjects: 11
+    thresholdInEnums: 11
+    ignoreDeprecated: true
+    ignorePrivate: false
+    ignoreOverridden: false
+style:
+  active: true
+  UnnecessaryAbstractClass:
+    excludes: ['**/RepositoryModule.kt']

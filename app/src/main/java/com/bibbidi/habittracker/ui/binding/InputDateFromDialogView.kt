@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.bindingadapter
+package com.bibbidi.habittracker.ui.binding
 
 import androidx.databinding.BindingAdapter
 import com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
