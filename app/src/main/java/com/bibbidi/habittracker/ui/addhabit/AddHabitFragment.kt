@@ -7,10 +7,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewbinding.ViewBinding
 import com.bibbidi.habittracker.R
+import com.bibbidi.habittracker.ui.common.Constants.ALARM_TIME_PICKER_TAG
+import com.bibbidi.habittracker.ui.common.Constants.EMOJI_PICKER_TAG
+import com.bibbidi.habittracker.ui.common.Constants.REPEAT_DAY_OF_THE_WEEKS_TAG
+import com.bibbidi.habittracker.ui.common.Constants.START_DATE_PICKER_TAG
+import com.bibbidi.habittracker.ui.common.Constants.WHEN_RUN_INPUT_TAG
 import com.bibbidi.habittracker.ui.common.SendEventListener
-import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheetDialogFragment
-import com.bibbidi.habittracker.ui.common.dialog.RepeatDayOfTheWeeksPickerBottomSheetDialogFragment
-import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheetDialogFragment
+import com.bibbidi.habittracker.ui.common.dialog.DayOfTheWeeksPickerBottomSheet
+import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
+import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheet
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
@@ -25,17 +30,7 @@ import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.LocalTime
 
-abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
-    Fragment(contentLayoutId) {
-
-    companion object {
-        const val EMOJI_PICKER_TAG = "emojiPicker"
-        const val GOAL_TIME_PICKER_TAG = "goalTimePicker"
-        const val REPEAT_DAY_OF_THE_WEEKS_TAG = "repeatDayOfTheWeeksPicker"
-        const val WHEN_RUN_INPUT_TAG = "whenRunInput"
-        const val START_DATE_PICKER_TAG = "startDatePicker"
-        const val ALARM_TIME_PICKER_TAR = "alarmTimePicker"
-    }
+abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
 
     open val viewModel: AddHabitViewModel by viewModels()
 
@@ -43,36 +38,33 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
 
     var submitEventListener: SendEventListener<HabitInfoUiModel>? = null
 
-    private val emojiPickerBottomSheetDialogFragment: EmojiPickerBottomSheetDialogFragment by lazy {
-        EmojiPickerBottomSheetDialogFragment.newInstance { emoji ->
+    private val emojiPickerBottomSheet: EmojiPickerBottomSheet by lazy {
+        EmojiPickerBottomSheet.newInstance { emoji ->
             viewModel.setEmoji(emoji.unicode)
-            emojiPickerBottomSheetDialogFragment.dismiss()
+            emojiPickerBottomSheet.dismiss()
         }
     }
 
-    private val repeatDayOfTheWeeksPickerBottomSheetDialogFragment: RepeatDayOfTheWeeksPickerBottomSheetDialogFragment by lazy {
-        RepeatDayOfTheWeeksPickerBottomSheetDialogFragment.newInstance(
+    private val dayOfTheWeeksPickerBottomSheet: DayOfTheWeeksPickerBottomSheet by lazy {
+        DayOfTheWeeksPickerBottomSheet.newInstance(
             viewModel.repeatsDayOfTheWeeksFlow.value
         ) { dayOfTheWeeks ->
             viewModel.setRepeatsDayOfTheWeeks(dayOfTheWeeks)
         }
     }
 
-    private val whenRunInputBottomSheetDialogFragment: WhenRunInputBottomSheetDialogFragment by lazy {
-        WhenRunInputBottomSheetDialogFragment.newInstance(
+    private val whenRunInputBottomSheetDialogFragment: WhenRunInputBottomSheet by lazy {
+        WhenRunInputBottomSheet.newInstance(
             viewModel.whenRunFlow.value
         ) { whenRun -> viewModel.setWhenRun(whenRun) }
     }
 
     private val selectStartDatePicker: MaterialDatePicker<Long> by lazy {
-        val constraintsBuilder = CalendarConstraints.Builder()
-            .setStart(System.currentTimeMillis())
+        val constraintsBuilder = CalendarConstraints.Builder().setStart(System.currentTimeMillis())
             .setValidator(DateValidatorPointForward.now())
-        MaterialDatePicker.Builder.datePicker()
-            .setTitleText(getString(R.string.select_start_date))
+        MaterialDatePicker.Builder.datePicker().setTitleText(getString(R.string.select_start_date))
             .setSelection(viewModel.startDateFlow.value?.asLong())
-            .setCalendarConstraints(constraintsBuilder.build())
-            .build().apply {
+            .setCalendarConstraints(constraintsBuilder.build()).build().apply {
                 addOnPositiveButtonClickListener {
                     viewModel.setStartDate(it.asLocalDate())
                 }
@@ -81,12 +73,10 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
 
     private val alarmTimePicker: MaterialTimePicker by lazy {
         val nowLocalTime = LocalTime.now()
-        MaterialTimePicker.Builder()
-            .setInputMode(INPUT_MODE_KEYBOARD)
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(nowLocalTime.hour)
-            .setMinute(nowLocalTime.minute)
-            .setTitleText(getString(R.string.input_alarm_time)).build().apply {
+        MaterialTimePicker.Builder().setInputMode(INPUT_MODE_KEYBOARD)
+            .setTimeFormat(TimeFormat.CLOCK_24H).setHour(nowLocalTime.hour)
+            .setMinute(nowLocalTime.minute).setTitleText(getString(R.string.input_alarm_time))
+            .build().apply {
                 addOnPositiveButtonClickListener {
                     viewModel.setAlarmTime(LocalTime.of(hour, minute))
                 }
@@ -105,13 +95,13 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
     open fun collectEvent() {
         repeatOnStarted {
             viewModel.emojiClickEvent.collectLatest {
-                emojiPickerBottomSheetDialogFragment.show(parentFragmentManager, EMOJI_PICKER_TAG)
+                emojiPickerBottomSheet.show(parentFragmentManager, EMOJI_PICKER_TAG)
             }
         }
 
         repeatOnStarted {
             viewModel.alarmClickEvent.collectLatest {
-                alarmTimePicker.show(parentFragmentManager, ALARM_TIME_PICKER_TAR)
+                alarmTimePicker.show(parentFragmentManager, ALARM_TIME_PICKER_TAG)
             }
         }
 
@@ -126,7 +116,7 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
 
         repeatOnStarted {
             viewModel.repeatsDayOfTheWeeksClickEvent.collectLatest {
-                repeatDayOfTheWeeksPickerBottomSheetDialogFragment.show(
+                dayOfTheWeeksPickerBottomSheet.show(
                     parentFragmentManager,
                     REPEAT_DAY_OF_THE_WEEKS_TAG
                 )
@@ -147,11 +137,7 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) :
 
         repeatOnStarted {
             viewModel.messageEvent.collectLatest {
-                val message = getString(
-                    when (it) {
-                        AddHabitMessageEvent.StartDateIsBeforeNowEvent -> R.string.start_date_is_before_now_error_message
-                    }
-                )
+                val message = getString(R.string.start_date_is_before_now_error_message)
                 Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
             }
         }

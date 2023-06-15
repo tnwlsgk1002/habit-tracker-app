@@ -4,14 +4,13 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_ITEM_PADDING
 import com.bibbidi.habittracker.ui.common.ItemDecoration
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.home.HabitsAdapter
 import com.bibbidi.habittracker.ui.home.RowCalendarAdapter
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
-
-const val HABIT_ITEM_PADDING = 10
 
 @BindingAdapter("bind:adapter")
 fun setAdapter(view: ViewPager2, adapter: RowCalendarAdapter) {

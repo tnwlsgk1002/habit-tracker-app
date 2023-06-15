@@ -1,10 +1,11 @@
 package com.bibbidi.habittracker.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.domain.HabitsRepository
 import com.bibbidi.habittracker.domain.model.DBResult
+import com.bibbidi.habittracker.ui.common.Constants.ONE_WEEK
+import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_SIZE
 import com.bibbidi.habittracker.ui.common.EventFlow
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
@@ -39,7 +40,7 @@ class HomeViewModel @Inject constructor(
     val dateFlow: StateFlow<LocalDate> = _dateFlow.asStateFlow()
 
     private val _dateItemsFlow: MutableStateFlow<List<UiState<Array<DateItem>>>> = MutableStateFlow(
-        List(3) { UiState.Loading }
+        List(ROW_CALENDAR_SIZE) { UiState.Loading }
     )
     val dateItemsFlow: StateFlow<List<UiState<Array<DateItem>>>> = _dateItemsFlow.asStateFlow()
 
@@ -59,7 +60,6 @@ class HomeViewModel @Inject constructor(
             setDateItems(dateFlow.value)
             dateFlow.collectLatest { date ->
                 habitsRepository.getHabitAndHabitLogsByDate(date).collectLatest { result ->
-                    Log.d("HomeViewModel", "result: $result")
                     _habitsFlow.value = when (result) {
                         is DBResult.Success -> UiState.Success(result.data.map { it.asUiModel() })
                         is DBResult.Loading -> UiState.Loading
@@ -109,8 +109,8 @@ class HomeViewModel @Inject constructor(
     fun swipeDatePages(position: PageAction) {
         viewModelScope.launch {
             val date = when (position) {
-                PageAction.PREV -> dateFlow.value.plusDays(-7)
-                PageAction.NEXT -> dateFlow.value.plusDays(7)
+                PageAction.PREV -> dateFlow.value.plusDays(-ONE_WEEK.toLong())
+                PageAction.NEXT -> dateFlow.value.plusDays(ONE_WEEK.toLong())
             }.getStartOfTheWeek()
             delay(DATE_ITEM_DELAY)
             setDateItems(date)

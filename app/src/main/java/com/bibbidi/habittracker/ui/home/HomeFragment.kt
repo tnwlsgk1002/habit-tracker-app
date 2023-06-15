@@ -17,8 +17,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity
-import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_INFO_KEY
-import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity.Companion.HABIT_TYPE_KEY
+import com.bibbidi.habittracker.ui.common.Constants.DATE_PICKER_TAG
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_TYPE_KEY
+import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_CENTER_POS
+import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_NEXT_POS
+import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_PREV_POS
 import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
@@ -37,13 +41,6 @@ import org.threeten.bp.LocalDate
 class HomeFragment :
     Fragment(R.layout.fragment_home),
     SelectHabitTypeBottomSheetDialogFragment.OnHabitTypeButtonClickListener {
-
-    companion object {
-        const val DATE_PICKER_TAG = "datePicker"
-        const val PREV_POS = 0
-        const val NEXT_POS = 2
-        const val CENTER_POS = 1
-    }
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -82,7 +79,7 @@ class HomeFragment :
             onClick = { dateItem -> viewModel.clickDateItem(dateItem) },
             itemRangeInserted = {
                 binding.vpRowCalendar.post {
-                    binding.vpRowCalendar.setCurrentItem(CENTER_POS, false)
+                    binding.vpRowCalendar.setCurrentItem(ROW_CALENDAR_CENTER_POS, false)
                     binding.vpRowCalendar.isUserInputEnabled = true
                 }
             }
@@ -104,8 +101,8 @@ class HomeFragment :
             if (state == ViewPager2.SCROLL_STATE_IDLE) {
                 viewModel.swipeDatePages(
                     when (binding.vpRowCalendar.currentItem) {
-                        PREV_POS -> PageAction.PREV
-                        NEXT_POS -> PageAction.NEXT
+                        ROW_CALENDAR_PREV_POS -> PageAction.PREV
+                        ROW_CALENDAR_NEXT_POS -> PageAction.NEXT
                         else -> return
                     }
                 )
@@ -168,11 +165,15 @@ class HomeFragment :
 
     private fun showMenuInHabitLog(habitLog: HabitLogUiModel, view: View) {
         showMenu(view, R.menu.habit_menu) { menuItem ->
-            when (menuItem.itemId) {
-                R.id.option_edit -> Toast.makeText(context, "수정", Toast.LENGTH_SHORT).show()
-                R.id.option_delete -> Toast.makeText(context, "삭제", Toast.LENGTH_SHORT)
-                    .show()
-            }
+            Toast.makeText(
+                context,
+                when (menuItem.itemId) {
+                    R.id.option_edit -> "수정: $habitLog"
+                    R.id.option_delete -> "삭제: $habitLog"
+                    else -> "그외"
+                },
+                Toast.LENGTH_SHORT
+            ).show()
             true
         }
     }

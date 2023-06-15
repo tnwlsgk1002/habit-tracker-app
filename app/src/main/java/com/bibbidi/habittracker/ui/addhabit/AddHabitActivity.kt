@@ -10,6 +10,8 @@ import com.bibbidi.habittracker.databinding.ActivityAddHabitBinding
 import com.bibbidi.habittracker.ui.addhabit.check.AddCheckHabitFragment
 import com.bibbidi.habittracker.ui.addhabit.time.AddTimeHabitFragment
 import com.bibbidi.habittracker.ui.addhabit.track.AddTrackHabitFragment
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_TYPE_KEY
 import com.bibbidi.habittracker.ui.common.SendEventListener
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
@@ -17,11 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiModel> {
-
-    companion object {
-        const val HABIT_TYPE_KEY = "HABIT_TYPE"
-        const val HABIT_INFO_KEY = "HABIT_INFO"
-    }
 
     private lateinit var binding: ActivityAddHabitBinding
 

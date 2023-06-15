@@ -10,7 +10,7 @@ import com.bibbidi.habittracker.databinding.BottomSheetInputWhenDataBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 
-class WhenRunInputBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class WhenRunInputBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         private const val WHEN_RUN_KEY = "WHEN_RUN"
@@ -18,12 +18,12 @@ class WhenRunInputBottomSheetDialogFragment : BottomSheetDialogFragment() {
         fun newInstance(
             whenRun: String,
             onCancelListener: (String) -> Unit
-        ): WhenRunInputBottomSheetDialogFragment {
+        ): WhenRunInputBottomSheet {
             val args = Bundle().apply {
                 putString(WHEN_RUN_KEY, whenRun)
             }
 
-            return WhenRunInputBottomSheetDialogFragment().apply {
+            return WhenRunInputBottomSheet().apply {
                 arguments = args
                 setOnCancelListener(onCancelListener)
             }
