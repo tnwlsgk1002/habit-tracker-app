@@ -5,7 +5,8 @@ import org.threeten.bp.LocalTime
 
 sealed interface HabitLogUiModel {
     val logId: Long?
-    val parentId: Long?
+    val habitId: Long?
+    val habitTypeId: Long?
     val emoji: String
     val name: String
     val date: LocalDate

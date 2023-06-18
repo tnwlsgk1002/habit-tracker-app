@@ -2,8 +2,11 @@ package com.bibbidi.habittracker.data.source
 
 import com.bibbidi.habittracker.data.mapper.asData
 import com.bibbidi.habittracker.data.mapper.check.asData
+import com.bibbidi.habittracker.data.mapper.check.createHabitLog
 import com.bibbidi.habittracker.data.mapper.time.asData
+import com.bibbidi.habittracker.data.mapper.time.createHabitLog
 import com.bibbidi.habittracker.data.mapper.track.asData
+import com.bibbidi.habittracker.data.mapper.track.createHabitLog
 import com.bibbidi.habittracker.data.model.entity.check.CheckHabitEntity
 import com.bibbidi.habittracker.data.model.entity.time.TimeHabitEntity
 import com.bibbidi.habittracker.data.model.entity.track.TrackHabitEntity
@@ -64,21 +67,21 @@ class DefaultHabitsRepository @Inject constructor(
                                     type.checkHabitId,
                                     date
                                 )
-                                CheckHabitLog.createHabitLog(it.habit, type, log)
+                                createHabitLog(it.habit, type, log)
                             }
                             is TimeHabitEntity -> {
                                 val log = dao.getTimeLogByTimeHabitIdInDateTransaction(
                                     type.timeHabitId,
                                     date
                                 )
-                                TimeHabitLog.createHabitLog(it.habit, type, log)
+                                createHabitLog(it.habit, type, log)
                             }
                             is TrackHabitEntity -> {
                                 val log = dao.getTrackLogByTrackHabitIdInDateTransaction(
                                     type.trackHabitId,
                                     date
                                 )
-                                TrackHabitLog.createHabitLog(it.habit, type, log)
+                                createHabitLog(it.habit, type, log)
                             }
                             else -> error("invalid join of getHabitAndChildren()")
                         }

@@ -5,7 +5,8 @@ import org.threeten.bp.LocalTime
 
 data class CheckHabitLogUiModel(
     override val logId: Long?,
-    override val parentId: Long?,
+    override val habitId: Long?,
+    override val habitTypeId: Long?,
     override val emoji: String,
     override val date: LocalDate,
     override val name: String,

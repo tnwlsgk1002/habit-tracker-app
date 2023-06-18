@@ -8,7 +8,8 @@ object TimeHabitLogUiModelMapper : UiModelMapper<TimeHabitLogUiModel, TimeHabitL
 
     override fun asDomain(uiModel: TimeHabitLogUiModel) = TimeHabitLog(
         logId = uiModel.logId,
-        parentId = uiModel.parentId,
+        habitId = uiModel.habitId,
+        habitTypeId = uiModel.habitTypeId,
         date = uiModel.date,
         emoji = uiModel.emoji,
         name = uiModel.name,
@@ -20,7 +21,8 @@ object TimeHabitLogUiModelMapper : UiModelMapper<TimeHabitLogUiModel, TimeHabitL
 
     override fun asUiModel(domain: TimeHabitLog) = TimeHabitLogUiModel(
         logId = domain.logId,
-        parentId = domain.parentId,
+        habitId = domain.habitId,
+        habitTypeId = domain.habitTypeId,
         date = domain.date,
         emoji = domain.emoji,
         name = domain.name,
