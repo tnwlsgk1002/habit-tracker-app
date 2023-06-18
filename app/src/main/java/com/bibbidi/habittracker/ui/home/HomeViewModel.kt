@@ -130,4 +130,16 @@ class HomeViewModel @Inject constructor(
             _event.emit(HomeEvent.SuccessAddHabit)
         }
     }
+
+    fun onDeleteHabitClicked(habitLog: HabitLogUiModel) {
+        viewModelScope.launch {
+            _event.emit(HomeEvent.AttemptDeleteHabit(habitLog))
+        }
+    }
+
+    fun deleteHabit(habitLog: HabitLogUiModel) {
+        viewModelScope.launch {
+            habitLog.habitId?.let { habitsRepository.deleteHabitById(it) }
+        }
+    }
 }

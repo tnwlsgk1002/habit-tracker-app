@@ -55,4 +55,8 @@
     <string name="start_date_is_before_now_error_message">시작일은 오늘보다 전이어야 해요!</string>
     <string name="date">%d년 %d월</string>
     <string name="empty_habit_message">오늘 해야 할 습관이 없네요</string>
+    <string name="accept">확인</string>
+    <string name="cancel">취소</string>
+    <string name="habit_delete_message">지금까지 모든 기록이 영구적으로 삭제돼요. 그래도 삭제할래요?</string>
+    <string name="habit_delete_title">모든 기록이 삭제돼요!</string>
 </resources>

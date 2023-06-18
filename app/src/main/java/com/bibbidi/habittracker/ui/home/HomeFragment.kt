@@ -3,11 +3,11 @@ package com.bibbidi.habittracker.ui.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +32,7 @@ import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -111,6 +112,14 @@ class HomeFragment :
         }
     }
 
+    private val deleteHabitDialog by lazy {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.habit_delete_title)
+            .setMessage(R.string.habit_delete_message)
+            .setNeutralButton(R.string.cancel, null)
+            .setIcon(R.drawable.ic_filled_delete)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -158,6 +167,7 @@ class HomeFragment :
                     HomeEvent.ShowSelectHabitType -> showSelectHabitTypeBottomSheet()
                     HomeEvent.ShowTrackValueDialog -> {}
                     HomeEvent.SuccessAddHabit -> showSnackBar(R.string.set_habit_success_message)
+                    is HomeEvent.AttemptDeleteHabit -> showDeleteWarningDialog(it.habitLog)
                 }
             }
         }
@@ -165,15 +175,10 @@ class HomeFragment :
 
     private fun showMenuInHabitLog(habitLog: HabitLogUiModel, view: View) {
         showMenu(view, R.menu.habit_menu) { menuItem ->
-            Toast.makeText(
-                context,
-                when (menuItem.itemId) {
-                    R.id.option_edit -> "수정: $habitLog"
-                    R.id.option_delete -> "삭제: $habitLog"
-                    else -> "그외"
-                },
-                Toast.LENGTH_SHORT
-            ).show()
+            when (menuItem.itemId) {
+                R.id.option_edit -> Log.d("showMenuInHabitLog", "수정")
+                R.id.option_delete -> viewModel.onDeleteHabitClicked(habitLog)
+            }
             true
         }
     }
@@ -184,6 +189,12 @@ class HomeFragment :
 
     private fun showSelectHabitTypeBottomSheet() {
         addHabitBottomSheet.show(parentFragmentManager, addHabitBottomSheet.tag)
+    }
+
+    private fun showDeleteWarningDialog(habitLog: HabitLogUiModel) {
+        deleteHabitDialog.setPositiveButton(getString(R.string.accept)) { _, _ ->
+            viewModel.deleteHabit(habitLog)
+        }.show()
     }
 
     private fun showSnackBar(@StringRes resId: Int) {
