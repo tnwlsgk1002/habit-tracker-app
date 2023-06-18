@@ -3,15 +3,15 @@ package com.bibbidi.habittracker.ui.common.customview
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.bibbidi.habittracker.R
+import com.google.android.material.card.MaterialCardView
 
 class InputDataFromDialogView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet?,
     defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+) : MaterialCardView(context, attrs, defStyleAttr) {
 
     private val tvTitle: TextView
     private val tvContent: TextView

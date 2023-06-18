@@ -132,6 +132,10 @@
         <item name="backgroundTint">@color/black</item>
     </style>
 
+    <style name="InputDataFromDialogStyle" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
     <!-- Habit Item View -->
 
     <style name="HabitItemViewText.Title" parent="HabitTracker.TextAppearance.Text14.Bold">

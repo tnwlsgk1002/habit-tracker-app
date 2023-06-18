@@ -43,6 +43,11 @@
         <item name="backgroundTint">@color/white</item>
     </style>
 
+    <style name="InputDataFromDialogStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardBackgroundColor">@color/gray_09</item>
+    </style>
+
     <!-- Habit Item View -->
 
     <style name="HabitItemViewText.Title" parent="HabitTracker.TextAppearance.Text14.Bold">
