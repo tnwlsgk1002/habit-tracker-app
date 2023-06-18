@@ -3,7 +3,6 @@ package com.bibbidi.habittracker.ui.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -27,6 +26,7 @@ import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.ui.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
@@ -62,13 +62,26 @@ class HomeFragment :
         }
     }
 
-    private val launchSetHabitActivity =
+    private val launchAddHabitActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
                     data?.extras?.getParcelable<HabitInfoUiModel>(HABIT_INFO_KEY)?.let {
                         viewModel.setHabit(it)
+                    }
+                }
+                else -> {}
+            }
+        }
+
+    private val launchUpdateHabitActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    val data: Intent? = result.data
+                    data?.extras?.getParcelable<HabitInfoUiModel>(HABIT_INFO_KEY)?.let {
+                        viewModel.updateHabit(it)
                     }
                 }
                 else -> {}
@@ -168,6 +181,7 @@ class HomeFragment :
                     HomeEvent.ShowTrackValueDialog -> {}
                     HomeEvent.SuccessAddHabit -> showSnackBar(R.string.set_habit_success_message)
                     is HomeEvent.AttemptDeleteHabit -> showDeleteWarningDialog(it.habitLog)
+                    is HomeEvent.AttemptUpdateHabit -> goToUpdateHabit(it.habitInfo)
                 }
             }
         }
@@ -176,7 +190,7 @@ class HomeFragment :
     private fun showMenuInHabitLog(habitLog: HabitLogUiModel, view: View) {
         showMenu(view, R.menu.habit_menu) { menuItem ->
             when (menuItem.itemId) {
-                R.id.option_edit -> Log.d("showMenuInHabitLog", "수정")
+                R.id.option_edit -> viewModel.onUpdateHabitClicked(habitLog)
                 R.id.option_delete -> viewModel.onDeleteHabitClicked(habitLog)
             }
             true
@@ -201,13 +215,22 @@ class HomeFragment :
         Snackbar.make(binding.layoutCoordinator, getString(resId), Snackbar.LENGTH_SHORT).show()
     }
 
+    private fun goToUpdateHabit(habitInfo: HabitInfoUiModel) {
+        val intent = Intent(activity, UpdateHabitActivity::class.java)
+        val bundle = Bundle().apply {
+            putParcelable(HABIT_INFO_KEY, habitInfo)
+        }
+        intent.putExtras(bundle)
+        launchUpdateHabitActivity.launch(intent)
+    }
+
     override fun onHabitTypeButtonClick(type: HabitTypeUiModel) {
         val intent = Intent(activity, AddHabitActivity::class.java)
         val bundle = Bundle().apply {
             putParcelable(HABIT_TYPE_KEY, type)
         }
         intent.putExtras(bundle)
-        launchSetHabitActivity.launch(intent)
+        launchAddHabitActivity.launch(intent)
     }
 
     override fun onDestroyView() {

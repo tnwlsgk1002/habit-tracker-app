@@ -11,6 +11,7 @@ import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.mapper.habitinfo.asDomain
+import com.bibbidi.habittracker.ui.mapper.habitinfo.asUiModel
 import com.bibbidi.habittracker.ui.mapper.habitlog.asUiModel
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
@@ -131,6 +132,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun onUpdateHabitClicked(habitLog: HabitLogUiModel) {
+        viewModelScope.launch {
+            val id = habitLog.habitId ?: return@launch
+            val habit = habitsRepository.getHabitById(id)
+            _event.emit(HomeEvent.AttemptUpdateHabit(habit.asUiModel()))
+        }
+    }
+
     fun onDeleteHabitClicked(habitLog: HabitLogUiModel) {
         viewModelScope.launch {
             _event.emit(HomeEvent.AttemptDeleteHabit(habitLog))
@@ -140,6 +149,12 @@ class HomeViewModel @Inject constructor(
     fun deleteHabit(habitLog: HabitLogUiModel) {
         viewModelScope.launch {
             habitLog.habitId?.let { habitsRepository.deleteHabitById(it) }
+        }
+    }
+
+    fun updateHabit(habitInfo: HabitInfoUiModel) {
+        viewModelScope.launch {
+            habitsRepository.updateHabit(habitInfo.asDomain())
         }
     }
 }

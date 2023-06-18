@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.bibbidi.habittracker.ui.updatehabit.UpdateHabitViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolBarStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_page_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_habit_title"
+                    android:textAppearance="@style/HabitTracker.TextAppearance.Text20.SemiBold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edit_text_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/habit_name_hint"
+                    android:text="@={viewmodel.nameFlow}"
+                    android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_page_title" />
+
+                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
+                    android:id="@+id/button_set_emoji"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:onClick="@{() -> viewmodel.showInputEmojiDialog()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_text_name"
+                    bind:bind_contentText="@{viewmodel.emojiFlow}"
+                    custom:inputDataFromDialogView_background="@color/gray_05"
+                    custom:inputDataFromDialogView_titleText="@string/set_emoij"
+                    tools:inputDataFromDialogView_contentText="💧" />
+
+                <View
+                    android:id="@+id/divider_line1"
+                    style="@style/DividerLineView.Gray"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/button_set_emoji" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/layout_alarm_time"
+                    style="@style/InputDataFromDialogStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:onClick="@{() -> viewmodel.showInputAlarmDialog()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_line1">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_alarm_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/set_alarm"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.Medium"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_alarm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{viewmodel.alarmTimeFlow != null}"
+                            android:clickable="false"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@id/tv_alarm_title"
+                            app:layout_constraintTop_toTopOf="parent"
+                            bind:bind_contentText="@{viewmodel.alarmTimeFlow}"
+                            tools:ignore="UseSwitchCompatOrMaterialXml"
+                            tools:text="09:00" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
+                    android:id="@+id/button_set_when"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:onClick="@{() -> viewmodel.showInputWhenRunDialog()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_alarm_time"
+                    bind:bind_contentText="@{viewmodel.whenRunFlow}"
+                    custom:inputDataFromDialogView_background="@color/gray_05"
+                    custom:inputDataFromDialogView_titleText="@string/when_will_you_do_it"
+                    tools:inputDataFromDialogView_contentText="출근길" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_submit"
+            style="@style/BottomButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="@{viewmodel.isEnabled}"
+            android:onClick="@{() -> viewmodel.onSubmit()}"
+            android:text="@string/update_finish" />
+
+    </LinearLayout>
+</layout>

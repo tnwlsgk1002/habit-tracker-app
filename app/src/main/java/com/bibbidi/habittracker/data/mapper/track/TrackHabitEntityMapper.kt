@@ -41,3 +41,15 @@ object TrackHabitEntityMapper : DataModelMapper<HabitAndTrackHabitEntity, TrackH
 fun HabitAndTrackHabitEntity.asDomain() = TrackHabitEntityMapper.asDomain(this)
 
 fun TrackHabitInfo.asData() = TrackHabitEntityMapper.asData(this)
+
+fun createTrackHabitInfo(habit: HabitEntity, trackHabit: TrackHabitEntity) =
+    TrackHabitInfo(
+        habitId = habit.id,
+        childId = trackHabit.trackHabitId,
+        name = habit.name,
+        emoji = habit.emoji,
+        alarmTime = habit.alarmTime,
+        whenRun = habit.whenRun,
+        repeatsDayOfTheWeeks = habit.repeatDayOfTheWeeks,
+        startDate = habit.startDate
+    )

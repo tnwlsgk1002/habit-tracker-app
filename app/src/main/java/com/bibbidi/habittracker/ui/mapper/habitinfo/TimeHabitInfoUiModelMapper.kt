@@ -31,3 +31,5 @@ object TimeHabitInfoUiModelMapper : UiModelMapper<TimeHabitInfoUiModel, TimeHabi
 }
 
 fun TimeHabitInfoUiModel.asDomain() = TimeHabitInfoUiModelMapper.asDomain(this)
+
+fun TimeHabitInfo.asUiModel() = TimeHabitInfoUiModelMapper.asUiModel(this)

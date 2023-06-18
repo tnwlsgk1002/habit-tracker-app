@@ -14,6 +14,8 @@ interface HabitsRepository {
 
     suspend fun updateHabit(habit: HabitInfo)
 
+    suspend fun getHabitById(id: Long): HabitInfo
+
     suspend fun getHabitAndHabitLogsByDate(date: LocalDate): Flow<DBResult<List<HabitLog>>>
 
     suspend fun updateHabitLog(habitLog: HabitLog)
