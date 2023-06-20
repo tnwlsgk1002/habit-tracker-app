@@ -23,16 +23,16 @@ import org.threeten.bp.LocalDate
 @Dao
 interface HabitsDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHabit(habit: HabitEntity): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCheckHabit(checkHabit: CheckHabitEntity): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTimeHabit(timeHabitEntity: TimeHabitEntity)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTrackHabit(trackHabitEntity: TrackHabitEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -73,6 +73,10 @@ interface HabitsDao {
 
     @Update
     suspend fun updateTrackHabitLog(habitLog: TrackHabitLogEntity)
+
+    @Transaction
+    @Query("SELECT * FROM habits WHERE habit_id = :id")
+    suspend fun getHabitAndChildrenById(id: Long): HabitAndChildren
 
     @Transaction
     @Query("SELECT * FROM habits WHERE start_date <= :date")

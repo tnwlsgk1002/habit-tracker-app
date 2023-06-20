@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -27,11 +26,13 @@ import com.bibbidi.habittracker.ui.common.viewBindings
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.ui.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -61,13 +62,26 @@ class HomeFragment :
         }
     }
 
-    private val launchSetHabitActivity =
+    private val launchAddHabitActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
                     data?.extras?.getParcelable<HabitInfoUiModel>(HABIT_INFO_KEY)?.let {
                         viewModel.setHabit(it)
+                    }
+                }
+                else -> {}
+            }
+        }
+
+    private val launchUpdateHabitActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    val data: Intent? = result.data
+                    data?.extras?.getParcelable<HabitInfoUiModel>(HABIT_INFO_KEY)?.let {
+                        viewModel.updateHabit(it)
                     }
                 }
                 else -> {}
@@ -109,6 +123,14 @@ class HomeFragment :
                 binding.vpRowCalendar.isUserInputEnabled = false
             }
         }
+    }
+
+    private val deleteHabitDialog by lazy {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.habit_delete_title)
+            .setMessage(R.string.habit_delete_message)
+            .setNeutralButton(R.string.cancel, null)
+            .setIcon(R.drawable.ic_filled_delete)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -158,6 +180,8 @@ class HomeFragment :
                     HomeEvent.ShowSelectHabitType -> showSelectHabitTypeBottomSheet()
                     HomeEvent.ShowTrackValueDialog -> {}
                     HomeEvent.SuccessAddHabit -> showSnackBar(R.string.set_habit_success_message)
+                    is HomeEvent.AttemptDeleteHabit -> showDeleteWarningDialog(it.habitLog)
+                    is HomeEvent.AttemptUpdateHabit -> goToUpdateHabit(it.habitInfo)
                 }
             }
         }
@@ -165,15 +189,10 @@ class HomeFragment :
 
     private fun showMenuInHabitLog(habitLog: HabitLogUiModel, view: View) {
         showMenu(view, R.menu.habit_menu) { menuItem ->
-            Toast.makeText(
-                context,
-                when (menuItem.itemId) {
-                    R.id.option_edit -> "수정: $habitLog"
-                    R.id.option_delete -> "삭제: $habitLog"
-                    else -> "그외"
-                },
-                Toast.LENGTH_SHORT
-            ).show()
+            when (menuItem.itemId) {
+                R.id.option_edit -> viewModel.onUpdateHabitClicked(habitLog)
+                R.id.option_delete -> viewModel.onDeleteHabitClicked(habitLog)
+            }
             true
         }
     }
@@ -186,8 +205,23 @@ class HomeFragment :
         addHabitBottomSheet.show(parentFragmentManager, addHabitBottomSheet.tag)
     }
 
+    private fun showDeleteWarningDialog(habitLog: HabitLogUiModel) {
+        deleteHabitDialog.setPositiveButton(getString(R.string.accept)) { _, _ ->
+            viewModel.deleteHabit(habitLog)
+        }.show()
+    }
+
     private fun showSnackBar(@StringRes resId: Int) {
         Snackbar.make(binding.layoutCoordinator, getString(resId), Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun goToUpdateHabit(habitInfo: HabitInfoUiModel) {
+        val intent = Intent(activity, UpdateHabitActivity::class.java)
+        val bundle = Bundle().apply {
+            putParcelable(HABIT_INFO_KEY, habitInfo)
+        }
+        intent.putExtras(bundle)
+        launchUpdateHabitActivity.launch(intent)
     }
 
     override fun onHabitTypeButtonClick(type: HabitTypeUiModel) {
@@ -196,7 +230,7 @@ class HomeFragment :
             putParcelable(HABIT_TYPE_KEY, type)
         }
         intent.putExtras(bundle)
-        launchSetHabitActivity.launch(intent)
+        launchAddHabitActivity.launch(intent)
     }
 
     override fun onDestroyView() {

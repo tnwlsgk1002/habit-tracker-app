@@ -83,9 +83,9 @@ abstract class AddHabitViewModel : ViewModel() {
         }
     }
 
-    fun showInputAlarmDialog(isChecked: Boolean) {
+    fun showInputAlarmDialog() {
         viewModelScope.launch {
-            if (isChecked) {
+            if (alarmTimeFlow.value == null) {
                 alarmClickEvent.emit(alarmTimeFlow.value)
             } else {
                 alarmTimeFlow.emit(null)

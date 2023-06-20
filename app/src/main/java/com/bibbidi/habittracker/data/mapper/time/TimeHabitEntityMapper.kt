@@ -43,3 +43,16 @@ object TimeHabitEntityMapper : DataModelMapper<HabitAndTimeHabitEntity, TimeHabi
 fun HabitAndTimeHabitEntity.asDomain() = TimeHabitEntityMapper.asDomain(this)
 
 fun TimeHabitInfo.asData() = TimeHabitEntityMapper.asData(this)
+
+fun createTimeHabitInfo(habit: HabitEntity, timeHabit: TimeHabitEntity) =
+    TimeHabitInfo(
+        habitId = habit.id,
+        childId = timeHabit.timeHabitId,
+        name = habit.name,
+        emoji = habit.emoji,
+        alarmTime = habit.alarmTime,
+        whenRun = habit.whenRun,
+        repeatsDayOfTheWeeks = habit.repeatDayOfTheWeeks,
+        startDate = habit.startDate,
+        goalDuration = timeHabit.goalDuration
+    )

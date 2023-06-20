@@ -55,10 +55,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewmodel.showInputEmojiDialog()}"
-                    bind:bind_contentText="@{viewmodel.emojiFlow}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edit_text_name"
+                    bind:bind_contentText="@{viewmodel.emojiFlow}"
                     custom:inputDataFromDialogView_background="@color/gray_05"
                     custom:inputDataFromDialogView_titleText="@string/set_emoij"
                     tools:inputDataFromDialogView_contentText="💧" />
@@ -73,29 +73,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/button_set_emoji" />
 
-                <TextView
-                    android:id="@+id/tv_alarm_title"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/InputDataFromDialogStyle"
+                    android:id="@+id/layout_alarm_time"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/set_alarm"
-                    android:textAppearance="@style/HabitTracker.TextAppearance.Text14.Medium"
-                    app:layout_constraintBottom_toBottomOf="@id/switch_alarm"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/switch_alarm" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switch_alarm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:onCheckedChanged="@{(button, isChecked) -> viewmodel.showInputAlarmDialog(isChecked)}"
-                    android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
+                    android:layout_margin="8dp"
+                    android:onClick="@{() -> viewmodel.showInputAlarmDialog()}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider_line1"
-                    bind:bind_contentText="@{viewmodel.alarmTimeFlow}"
-                    tools:ignore="UseSwitchCompatOrMaterialXml"
-                    tools:text="09:00" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_line1">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_alarm_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/set_alarm"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.Medium"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_alarm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{viewmodel.alarmTimeFlow != null}"
+                            android:clickable="false"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tv_alarm_title"
+                            app:layout_constraintTop_toTopOf="parent"
+                            bind:bind_contentText="@{viewmodel.alarmTimeFlow}"
+                            tools:ignore="UseSwitchCompatOrMaterialXml"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            tools:text="09:00" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
                     android:id="@+id/button_set_when"
@@ -106,7 +126,7 @@
                     app:layout_constraintBottom_toTopOf="@id/button_set_repeats_day_of_the_weeks"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_alarm_title"
+                    app:layout_constraintTop_toBottomOf="@id/layout_alarm_time"
                     bind:bind_contentText="@{viewmodel.whenRunFlow}"
                     custom:inputDataFromDialogView_background="@color/gray_05"
                     custom:inputDataFromDialogView_titleText="@string/when_will_you_do_it"
@@ -145,8 +165,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider_line2"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
                     bind:bind_contentText="@{viewmodel.startDateFlow}"
+                    custom:inputDataFromDialogView_background="@color/gray_05"
                     custom:inputDataFromDialogView_titleText="@string/start_date"
                     tools:inputDataFromDialogView_contentText="2023-05-09" />
 

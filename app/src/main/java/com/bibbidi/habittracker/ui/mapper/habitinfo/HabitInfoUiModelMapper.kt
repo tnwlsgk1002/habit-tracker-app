@@ -1,5 +1,9 @@
 package com.bibbidi.habittracker.ui.mapper.habitinfo
 
+import com.bibbidi.habittracker.domain.model.habitinfo.CheckHabitInfo
+import com.bibbidi.habittracker.domain.model.habitinfo.HabitInfo
+import com.bibbidi.habittracker.domain.model.habitinfo.TimeHabitInfo
+import com.bibbidi.habittracker.domain.model.habitinfo.TrackHabitInfo
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.CheckHabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.TimeHabitInfoUiModel
@@ -10,4 +14,11 @@ fun HabitInfoUiModel.asDomain() =
         is CheckHabitInfoUiModel -> asDomain()
         is TimeHabitInfoUiModel -> asDomain()
         is TrackHabitInfoUiModel -> asDomain()
+    }
+
+fun HabitInfo.asUiModel() =
+    when (this) {
+        is CheckHabitInfo -> asUiModel()
+        is TimeHabitInfo -> asUiModel()
+        is TrackHabitInfo -> asUiModel()
     }

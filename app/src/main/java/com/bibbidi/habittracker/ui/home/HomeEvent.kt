@@ -1,5 +1,7 @@
 package com.bibbidi.habittracker.ui.home
 
+import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
 import org.threeten.bp.LocalDate
 
 sealed class HomeEvent {
@@ -11,4 +13,8 @@ sealed class HomeEvent {
     data class ShowDatePicker(val date: LocalDate) : HomeEvent()
 
     object ShowTrackValueDialog : HomeEvent()
+
+    data class AttemptDeleteHabit(val habitLog: HabitLogUiModel) : HomeEvent()
+
+    data class AttemptUpdateHabit(val habitInfo: HabitInfoUiModel) : HomeEvent()
 }

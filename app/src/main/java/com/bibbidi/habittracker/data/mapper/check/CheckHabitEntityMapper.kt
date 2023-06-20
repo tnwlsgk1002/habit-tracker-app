@@ -41,3 +41,15 @@ object CheckHabitEntityMapper : DataModelMapper<HabitAndCheckHabitEntity, CheckH
 fun HabitAndCheckHabitEntity.asDomain() = CheckHabitEntityMapper.asDomain(this)
 
 fun CheckHabitInfo.asData() = CheckHabitEntityMapper.asData(this)
+
+fun createCheckHabitInfo(habit: HabitEntity, checkHabit: CheckHabitEntity) =
+    CheckHabitInfo(
+        habitId = habit.id,
+        childId = checkHabit.checkHabitId,
+        name = habit.name,
+        emoji = habit.emoji,
+        alarmTime = habit.alarmTime,
+        whenRun = habit.whenRun,
+        repeatsDayOfTheWeeks = habit.repeatDayOfTheWeeks,
+        startDate = habit.startDate
+    )

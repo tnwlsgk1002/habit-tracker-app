@@ -8,7 +8,8 @@ object CheckHabitLogUiModelMapper : UiModelMapper<CheckHabitLogUiModel, CheckHab
 
     override fun asDomain(uiModel: CheckHabitLogUiModel) = CheckHabitLog(
         logId = uiModel.logId,
-        parentId = uiModel.parentId,
+        habitId = uiModel.habitId,
+        habitTypeId = uiModel.habitTypeId,
         date = uiModel.date,
         emoji = uiModel.emoji,
         name = uiModel.name,
@@ -19,7 +20,8 @@ object CheckHabitLogUiModelMapper : UiModelMapper<CheckHabitLogUiModel, CheckHab
 
     override fun asUiModel(domain: CheckHabitLog) = CheckHabitLogUiModel(
         logId = domain.logId,
-        parentId = domain.parentId,
+        habitId = domain.habitId,
+        habitTypeId = domain.habitTypeId,
         date = domain.date,
         emoji = domain.emoji,
         name = domain.name,

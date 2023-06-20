@@ -9,17 +9,28 @@
 
         <variable
             name="viewmodel"
-            type="com.bibbidi.habittracker.ui.addhabit.track.AddTrackHabitViewModel" />
+            type="com.bibbidi.habittracker.ui.updatehabit.UpdateHabitViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolBarStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +42,7 @@
                     android:id="@+id/tv_page_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/set_up_habit_title"
+                    android:text="@string/update_habit_title"
                     android:textAppearance="@style/HabitTracker.TextAppearance.Text20.SemiBold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -55,10 +66,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewmodel.showInputEmojiDialog()}"
-                    bind:bind_contentText="@{viewmodel.emojiFlow}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edit_text_name"
+                    bind:bind_contentText="@{viewmodel.emojiFlow}"
                     custom:inputDataFromDialogView_background="@color/gray_05"
                     custom:inputDataFromDialogView_titleText="@string/set_emoij"
                     tools:inputDataFromDialogView_contentText="💧" />
@@ -74,8 +85,8 @@
                     app:layout_constraintTop_toBottomOf="@id/button_set_emoji" />
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/InputDataFromDialogStyle"
                     android:id="@+id/layout_alarm_time"
+                    style="@style/InputDataFromDialogStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -107,11 +118,11 @@
                             android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toEndOf="@id/tv_alarm_title"
                             app:layout_constraintTop_toTopOf="parent"
                             bind:bind_contentText="@{viewmodel.alarmTimeFlow}"
                             tools:ignore="UseSwitchCompatOrMaterialXml"
-                            app:layout_constraintHorizontal_bias="1.0"
                             tools:text="09:00" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -123,7 +134,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewmodel.showInputWhenRunDialog()}"
-                    app:layout_constraintBottom_toTopOf="@id/button_set_repeats_day_of_the_weeks"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_alarm_time"
@@ -131,44 +141,6 @@
                     custom:inputDataFromDialogView_background="@color/gray_05"
                     custom:inputDataFromDialogView_titleText="@string/when_will_you_do_it"
                     tools:inputDataFromDialogView_contentText="출근길" />
-
-                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
-                    android:id="@+id/button_set_repeats_day_of_the_weeks"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:onClick="@{() -> viewmodel.showInputRepeatsDayOfTheWeeksDialog()}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/button_set_when"
-                    bind:bind_contentText="@{viewmodel.repeatsDayOfTheWeeksFlow}"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
-                    custom:inputDataFromDialogView_titleText="@string/habit_repeats_day_of_the_weeks" />
-
-                <View
-                    android:id="@+id/divider_line2"
-                    style="@style/DividerLineView.Gray"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintBottom_toTopOf="@id/button_set_start_date"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/button_set_repeats_day_of_the_weeks" />
-
-                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
-                    android:id="@+id/button_set_start_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:onClick="@{() -> viewmodel.showInputStartDateDialog()}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider_line2"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
-                    bind:bind_contentText="@{viewmodel.startDateFlow}"
-                    custom:inputDataFromDialogView_titleText="@string/start_date"
-                    tools:inputDataFromDialogView_contentText="2023-05-09" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -179,8 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="@{viewmodel.isEnabled}"
-            android:onClick="@{() -> viewmodel.addHabit()}"
-            android:text="@string/start" />
+            android:onClick="@{() -> viewmodel.onSubmit()}"
+            android:text="@string/update_finish" />
 
     </LinearLayout>
 </layout>

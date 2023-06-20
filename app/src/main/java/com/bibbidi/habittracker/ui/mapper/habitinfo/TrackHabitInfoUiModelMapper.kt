@@ -29,3 +29,5 @@ object TrackHabitInfoUiModelMapper : UiModelMapper<TrackHabitInfoUiModel, TrackH
 }
 
 fun TrackHabitInfoUiModel.asDomain() = TrackHabitInfoUiModelMapper.asDomain(this)
+
+fun TrackHabitInfo.asUiModel() = TrackHabitInfoUiModelMapper.asUiModel(this)
