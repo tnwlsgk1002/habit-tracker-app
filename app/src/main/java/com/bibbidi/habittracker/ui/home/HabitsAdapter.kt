@@ -3,6 +3,7 @@ package com.bibbidi.habittracker.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
@@ -33,8 +34,23 @@ class HabitsAdapter(
         private val onClickMenu: (CheckHabitLogUiModel, View) -> Unit
     ) : BaseViewHolder<CheckHabitLogUiModel, ItemHabitCheckBinding>(binding) {
 
+        private var checkItem: CheckHabitLogUiModel? = null
+
+        init {
+            with(binding) {
+                checkbox.setOnCheckedChangeListener { _, isChecked ->
+                    checkItem?.let { item -> onCheck(item, isChecked) }
+                }
+
+                ibMenu.setOnClickListener { view ->
+                    checkItem?.let { item -> onClickMenu(item, view) }
+                }
+            }
+        }
+
         override fun bind(item: CheckHabitLogUiModel) {
             with(binding) {
+                checkItem = item
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
                 tvWhen.text = item.whenRun
@@ -43,13 +59,6 @@ class HabitsAdapter(
                     false -> View.INVISIBLE
                 }
                 checkbox.isChecked = item.isChecked
-
-                checkbox.setOnCheckedChangeListener { _, isChecked ->
-                    onCheck(item, isChecked)
-                }
-                ibMenu.setOnClickListener {
-                    onClickMenu(item, it)
-                }
             }
         }
     }
@@ -60,8 +69,22 @@ class HabitsAdapter(
         private val onClickMenu: (TimeHabitLogUiModel, View) -> Unit
     ) : BaseViewHolder<TimeHabitLogUiModel, ItemHabitTimeBinding>(binding) {
 
+        private var timeItem: TimeHabitLogUiModel? = null
+
+        init {
+            with(binding) {
+                checkboxPlay.setOnCheckedChangeListener { _, isChecked ->
+                    timeItem?.let { onTurn(it, isChecked) }
+                }
+                ibMenu.setOnClickListener { view ->
+                    timeItem?.let { onClickMenu(it, view) }
+                }
+            }
+        }
+
         override fun bind(item: TimeHabitLogUiModel) {
             with(binding) {
+                timeItem = item
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
                 tvWhen.text = item.whenRun
@@ -70,12 +93,6 @@ class HabitsAdapter(
                 groupAlarm.visibility = when (item.alarmTime != null) {
                     true -> View.VISIBLE
                     false -> View.INVISIBLE
-                }
-                checkboxPlay.setOnCheckedChangeListener { _, isChecked ->
-                    onTurn(item, isChecked)
-                }
-                ibMenu.setOnClickListener {
-                    onClickMenu(item, it)
                 }
             }
         }
@@ -87,8 +104,22 @@ class HabitsAdapter(
         private val onClickMenu: (TrackHabitLogUiModel, View) -> Unit
     ) : BaseViewHolder<TrackHabitLogUiModel, ItemHabitTrackBinding>(binding) {
 
+        private var trackItem: TrackHabitLogUiModel? = null
+
+        init {
+            with(binding) {
+                buttonLog.setOnClickListener {
+                    trackItem?.let { onClickRecordButton(it) }
+                }
+                ibMenu.setOnClickListener { view ->
+                    trackItem?.let { onClickMenu(it, view) }
+                }
+            }
+        }
+
         override fun bind(item: TrackHabitLogUiModel) {
             with(binding) {
+                trackItem = item
                 tvEmoji.text = item.emoji
                 tvHabitTitle.text = item.name
                 tvWhen.text = item.whenRun
@@ -98,11 +129,11 @@ class HabitsAdapter(
                 }
                 buttonLog.text =
                     item.value?.toString() ?: itemView.context.getString(R.string.record)
-                buttonLog.setOnClickListener {
-                    onClickRecordButton(item)
-                }
-                ibMenu.setOnClickListener {
-                    onClickMenu(item, it)
+
+                buttonLog.icon = if (item.value == null) {
+                    ContextCompat.getDrawable(itemView.context, R.drawable.ic_thick_plus)
+                } else {
+                    null
                 }
             }
         }
@@ -181,7 +212,10 @@ class HabitsAdapter(
             return oldItem.logId == newItem.logId
         }
 
-        override fun areContentsTheSame(oldItem: HabitLogUiModel, newItem: HabitLogUiModel): Boolean {
+        override fun areContentsTheSame(
+            oldItem: HabitLogUiModel,
+            newItem: HabitLogUiModel
+        ): Boolean {
             return oldItem == newItem
         }
     }
