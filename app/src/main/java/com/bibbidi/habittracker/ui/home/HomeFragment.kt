@@ -24,7 +24,7 @@ import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_CENTER_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_NEXT_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_PREV_POS
 import com.bibbidi.habittracker.ui.common.dialog.LogValueInputBottomSheet
-import com.bibbidi.habittracker.ui.common.viewBindings
+import com.bibbidi.habittracker.ui.common.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
@@ -48,7 +48,7 @@ class HomeFragment :
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private val binding by viewBindings(FragmentHomeBinding::bind)
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
     private fun getDatePicker(date: LocalDate) = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)

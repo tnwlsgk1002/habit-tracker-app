@@ -1,14 +1,14 @@
 package com.bibbidi.habittracker.ui.common.dialog
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputEmojiBinding
+import com.bibbidi.habittracker.ui.common.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vanniktech.emoji.listeners.OnEmojiClickListener
 
-class EmojiPickerBottomSheet : BottomSheetDialogFragment() {
+class EmojiPickerBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_input_emoji) {
 
     companion object {
 
@@ -21,23 +21,12 @@ class EmojiPickerBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private var _binding: BottomSheetInputEmojiBinding? = null
-
-    private val binding get() = _binding!!
+    private val binding by viewBinding(BottomSheetInputEmojiBinding::bind)
 
     private var onEmojiClickListener: OnEmojiClickListener? = null
 
     fun setOnEmojiClickListener(listener: OnEmojiClickListener) {
         this.onEmojiClickListener = listener
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BottomSheetInputEmojiBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,6 +47,5 @@ class EmojiPickerBottomSheet : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding.emojiView.tearDown()
-        _binding = null
     }
 }

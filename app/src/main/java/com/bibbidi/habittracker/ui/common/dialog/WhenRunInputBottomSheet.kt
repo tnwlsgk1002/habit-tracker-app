@@ -2,18 +2,18 @@ package com.bibbidi.habittracker.ui.common.dialog
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.children
+import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputWhenDataBinding
+import com.bibbidi.habittracker.ui.common.Constants.WHEN_RUN_KEY
+import com.bibbidi.habittracker.ui.common.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 
-class WhenRunInputBottomSheet : BottomSheetDialogFragment() {
+class WhenRunInputBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_input_when_data) {
 
     companion object {
-        private const val WHEN_RUN_KEY = "WHEN_RUN"
 
         fun newInstance(
             whenRun: String,
@@ -30,9 +30,7 @@ class WhenRunInputBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private var _binding: BottomSheetInputWhenDataBinding? = null
-
-    private val binding get() = _binding!!
+    private val binding by viewBinding(BottomSheetInputWhenDataBinding::bind)
 
     private var whenRun: String = ""
 
@@ -45,15 +43,6 @@ class WhenRunInputBottomSheet : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         whenRun = arguments?.getString(WHEN_RUN_KEY) ?: ""
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BottomSheetInputWhenDataBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,10 +67,5 @@ class WhenRunInputBottomSheet : BottomSheetDialogFragment() {
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         onCancelListener?.invoke(binding.etInput.text.toString())
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

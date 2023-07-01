@@ -1,6 +1,5 @@
 package com.bibbidi.habittracker.ui.home
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -12,6 +11,7 @@ import com.bibbidi.habittracker.databinding.ItemHabitCheckBinding
 import com.bibbidi.habittracker.databinding.ItemHabitTimeBinding
 import com.bibbidi.habittracker.databinding.ItemHabitTrackBinding
 import com.bibbidi.habittracker.ui.common.BaseViewHolder
+import com.bibbidi.habittracker.ui.common.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.log.CheckHabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.TimeHabitLogUiModel
@@ -171,35 +171,17 @@ class HabitsAdapter(
     ): BaseViewHolder<out HabitLogUiModel, out ViewBinding> {
         return when (viewType) {
             CHECK_TYPE -> CheckHabitItemViewHolder(
-                ItemHabitCheckBinding.inflate(
-                    LayoutInflater.from(
-                        parent.context
-                    ),
-                    parent,
-                    false
-                ),
+                parent.viewBinding(ItemHabitCheckBinding::inflate),
                 onCheckBox,
                 onClickMenu
             )
             TIME_TYPE -> TimeHabitItemViewHolder(
-                ItemHabitTimeBinding.inflate(
-                    LayoutInflater.from(
-                        parent.context
-                    ),
-                    parent,
-                    false
-                ),
+                parent.viewBinding(ItemHabitTimeBinding::inflate),
                 onTurnStopWatch,
                 onClickMenu
             )
             TRACK_TYPE -> TrackHabitItemViewHolder(
-                ItemHabitTrackBinding.inflate(
-                    LayoutInflater.from(
-                        parent.context
-                    ),
-                    parent,
-                    false
-                ),
+                parent.viewBinding(ItemHabitTrackBinding::inflate),
                 onClickRecordButton,
                 onClickMenu
             )

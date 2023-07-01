@@ -2,16 +2,17 @@ package com.bibbidi.habittracker.ui.common.dialog
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.CheckBox
+import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputRepeatDayOfTheWeeksBinding
 import com.bibbidi.habittracker.ui.common.Constants.DAY_OF_THE_WEEKS_KEY
+import com.bibbidi.habittracker.ui.common.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.threeten.bp.DayOfWeek
 
-class DayOfTheWeeksPickerBottomSheet : BottomSheetDialogFragment() {
+class DayOfTheWeeksPickerBottomSheet :
+    BottomSheetDialogFragment(R.layout.bottom_sheet_input_repeat_day_of_the_weeks) {
 
     companion object {
 
@@ -33,9 +34,7 @@ class DayOfTheWeeksPickerBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private var _binding: BottomSheetInputRepeatDayOfTheWeeksBinding? = null
-
-    private val binding get() = _binding!!
+    private val binding by viewBinding(BottomSheetInputRepeatDayOfTheWeeksBinding::bind)
 
     private var dayOfTheWeeks: Set<DayOfWeek> = DayOfWeek.values().toSet()
 
@@ -58,15 +57,6 @@ class DayOfTheWeeksPickerBottomSheet : BottomSheetDialogFragment() {
             arguments?.getStringArray(DAY_OF_THE_WEEKS_KEY)?.map { enumValueOf<DayOfWeek>(it) }
                 ?.toSet()
                 ?: dayOfTheWeeks
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BottomSheetInputRepeatDayOfTheWeeksBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,10 +91,5 @@ class DayOfTheWeeksPickerBottomSheet : BottomSheetDialogFragment() {
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         onCancelListener?.invoke(checkedDayOfTheWeeks)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

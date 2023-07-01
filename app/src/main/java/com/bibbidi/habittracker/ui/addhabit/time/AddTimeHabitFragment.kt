@@ -6,7 +6,7 @@ import com.bibbidi.habittracker.databinding.FragmentAddTimeHabitBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitFragment
 import com.bibbidi.habittracker.ui.common.Constants.GOAL_TIME_PICKER_TAG
 import com.bibbidi.habittracker.ui.common.dialog.GoalTimePickerBottomSheet
-import com.bibbidi.habittracker.ui.common.viewBindings
+import com.bibbidi.habittracker.ui.common.viewBinding
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -17,7 +17,7 @@ class AddTimeHabitFragment : AddHabitFragment(R.layout.fragment_add_time_habit) 
 
     override val viewModel: AddTimeHabitViewModel by viewModels()
 
-    override val binding by viewBindings(FragmentAddTimeHabitBinding::bind)
+    override val binding by viewBinding(FragmentAddTimeHabitBinding::bind)
 
     private val goalTimePickerBottomSheetDialogFragment: GoalTimePickerBottomSheet by lazy {
         GoalTimePickerBottomSheet.newInstance(

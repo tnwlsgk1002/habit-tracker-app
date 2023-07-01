@@ -23,6 +23,7 @@ object Constants {
     const val ALARM_TIME_PICKER_TAG = "alarmTimePicker"
     const val DATE_PICKER_TAG = "datePicker"
     const val LOG_VALUE_TAG = "LOG_VALUE_INPUT"
+    const val WHEN_RUN_KEY = "WHEN_RUN"
 
     // bundle key
     const val HABIT_TYPE_KEY = "HABIT_TYPE"

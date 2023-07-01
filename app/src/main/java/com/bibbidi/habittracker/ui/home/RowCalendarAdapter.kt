@@ -1,6 +1,5 @@
 package com.bibbidi.habittracker.ui.home
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +9,7 @@ import com.bibbidi.habittracker.databinding.ItemRowCalendarBinding
 import com.bibbidi.habittracker.ui.common.BaseViewHolder
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.customview.DateView
+import com.bibbidi.habittracker.ui.common.viewBinding
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.facebook.shimmer.ShimmerFrameLayout
 
@@ -108,9 +108,7 @@ class RowCalendarAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateItemViewHolder {
-        val binding =
-            ItemRowCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DateItemViewHolder(binding, onClick)
+        return DateItemViewHolder(parent.viewBinding(ItemRowCalendarBinding::inflate), onClick)
     }
 
     override fun onBindViewHolder(holder: DateItemViewHolder, position: Int) {
