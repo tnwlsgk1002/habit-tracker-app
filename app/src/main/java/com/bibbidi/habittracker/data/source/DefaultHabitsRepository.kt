@@ -67,7 +67,6 @@ class DefaultHabitsRepository @Inject constructor(
 
     override suspend fun getHabitAndHabitLogsByDate(date: LocalDate) = flow {
         emit(DBResult.Loading)
-        // TODO: Log 변경은 감지하지 않음
         dao.getHabitAndChildren(date).collect { habitAndChildren ->
             habitAndChildren.filter { it.habit.repeatDayOfTheWeeks.contains(date.dayOfWeek) }
                 .runCatching {
