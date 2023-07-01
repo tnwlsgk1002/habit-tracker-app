@@ -6,7 +6,7 @@ import com.bibbidi.habittracker.data.model.entity.time.TimeHabitLogEntity
 import com.bibbidi.habittracker.domain.model.log.TimeHabitLog
 
 fun TimeHabitLog.asData() = TimeHabitLogEntity(
-    timeHabitId = habitId,
+    timeHabitId = habitTypeId,
     timeHabitLogId = logId,
     date = date,
     duration = cntDuration

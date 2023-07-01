@@ -25,7 +25,7 @@
         <item name="android:windowBackground">@color/gray_08</item>
     </style>
 
-    <style name="Theme.HabitTracker.BottomSheetDialog" parent="Theme.Material3.Dark.BottomSheetDialog">
+    <style name="Theme.HabitTracker.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 </resources>

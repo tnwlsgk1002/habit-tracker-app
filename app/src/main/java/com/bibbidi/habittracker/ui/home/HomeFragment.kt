@@ -19,13 +19,16 @@ import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity
 import com.bibbidi.habittracker.ui.common.Constants.DATE_PICKER_TAG
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_TYPE_KEY
+import com.bibbidi.habittracker.ui.common.Constants.LOG_VALUE_TAG
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_CENTER_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_NEXT_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_PREV_POS
-import com.bibbidi.habittracker.ui.common.viewBindings
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
+import com.bibbidi.habittracker.ui.common.dialog.LogValueInputBottomSheet
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.TrackHabitLogUiModel
 import com.bibbidi.habittracker.ui.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
@@ -45,7 +48,7 @@ class HomeFragment :
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private val binding by viewBindings(FragmentHomeBinding::bind)
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
     private fun getDatePicker(date: LocalDate) = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
@@ -102,9 +105,9 @@ class HomeFragment :
 
     private val habitsAdapter by lazy {
         HabitsAdapter(
-            onCheckBox = { _, _ -> },
+            onCheckBox = { log, b -> viewModel.updateCheckHabitLog(log, b) },
             onTurnStopWatch = { _, _ -> },
-            onClickRecordButton = { _ -> },
+            onClickRecordButton = { log -> viewModel.showInputTrackHabitValue(log) },
             onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
         )
     }
@@ -178,7 +181,7 @@ class HomeFragment :
                 when (it) {
                     is HomeEvent.ShowDatePicker -> showDatePicker(it.date)
                     HomeEvent.ShowSelectHabitType -> showSelectHabitTypeBottomSheet()
-                    HomeEvent.ShowTrackValueDialog -> {}
+                    is HomeEvent.ShowTrackValueDialog -> showLogValueInputBottomSheet(it.habitLog)
                     HomeEvent.SuccessAddHabit -> showSnackBar(R.string.set_habit_success_message)
                     is HomeEvent.AttemptDeleteHabit -> showDeleteWarningDialog(it.habitLog)
                     is HomeEvent.AttemptUpdateHabit -> goToUpdateHabit(it.habitInfo)
@@ -231,6 +234,13 @@ class HomeFragment :
         }
         intent.putExtras(bundle)
         launchAddHabitActivity.launch(intent)
+    }
+
+    private fun showLogValueInputBottomSheet(log: TrackHabitLogUiModel) {
+        LogValueInputBottomSheet.newInstance(
+            log
+        ) { value -> viewModel.updateTrackHabitLog(log, value) }
+            .show(parentFragmentManager, LOG_VALUE_TAG)
     }
 
     override fun onDestroyView() {

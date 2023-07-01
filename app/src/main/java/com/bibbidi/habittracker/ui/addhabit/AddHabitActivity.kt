@@ -13,6 +13,7 @@ import com.bibbidi.habittracker.ui.addhabit.track.AddTrackHabitFragment
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_TYPE_KEY
 import com.bibbidi.habittracker.ui.common.SendEventListener
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,11 +21,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiModel> {
 
-    private lateinit var binding: ActivityAddHabitBinding
+    private val binding by viewBinding(ActivityAddHabitBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddHabitBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {

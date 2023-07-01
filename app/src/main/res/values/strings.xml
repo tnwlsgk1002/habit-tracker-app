@@ -61,4 +61,5 @@
     <string name="habit_delete_title">모든 기록이 삭제돼요!</string>
     <string name="update_finish">수정 완료</string>
     <string name="update_habit_title">습관을 수정하세요</string>
+    <string name="save">저장</string>
 </resources>

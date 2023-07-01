@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.domain.HabitsRepository
 import com.bibbidi.habittracker.domain.model.DBResult
+import com.bibbidi.habittracker.domain.model.log.HabitLog
 import com.bibbidi.habittracker.ui.common.Constants.ONE_WEEK
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_SIZE
 import com.bibbidi.habittracker.ui.common.EventFlow
@@ -12,18 +13,25 @@ import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.mapper.habitinfo.asDomain
 import com.bibbidi.habittracker.ui.mapper.habitinfo.asUiModel
+import com.bibbidi.habittracker.ui.mapper.habitlog.asDomain
 import com.bibbidi.habittracker.ui.mapper.habitlog.asUiModel
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.CheckHabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.log.TrackHabitLogUiModel
 import com.bibbidi.habittracker.utils.getStartOfTheWeek
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -45,9 +53,26 @@ class HomeViewModel @Inject constructor(
     )
     val dateItemsFlow: StateFlow<List<UiState<Array<DateItem>>>> = _dateItemsFlow.asStateFlow()
 
-    private val _habitsFlow: MutableStateFlow<UiState<List<HabitLogUiModel>>> =
-        MutableStateFlow(UiState.Loading)
-    val habitsFlow: StateFlow<UiState<List<HabitLogUiModel>>> = _habitsFlow.asStateFlow()
+    private val habits = MutableStateFlow<DBResult<List<HabitLog>>>(DBResult.Loading)
+
+//    private val _habitsStateFlow: MutableStateFlow<UiState<List<HabitLogUiModel>>> =
+//        MutableStateFlow(UiState.Loading)
+//
+//    val habitsStateFlow: StateFlow<UiState<List<HabitLogUiModel>>> = _habitsStateFlow.asStateFlow()
+
+    val habitsStateFlow = combine(
+        dateFlow,
+        habits
+    ) { _, habits ->
+        when (habits) {
+            is DBResult.Success -> {
+                UiState.Success(habits.data.map { it.asUiModel() })
+            }
+            is DBResult.Loading -> UiState.Loading
+            is DBResult.Empty -> UiState.Empty
+            else -> UiState.Empty
+        }
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, UiState.Loading)
 
     private val _event: MutableEventFlow<HomeEvent> = MutableEventFlow()
     val event: EventFlow<HomeEvent> = _event.asEventFlow()
@@ -59,15 +84,10 @@ class HomeViewModel @Inject constructor(
     private fun loadData() {
         viewModelScope.launch {
             setDateItems(dateFlow.value)
-            dateFlow.collectLatest { date ->
-                habitsRepository.getHabitAndHabitLogsByDate(date).collectLatest { result ->
-                    _habitsFlow.value = when (result) {
-                        is DBResult.Success -> UiState.Success(result.data.map { it.asUiModel() })
-                        is DBResult.Loading -> UiState.Loading
-                        is DBResult.Empty -> UiState.Empty
-                        else -> return@collectLatest
-                    }
-                }
+            dateFlow.flatMapLatest { date ->
+                habitsRepository.getHabitAndHabitLogsByDate(date)
+            }.collectLatest { result ->
+                habits.value = result
             }
         }
     }
@@ -155,6 +175,24 @@ class HomeViewModel @Inject constructor(
     fun updateHabit(habitInfo: HabitInfoUiModel) {
         viewModelScope.launch {
             habitsRepository.updateHabit(habitInfo.asDomain())
+        }
+    }
+
+    fun updateCheckHabitLog(log: CheckHabitLogUiModel, isChecked: Boolean) {
+        viewModelScope.launch {
+            habitsRepository.updateHabitLog(log.copy(isChecked = isChecked).asDomain())
+        }
+    }
+
+    fun showInputTrackHabitValue(log: TrackHabitLogUiModel) {
+        viewModelScope.launch {
+            _event.emit(HomeEvent.ShowTrackValueDialog(log))
+        }
+    }
+
+    fun updateTrackHabitLog(log: TrackHabitLogUiModel, value: Long?) {
+        viewModelScope.launch {
+            habitsRepository.updateHabitLog(log.copy(value = value).asDomain())
         }
     }
 }

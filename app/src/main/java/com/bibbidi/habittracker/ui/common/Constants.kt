@@ -22,6 +22,8 @@ object Constants {
     const val START_DATE_PICKER_TAG = "startDatePicker"
     const val ALARM_TIME_PICKER_TAG = "alarmTimePicker"
     const val DATE_PICKER_TAG = "datePicker"
+    const val LOG_VALUE_TAG = "LOG_VALUE_INPUT"
+    const val WHEN_RUN_KEY = "WHEN_RUN"
 
     // bundle key
     const val HABIT_TYPE_KEY = "HABIT_TYPE"
@@ -29,6 +31,7 @@ object Constants {
     const val DAY_OF_THE_WEEKS_KEY = "DAY_OF_THE_WEEKS"
     const val HOUR_KEY = "HOUR"
     const val MINUTE_KEY = "MINUTE"
+    const val HABIT_LOG_KEY = "HABIT_LOG"
 
     // date
     const val MIN_DAY_OF_WEEK_IDX = 0

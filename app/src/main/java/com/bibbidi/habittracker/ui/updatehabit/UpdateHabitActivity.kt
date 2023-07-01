@@ -10,6 +10,7 @@ import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityUpdateHabitBinding
 import com.bibbidi.habittracker.ui.common.Constants
 import com.bibbidi.habittracker.ui.common.SendEventListener
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheet
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
@@ -24,7 +25,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiModel> {
 
-    private lateinit var binding: ActivityUpdateHabitBinding
+    private val binding by viewBinding(ActivityUpdateHabitBinding::inflate)
 
     @Inject
     lateinit var viewModelFactory: UpdateHabitViewModel.HabitInfoAssistedFactory
@@ -65,7 +66,6 @@ class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiMo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUpdateHabitBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {

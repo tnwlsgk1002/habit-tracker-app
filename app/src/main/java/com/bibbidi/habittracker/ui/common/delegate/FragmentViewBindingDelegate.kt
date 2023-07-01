@@ -1,9 +1,8 @@
-package com.bibbidi.habittracker.ui.common
+package com.bibbidi.habittracker.ui.common.delegate
 
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
@@ -20,11 +19,9 @@ class FragmentViewBindingDelegate<VB : ViewBinding>(
         fragment.lifecycle.addObserver(object : DefaultLifecycleObserver {
             val viewLifecycleOwnerLiveDataObserver =
                 Observer<LifecycleOwner?> { viewLifecycleOwner ->
-                    viewLifecycleOwner?.lifecycle?.addObserver(object : DefaultLifecycleObserver {
-                        override fun onDestroy(owner: LifecycleOwner) {
-                            binding = null
-                        }
-                    })
+                    if (viewLifecycleOwner == null) {
+                        binding = null
+                    }
                 }
 
             override fun onCreate(owner: LifecycleOwner) {
@@ -38,19 +35,16 @@ class FragmentViewBindingDelegate<VB : ViewBinding>(
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): VB {
-        val binding = binding
-        if (binding != null) {
-            return binding
+        binding?.let {
+            if (it.root == thisRef.view) {
+                return it
+            }
         }
 
-        val lifecycle = fragment.viewLifecycleOwner.lifecycle
-        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
-            error("Should not attempt to get bindings when Fragment views are destroyed")
+        thisRef.view?.let { view ->
+            return viewBindingFactory(view).also { this.binding = it }
         }
 
-        return viewBindingFactory(thisRef.requireView()).also { this.binding = it }
+        error("Should not attempt to get bindings when Fragment views are destroyed")
     }
 }
-
-fun <VB : ViewBinding> Fragment.viewBindings(viewBindingFactory: (View) -> VB) =
-    FragmentViewBindingDelegate(this, viewBindingFactory)
