@@ -7,7 +7,7 @@ import android.widget.CheckBox
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputRepeatDayOfTheWeeksBinding
 import com.bibbidi.habittracker.ui.common.Constants.DAY_OF_THE_WEEKS_KEY
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.threeten.bp.DayOfWeek
 

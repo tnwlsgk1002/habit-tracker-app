@@ -7,7 +7,7 @@ import androidx.core.view.children
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputWhenDataBinding
 import com.bibbidi.habittracker.ui.common.Constants.WHEN_RUN_KEY
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityMainBinding
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

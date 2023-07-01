@@ -4,7 +4,7 @@ import androidx.fragment.app.viewModels
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentAddCheckHabitBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitFragment
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

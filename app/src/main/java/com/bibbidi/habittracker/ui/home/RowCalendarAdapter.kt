@@ -9,7 +9,7 @@ import com.bibbidi.habittracker.databinding.ItemRowCalendarBinding
 import com.bibbidi.habittracker.ui.common.BaseViewHolder
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.customview.DateView
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.facebook.shimmer.ShimmerFrameLayout
 

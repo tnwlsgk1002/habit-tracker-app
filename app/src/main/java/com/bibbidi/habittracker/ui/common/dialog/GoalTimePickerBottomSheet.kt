@@ -7,7 +7,7 @@ import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputGoalTimeBinding
 import com.bibbidi.habittracker.ui.common.Constants.HOUR_KEY
 import com.bibbidi.habittracker.ui.common.Constants.MINUTE_KEY
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.utils.toFixToTwoDigits
 import com.bibbidi.habittracker.utils.toTwoDigits
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

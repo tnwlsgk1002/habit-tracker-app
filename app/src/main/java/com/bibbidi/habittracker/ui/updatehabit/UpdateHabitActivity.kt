@@ -10,9 +10,9 @@ import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityUpdateHabitBinding
 import com.bibbidi.habittracker.ui.common.Constants
 import com.bibbidi.habittracker.ui.common.SendEventListener
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheet
-import com.bibbidi.habittracker.ui.common.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.google.android.material.timepicker.MaterialTimePicker

@@ -5,7 +5,7 @@ import android.view.View
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputTrackValueBinding
 import com.bibbidi.habittracker.ui.common.Constants
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.log.TrackHabitLogUiModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

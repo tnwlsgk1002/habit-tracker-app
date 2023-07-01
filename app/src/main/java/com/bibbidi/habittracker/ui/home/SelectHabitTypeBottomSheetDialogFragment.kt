@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetSelectHabitTypeBinding
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

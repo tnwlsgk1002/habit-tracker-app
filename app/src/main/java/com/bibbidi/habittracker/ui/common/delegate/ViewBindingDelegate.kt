@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.common
+package com.bibbidi.habittracker.ui.common.delegate
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.bibbidi.habittracker.ui.common.delegate.FragmentViewBindingDelegate
 
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(crossinline factory: (LayoutInflater) -> T) =
     lazy(LazyThreadSafetyMode.NONE) { factory(layoutInflater) }

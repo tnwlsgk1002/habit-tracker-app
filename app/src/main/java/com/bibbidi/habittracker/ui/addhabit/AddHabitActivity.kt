@@ -13,7 +13,7 @@ import com.bibbidi.habittracker.ui.addhabit.track.AddTrackHabitFragment
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_TYPE_KEY
 import com.bibbidi.habittracker.ui.common.SendEventListener
-import com.bibbidi.habittracker.ui.common.viewBinding
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.HabitTypeUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import dagger.hilt.android.AndroidEntryPoint

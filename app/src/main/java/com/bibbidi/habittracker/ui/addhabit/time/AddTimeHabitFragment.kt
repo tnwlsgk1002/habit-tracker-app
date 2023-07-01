@@ -5,8 +5,8 @@ import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentAddTimeHabitBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitFragment
 import com.bibbidi.habittracker.ui.common.Constants.GOAL_TIME_PICKER_TAG
+import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.GoalTimePickerBottomSheet
-import com.bibbidi.habittracker.ui.common.viewBinding
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
