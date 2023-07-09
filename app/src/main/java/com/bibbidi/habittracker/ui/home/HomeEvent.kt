@@ -1,5 +1,6 @@
 package com.bibbidi.habittracker.ui.home
 
+import com.bibbidi.habittracker.ui.model.habit.HabitAlarmUiModel
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.log.TrackHabitLogUiModel
@@ -9,7 +10,11 @@ sealed class HomeEvent {
 
     object ShowSelectHabitType : HomeEvent()
 
-    object SuccessAddHabit : HomeEvent()
+    data class SuccessAddHabit(val alarmInfo: HabitAlarmUiModel) : HomeEvent()
+
+    data class SuccessUpdateHabit(val alarmInfo: HabitAlarmUiModel) : HomeEvent()
+
+    data class SuccessDeleteHabit(val alarmInfo: HabitAlarmUiModel) : HomeEvent()
 
     data class ShowDatePicker(val date: LocalDate) : HomeEvent()
 

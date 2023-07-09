@@ -19,7 +19,7 @@ class AddTimeHabitFragment : AddHabitFragment(R.layout.fragment_add_time_habit) 
 
     override val binding by viewBinding(FragmentAddTimeHabitBinding::bind)
 
-    private val goalTimePickerBottomSheetDialogFragment: GoalTimePickerBottomSheet by lazy {
+    private val goalTimePickerBottomSheet: GoalTimePickerBottomSheet by lazy {
         GoalTimePickerBottomSheet.newInstance(
             viewModel.goalTimeFlow.value.toHoursPart(),
             viewModel.goalTimeFlow.value.toMillisPart()
@@ -37,11 +37,12 @@ class AddTimeHabitFragment : AddHabitFragment(R.layout.fragment_add_time_habit) 
         super.collectEvent()
         repeatOnStarted {
             viewModel.goalTimeClickEvent.collectLatest {
-                goalTimePickerBottomSheetDialogFragment.show(
-                    parentFragmentManager,
-                    GOAL_TIME_PICKER_TAG
-                )
+                showGoalTimePickerBottomSheet()
             }
         }
+    }
+
+    private fun showGoalTimePickerBottomSheet() {
+        goalTimePickerBottomSheet.show(parentFragmentManager, GOAL_TIME_PICKER_TAG)
     }
 }

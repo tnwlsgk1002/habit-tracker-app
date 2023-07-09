@@ -1,6 +1,7 @@
 package com.bibbidi.habittracker.data.source
 
 import com.bibbidi.habittracker.data.mapper.asData
+import com.bibbidi.habittracker.data.mapper.asHabitAlarm
 import com.bibbidi.habittracker.data.mapper.check.asData
 import com.bibbidi.habittracker.data.mapper.check.createCheckHabitInfo
 import com.bibbidi.habittracker.data.mapper.check.createHabitLog
@@ -16,6 +17,7 @@ import com.bibbidi.habittracker.data.model.entity.track.TrackHabitEntity
 import com.bibbidi.habittracker.data.source.database.HabitsDao
 import com.bibbidi.habittracker.domain.HabitsRepository
 import com.bibbidi.habittracker.domain.model.DBResult
+import com.bibbidi.habittracker.domain.model.alarm.HabitAlarm
 import com.bibbidi.habittracker.domain.model.habitinfo.CheckHabitInfo
 import com.bibbidi.habittracker.domain.model.habitinfo.HabitInfo
 import com.bibbidi.habittracker.domain.model.habitinfo.TimeHabitInfo
@@ -67,7 +69,7 @@ class DefaultHabitsRepository @Inject constructor(
 
     override suspend fun getHabitAndHabitLogsByDate(date: LocalDate) = flow {
         emit(DBResult.Loading)
-        dao.getHabitAndChildren(date).collect { habitAndChildren ->
+        dao.getHabitsAndChildrenByDate(date).collect { habitAndChildren ->
             habitAndChildren.filter { it.habit.repeatDayOfTheWeeks.contains(date.dayOfWeek) }
                 .runCatching {
                     map {
@@ -120,5 +122,13 @@ class DefaultHabitsRepository @Inject constructor(
             is TimeHabitLog -> dao.updateTimeHabitLog(habitLog.asData())
             is TrackHabitLog -> dao.updateTrackHabitLog(habitLog.asData())
         }
+    }
+
+    override suspend fun getHabitAlarms(): DBResult<List<HabitAlarm>> {
+        return DBResult.Success(
+            dao.getHabits().map {
+                it.asHabitAlarm()
+            }
+        )
     }
 }

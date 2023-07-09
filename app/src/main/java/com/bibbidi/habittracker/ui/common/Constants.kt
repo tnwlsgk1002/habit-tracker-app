@@ -28,6 +28,7 @@ object Constants {
     // bundle key
     const val HABIT_TYPE_KEY = "HABIT_TYPE"
     const val HABIT_INFO_KEY = "HABIT_INFO"
+    const val HABIT_START_ALARM_KEY = "HABIT_START_ALARM"
     const val DAY_OF_THE_WEEKS_KEY = "DAY_OF_THE_WEEKS"
     const val HOUR_KEY = "HOUR"
     const val MINUTE_KEY = "MINUTE"
@@ -36,4 +37,7 @@ object Constants {
     // date
     const val MIN_DAY_OF_WEEK_IDX = 0
     const val MAX_DAY_OF_WEEK_IDX = 6
+
+    // channel
+    const val START_HABIT_CHANNEL_ID = "HABIT_START"
 }

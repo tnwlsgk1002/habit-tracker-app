@@ -3,6 +3,7 @@ package com.bibbidi.habittracker.ui.addhabit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
+import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.utils.dayOfWeekValues
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,14 +25,8 @@ abstract class AddHabitViewModel : ViewModel() {
     val repeatsDayOfTheWeeksFlow = MutableStateFlow(dayOfWeekValues.toSet())
     val startDateFlow = MutableStateFlow(LocalDate.now())
 
-    val submitEvent = MutableEventFlow<HabitInfoUiModel>()
-    val emojiClickEvent = MutableEventFlow<String>()
-    val alarmClickEvent = MutableEventFlow<LocalTime?>()
-    val whenRunClickEvent = MutableEventFlow<String>()
-    val repeatsDayOfTheWeeksClickEvent = MutableEventFlow<Set<DayOfWeek>>()
-    val startDateClickEvent = MutableEventFlow<LocalDate>()
-
-    val messageEvent = MutableEventFlow<AddHabitMessageEvent>()
+    private val _event = MutableEventFlow<AddHabitEvent>()
+    val event = _event.asEventFlow()
 
     open val isEnabled: StateFlow<Boolean> = combine(
         nameFlow,
@@ -79,14 +74,14 @@ abstract class AddHabitViewModel : ViewModel() {
 
     fun showInputEmojiDialog() {
         viewModelScope.launch {
-            emojiClickEvent.emit(emojiFlow.value)
+            _event.emit(AddHabitEvent.EmojiClickedEvent)
         }
     }
 
     fun showInputAlarmDialog() {
         viewModelScope.launch {
             if (alarmTimeFlow.value == null) {
-                alarmClickEvent.emit(alarmTimeFlow.value)
+                _event.emit(AddHabitEvent.AlarmTimeClickedEvent)
             } else {
                 alarmTimeFlow.emit(null)
             }
@@ -95,28 +90,28 @@ abstract class AddHabitViewModel : ViewModel() {
 
     fun showInputWhenRunDialog() {
         viewModelScope.launch {
-            whenRunClickEvent.emit(whenRunFlow.value)
+            _event.emit(AddHabitEvent.WhenRunClickedEvent)
         }
     }
 
     fun showInputRepeatsDayOfTheWeeksDialog() {
         viewModelScope.launch {
-            repeatsDayOfTheWeeksClickEvent.emit(repeatsDayOfTheWeeksFlow.value)
+            _event.emit(AddHabitEvent.RepeatsDayOfTheWeekClickEvent)
         }
     }
 
     fun showInputStartDateDialog() {
         viewModelScope.launch {
-            startDateClickEvent.emit(startDateFlow.value)
+            _event.emit(AddHabitEvent.StartDateClickEvent)
         }
     }
 
     fun addHabit() {
         viewModelScope.launch {
             if (isValid) {
-                submitEvent.emit(cntHabitInfo)
+                _event.emit(AddHabitEvent.SubmitEvent(cntHabitInfo))
             } else {
-                messageEvent.emit(AddHabitMessageEvent.StartDateIsBeforeNowEvent)
+                _event.emit(AddHabitEvent.StartDateIsBeforeNowEvent)
             }
         }
     }
