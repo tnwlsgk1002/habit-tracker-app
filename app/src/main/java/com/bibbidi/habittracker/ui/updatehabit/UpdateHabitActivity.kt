@@ -1,11 +1,17 @@
 package com.bibbidi.habittracker.ui.updatehabit
 
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.bibbidi.habittracker.BuildConfig
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityUpdateHabitBinding
 import com.bibbidi.habittracker.ui.common.Constants
@@ -13,8 +19,12 @@ import com.bibbidi.habittracker.ui.common.SendEventListener
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheet
+import com.bibbidi.habittracker.ui.common.isAlreadyGranted
+import com.bibbidi.habittracker.ui.common.isRationale
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.utils.repeatOnStarted
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +74,16 @@ class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiMo
             }
     }
 
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            showAlarmTimeDialog()
+        } else {
+            showPermissionDenySnackBar()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -94,7 +114,7 @@ class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiMo
             viewModel.event.collectLatest {
                 when (it) {
                     UpdateHabitEvent.EmojiClickedEvent -> showEmojiBottomSheet()
-                    UpdateHabitEvent.AlarmTimeClickedEvent -> showAlarmTimeDialog()
+                    UpdateHabitEvent.AlarmTimeClickedEvent -> checkNotificationPermission()
                     UpdateHabitEvent.WhenRunClickedEvent -> showWhenRunInputBottomSheet()
                     is UpdateHabitEvent.SubmitEvent -> sendEvent(it.habitInfo)
                 }
@@ -125,5 +145,41 @@ class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiMo
 
     private fun showAlarmTimeDialog() {
         alarmTimePicker.show(supportFragmentManager, Constants.ALARM_TIME_PICKER_TAG)
+    }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when {
+                isAlreadyGranted(POST_NOTIFICATIONS) -> showAlarmTimeDialog()
+                isRationale(POST_NOTIFICATIONS) -> showRationaleAlertDialog()
+                else -> requestNotificationPermissionLauncher.launch(POST_NOTIFICATIONS)
+            }
+        } else {
+            showAlarmTimeDialog()
+        }
+    }
+
+    private fun showPermissionDenySnackBar() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.permission_notification_deny_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun showRationaleAlertDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.permission_notification_already_deny_message))
+            .setMessage(getString(R.string.permission_notification_grated_in_setting_message))
+            .setNeutralButton(getString(R.string.cancel)) { _, _ ->
+            }.setPositiveButton(getString(R.string.setting)) { _, _ ->
+                openAppSetting()
+            }.show()
+    }
+
+    private fun openAppSetting() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            .setData(Uri.parse("package:${BuildConfig.APPLICATION_ID}"))
+        startActivity(intent)
     }
 }

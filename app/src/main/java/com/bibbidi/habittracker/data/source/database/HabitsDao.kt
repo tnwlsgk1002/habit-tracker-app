@@ -74,13 +74,20 @@ interface HabitsDao {
     @Update
     suspend fun updateTrackHabitLog(habitLog: TrackHabitLogEntity)
 
+    @Query("SELECT * FROM habits")
+    fun getHabits(): List<HabitEntity>
+
     @Transaction
     @Query("SELECT * FROM habits WHERE habit_id = :id")
     suspend fun getHabitAndChildrenById(id: Long): HabitAndChildren
 
     @Transaction
     @Query("SELECT * FROM habits WHERE start_date <= :date")
-    fun getHabitAndChildren(date: LocalDate): Flow<List<HabitAndChildren>>
+    fun getHabitsAndChildrenByDate(date: LocalDate): Flow<List<HabitAndChildren>>
+
+    @Transaction
+    @Query("SELECT * FROM habits")
+    fun getHabitsAndChildren(): Flow<List<HabitAndChildren>>
 
     @Query("SELECT * FROM check_habit_logs WHERE date = :date AND check_habit_parent_id = :id")
     suspend fun getCheckLogByCheckHabitIdInDate(id: Long?, date: LocalDate): CheckHabitLogEntity?

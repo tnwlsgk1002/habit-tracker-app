@@ -1,11 +1,18 @@
 package com.bibbidi.habittracker.ui.addhabit
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewbinding.ViewBinding
+import com.bibbidi.habittracker.BuildConfig
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.ui.common.Constants.ALARM_TIME_PICKER_TAG
 import com.bibbidi.habittracker.ui.common.Constants.EMOJI_PICKER_TAG
@@ -16,6 +23,8 @@ import com.bibbidi.habittracker.ui.common.SendEventListener
 import com.bibbidi.habittracker.ui.common.dialog.DayOfTheWeeksPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.WhenRunInputBottomSheet
+import com.bibbidi.habittracker.ui.common.isAlreadyGranted
+import com.bibbidi.habittracker.ui.common.isRationale
 import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
@@ -23,6 +32,7 @@ import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
@@ -37,6 +47,16 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) : Fragment(cont
     abstract val binding: ViewBinding
 
     var submitEventListener: SendEventListener<HabitInfoUiModel>? = null
+
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            showAlarmTimePicker()
+        } else {
+            showPermissionDenySnackBar()
+        }
+    }
 
     private val emojiPickerBottomSheet: EmojiPickerBottomSheet by lazy {
         EmojiPickerBottomSheet.newInstance { emoji ->
@@ -53,7 +73,7 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) : Fragment(cont
         }
     }
 
-    private val whenRunInputBottomSheetDialogFragment: WhenRunInputBottomSheet by lazy {
+    private val whenRunInputBottomSheet: WhenRunInputBottomSheet by lazy {
         WhenRunInputBottomSheet.newInstance(
             viewModel.whenRunFlow.value
         ) { whenRun -> viewModel.setWhenRun(whenRun) }
@@ -94,52 +114,87 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) : Fragment(cont
 
     open fun collectEvent() {
         repeatOnStarted {
-            viewModel.emojiClickEvent.collectLatest {
-                emojiPickerBottomSheet.show(parentFragmentManager, EMOJI_PICKER_TAG)
+            viewModel.event.collectLatest {
+                when (it) {
+                    AddHabitEvent.EmojiClickedEvent -> showEmojiPicketBottomSheet()
+                    AddHabitEvent.AlarmTimeClickedEvent -> checkNotificationPermission()
+                    AddHabitEvent.WhenRunClickedEvent -> showWhenRunInputBottomSheet()
+                    AddHabitEvent.RepeatsDayOfTheWeekClickEvent -> showDayOfTheWeeksPickerBottomSheet()
+                    AddHabitEvent.StartDateClickEvent -> showSelectStartDatePicker()
+                    is AddHabitEvent.SubmitEvent -> onSubmit(it.habitInfo)
+                    is AddHabitEvent.StartDateIsBeforeNowEvent -> showStartDateIsBeforeNowSnackBar()
+                }
             }
         }
+    }
 
-        repeatOnStarted {
-            viewModel.alarmClickEvent.collectLatest {
-                alarmTimePicker.show(parentFragmentManager, ALARM_TIME_PICKER_TAG)
-            }
-        }
+    private fun showEmojiPicketBottomSheet() {
+        emojiPickerBottomSheet.show(parentFragmentManager, EMOJI_PICKER_TAG)
+    }
 
-        repeatOnStarted {
-            viewModel.whenRunClickEvent.collectLatest {
-                whenRunInputBottomSheetDialogFragment.show(
-                    parentFragmentManager,
-                    WHEN_RUN_INPUT_TAG
-                )
-            }
-        }
+    private fun showAlarmTimePicker() {
+        alarmTimePicker.show(parentFragmentManager, ALARM_TIME_PICKER_TAG)
+    }
 
-        repeatOnStarted {
-            viewModel.repeatsDayOfTheWeeksClickEvent.collectLatest {
-                dayOfTheWeeksPickerBottomSheet.show(
-                    parentFragmentManager,
-                    REPEAT_DAY_OF_THE_WEEKS_TAG
-                )
-            }
-        }
+    private fun showWhenRunInputBottomSheet() {
+        whenRunInputBottomSheet.show(parentFragmentManager, WHEN_RUN_INPUT_TAG)
+    }
 
-        repeatOnStarted {
-            viewModel.startDateClickEvent.collectLatest {
-                selectStartDatePicker.show(parentFragmentManager, START_DATE_PICKER_TAG)
-            }
-        }
+    private fun showDayOfTheWeeksPickerBottomSheet() {
+        dayOfTheWeeksPickerBottomSheet.show(parentFragmentManager, REPEAT_DAY_OF_THE_WEEKS_TAG)
+    }
 
-        repeatOnStarted {
-            viewModel.submitEvent.collectLatest {
-                submitEventListener?.sendEvent(it)
-            }
-        }
+    private fun showSelectStartDatePicker() {
+        selectStartDatePicker.show(parentFragmentManager, START_DATE_PICKER_TAG)
+    }
 
-        repeatOnStarted {
-            viewModel.messageEvent.collectLatest {
-                val message = getString(R.string.start_date_is_before_now_error_message)
-                Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    private fun onSubmit(habitInfoUiModel: HabitInfoUiModel) {
+        submitEventListener?.sendEvent(habitInfoUiModel)
+    }
+
+    private fun showStartDateIsBeforeNowSnackBar() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.start_date_is_before_now_error_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun showPermissionDenySnackBar() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.permission_notification_deny_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun checkNotificationPermission() {
+        when {
+            isAlreadyGranted(Manifest.permission.POST_NOTIFICATIONS) -> showAlarmTimePicker()
+            isRationale(Manifest.permission.POST_NOTIFICATIONS) -> showRationaleAlertDialog()
+            else -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    showRationaleAlertDialog()
+                }
             }
         }
+    }
+
+    private fun showRationaleAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.permission_notification_already_deny_message))
+            .setMessage(getString(R.string.permission_notification_grated_in_setting_message))
+            .setNeutralButton(getString(R.string.cancel)) { _, _ ->
+            }.setPositiveButton(getString(R.string.setting)) { _, _ ->
+                openAppSetting()
+            }.show()
+    }
+
+    private fun openAppSetting() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            .setData(Uri.parse("package:${BuildConfig.APPLICATION_ID}"))
+        startActivity(intent)
     }
 }

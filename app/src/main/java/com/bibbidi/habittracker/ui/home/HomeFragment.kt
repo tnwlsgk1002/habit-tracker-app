@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.addhabit.AddHabitActivity
+import com.bibbidi.habittracker.ui.background.AlarmHelper
 import com.bibbidi.habittracker.ui.common.Constants.DATE_PICKER_TAG
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_TYPE_KEY
@@ -40,6 +41,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment :
@@ -49,6 +51,9 @@ class HomeFragment :
     private val viewModel: HomeViewModel by viewModels()
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
+
+    @Inject
+    lateinit var alarmHelper: AlarmHelper
 
     private fun getDatePicker(date: LocalDate) = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
@@ -182,7 +187,18 @@ class HomeFragment :
                     is HomeEvent.ShowDatePicker -> showDatePicker(it.date)
                     HomeEvent.ShowSelectHabitType -> showSelectHabitTypeBottomSheet()
                     is HomeEvent.ShowTrackValueDialog -> showLogValueInputBottomSheet(it.habitLog)
-                    HomeEvent.SuccessAddHabit -> showSnackBar(R.string.set_habit_success_message)
+                    is HomeEvent.SuccessAddHabit -> {
+                        showSnackBar(R.string.add_habit_success_message)
+                        alarmHelper.registerAlarm(it.alarmInfo)
+                    }
+                    is HomeEvent.SuccessUpdateHabit -> {
+                        showSnackBar(R.string.update_habit_success_message)
+                        alarmHelper.updateAlarm(it.alarmInfo)
+                    }
+                    is HomeEvent.SuccessDeleteHabit -> {
+                        showSnackBar(R.string.delete_habit_success_message)
+                        alarmHelper.cancelAlarm(it.alarmInfo)
+                    }
                     is HomeEvent.AttemptDeleteHabit -> showDeleteWarningDialog(it.habitLog)
                     is HomeEvent.AttemptUpdateHabit -> goToUpdateHabit(it.habitInfo)
                 }

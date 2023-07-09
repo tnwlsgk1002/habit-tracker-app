@@ -11,6 +11,7 @@ import com.bibbidi.habittracker.ui.common.EventFlow
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
+import com.bibbidi.habittracker.ui.mapper.asHabitStartAlarmUiModel
 import com.bibbidi.habittracker.ui.mapper.habitinfo.asDomain
 import com.bibbidi.habittracker.ui.mapper.habitinfo.asUiModel
 import com.bibbidi.habittracker.ui.mapper.habitlog.asDomain
@@ -54,11 +55,6 @@ class HomeViewModel @Inject constructor(
     val dateItemsFlow: StateFlow<List<UiState<Array<DateItem>>>> = _dateItemsFlow.asStateFlow()
 
     private val habits = MutableStateFlow<DBResult<List<HabitLog>>>(DBResult.Loading)
-
-//    private val _habitsStateFlow: MutableStateFlow<UiState<List<HabitLogUiModel>>> =
-//        MutableStateFlow(UiState.Loading)
-//
-//    val habitsStateFlow: StateFlow<UiState<List<HabitLogUiModel>>> = _habitsStateFlow.asStateFlow()
 
     val habitsStateFlow = combine(
         dateFlow,
@@ -148,7 +144,7 @@ class HomeViewModel @Inject constructor(
     fun setHabit(habitInfo: HabitInfoUiModel) {
         viewModelScope.launch {
             habitsRepository.insertHabit(habitInfo.asDomain())
-            _event.emit(HomeEvent.SuccessAddHabit)
+            _event.emit(HomeEvent.SuccessAddHabit(habitInfo.asHabitStartAlarmUiModel()))
         }
     }
 
@@ -168,13 +164,18 @@ class HomeViewModel @Inject constructor(
 
     fun deleteHabit(habitLog: HabitLogUiModel) {
         viewModelScope.launch {
-            habitLog.habitId?.let { habitsRepository.deleteHabitById(it) }
+            habitLog.habitId?.let {
+                val habitInfo = habitsRepository.getHabitById(it).asUiModel()
+                habitsRepository.deleteHabitById(it)
+                _event.emit(HomeEvent.SuccessDeleteHabit(habitInfo.asHabitStartAlarmUiModel()))
+            }
         }
     }
 
     fun updateHabit(habitInfo: HabitInfoUiModel) {
         viewModelScope.launch {
             habitsRepository.updateHabit(habitInfo.asDomain())
+            _event.emit(HomeEvent.SuccessUpdateHabit(habitInfo.asHabitStartAlarmUiModel()))
         }
     }
 

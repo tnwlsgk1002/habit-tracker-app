@@ -51,7 +51,9 @@
     <string name="set_emoij">이모티콘 설정</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="set_habit">습관 추가하기</string>
-    <string name="set_habit_success_message">습관이 성공적으로 추가되었어요!🎉</string>
+    <string name="add_habit_success_message">습관이 성공적으로 추가되었어요! 🎉</string>
+    <string name="update_habit_success_message">습관이 성공적으로 수정되었어요!</string>
+    <string name="delete_habit_success_message">습관을 삭제했어요.</string>
     <string name="start_date_is_before_now_error_message">시작일은 오늘보다 전이어야 해요!</string>
     <string name="date">%d년 %d월</string>
     <string name="empty_habit_message">오늘 해야 할 습관이 없네요</string>
@@ -62,4 +64,11 @@
     <string name="update_finish">수정 완료</string>
     <string name="update_habit_title">습관을 수정하세요</string>
     <string name="save">저장</string>
+    <string name="start_habit_channel_name">습관 시작 알람</string>
+    <string name="start_habit_alarm_message">%s 할 시간이에요! %s</string>
+    <string name="setting">설정하기</string>
+    <string name="deny">무시</string>
+    <string name="permission_notification_deny_message">권한이 허용되어야 알림 설정이 가능해요 😢</string>
+    <string name="permission_notification_already_deny_message">휴대폰 알림 설정이 꺼져 있어요</string>
+    <string name="permission_notification_grated_in_setting_message">설정 페이지에서 먼저 알림 허용을 해주세요</string>
 </resources>
