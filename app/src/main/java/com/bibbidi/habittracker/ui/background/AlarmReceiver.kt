@@ -9,14 +9,12 @@ import javax.inject.Inject
 
 class AlarmReceiver : BroadcastReceiver() {
 
-    @Inject lateinit var notificationManager: NotificationManager
+    @Inject
+    lateinit var notificationManager: NotificationManager
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        intent ?: return
-        context ?: return
-
         val habitAlarm =
-            intent.extras?.getParcelable<HabitAlarmUiModel>(Constants.HABIT_START_ALARM_KEY)
+            intent?.extras?.getParcelable<HabitAlarmUiModel>(Constants.HABIT_START_ALARM_KEY)
                 ?: return
         notificationManager.showNotification(habitAlarm)
     }
