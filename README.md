@@ -39,5 +39,5 @@ Room을 사용해서 1:1, 1:N 관계를 정의하고 필요한 데이터를 join
 
 `AlarmManager`를 사용해서 특정 요일, 특정 시간에 `Notification`을 띄우도록 했습니다.
 * 그 과정에서 Notification, PendingIntent와 관련하여 학습한 후, 버전에 따라 대응하였습니다.
-* blog Link: [Android Intent + PendingIntent](https://sjevie.tistory.com/entry/TIL%EA%B0%9C%EB%85%90-Android-Notification-PendingIntent)
+* blog Link: [Android Notification + PendingIntent](https://sjevie.tistory.com/entry/TIL%EA%B0%9C%EB%85%90-Android-Notification-PendingIntent)
 * Issue Link: [✨ feat: 알람 구현](https://github.com/tnwlsgk1002/habit-tracker-app/issues/44)
