@@ -30,7 +30,7 @@
   * [✨ feat: 홈 화면의 달력 선택 구현(DateView, DateItem 구현)](https://github.com/tnwlsgk1002/habit-tracker-app/issues/9)
   * [✨ feat: 홈 화면에 DateView 선택 및 이동 구현](https://github.com/tnwlsgk1002/habit-tracker-app/issues/32)
 
-### 🦾 Room을 사용해 객체 간 관계 정의
+### 🏠 Room을 사용해 객체 간 관계 정의
 
 Room을 사용해서 1:1, 1:N 관계를 정의하고 필요한 데이터를 join하여 사용하였습니다.
 * `foreignKeys` 항목을 활용해서 관계를 정의했고, join 시에 `@Transaction`을 사용하였습니다.
