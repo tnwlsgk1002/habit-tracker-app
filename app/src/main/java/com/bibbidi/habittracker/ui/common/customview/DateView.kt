@@ -26,6 +26,11 @@ class DateView @JvmOverloads constructor(
 
     var isToday: Boolean = false
         set(value) {
+            tvDayOfTheMonth.alpha = if (value || checked) {
+                1F
+            } else {
+                0.5F
+            }
             field = value
             invalidate()
         }
@@ -34,9 +39,10 @@ class DateView @JvmOverloads constructor(
         set(value) {
             field = value
             bgDayOfTheMonth.setColor(
-                when (value) {
-                    true -> checkedBackgroundColor
-                    false -> Color.TRANSPARENT
+                if (value) {
+                    checkedBackgroundColor
+                } else {
+                    Color.TRANSPARENT
                 }
             )
 
@@ -46,6 +52,11 @@ class DateView @JvmOverloads constructor(
             }
 
             tvDayOfTheMonth.setTextColor(contentTextColor)
+            tvDayOfTheMonth.alpha = if (value || isToday) {
+                1F
+            } else {
+                0.5F
+            }
             invalidate()
         }
 
