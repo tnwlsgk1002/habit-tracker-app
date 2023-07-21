@@ -10,8 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
-        tools:text="일"
-        tools:textColor="@color/black" />
+        tools:text="일" />
 
     <TextView
         android:id="@+id/tv_day_of_month"
@@ -22,6 +21,5 @@
         android:backgroundTint="?android:attr/colorPrimary"
         android:gravity="center"
         android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
-        tools:text="1"
-        tools:textColor="@color/white" />
+        tools:text="1"/>
 </LinearLayout>

@@ -146,11 +146,11 @@
             app:layout_constraintTop_toTopOf="@id/date_view_sat" />
 
         <View
+            style="@style/ShimmerView"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="5dp"
-            android:background="@color/gray_04"
             app:layout_constraintBottom_toBottomOf="@id/sv_tv_sun"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/sv_tv_sun"
@@ -158,9 +158,9 @@
             app:layout_constraintTop_toTopOf="@id/sv_tv_sun" />
 
         <View
+            style="@style/ShimmerView"
             android:layout_width="8dp"
             android:layout_height="6dp"
-            android:background="@color/gray_04"
             app:layout_constraintBottom_toBottomOf="@id/sv_tv_mon"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/sv_tv_mon"
@@ -168,9 +168,9 @@
             app:layout_constraintTop_toTopOf="@id/sv_tv_mon" />
 
         <View
+            style="@style/ShimmerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/gray_04"
             app:layout_constraintBottom_toBottomOf="@id/sv_tv_tue"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/sv_tv_tue"
@@ -178,9 +178,9 @@
             app:layout_constraintTop_toTopOf="@id/sv_tv_tue" />
 
         <View
+            style="@style/ShimmerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/gray_04"
             app:layout_constraintBottom_toBottomOf="@id/sv_tv_wed"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/sv_tv_wed"
@@ -188,9 +188,9 @@
             app:layout_constraintTop_toTopOf="@id/sv_tv_wed" />
 
         <View
+            style="@style/ShimmerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/gray_04"
             app:layout_constraintBottom_toBottomOf="@id/sv_tv_thu"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/sv_tv_thu"
@@ -198,9 +198,9 @@
             app:layout_constraintTop_toTopOf="@id/sv_tv_thu" />
 
         <View
+            style="@style/ShimmerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/gray_04"
             app:layout_constraintBottom_toBottomOf="@id/sv_tv_fri"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/sv_tv_fri"
@@ -208,9 +208,9 @@
             app:layout_constraintTop_toTopOf="@id/sv_tv_fri" />
 
         <View
+            style="@style/ShimmerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/gray_04"
             app:layout_constraintBottom_toBottomOf="@id/sv_tv_sat"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/sv_tv_sat"

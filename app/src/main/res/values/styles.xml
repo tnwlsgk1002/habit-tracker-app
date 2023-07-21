@@ -23,9 +23,9 @@
     <!-- DateView -->
     <style name="DateViewStyle">
         <item name="android:visibility">visible</item>
-        <item name="checkedBackgroundColor">@color/blue_02</item>
-        <item name="notCheckedTextColor">@color/black</item>
-        <item name="checkedTextColor">@color/white</item>
+        <item name="checkedBackgroundColor">?attr/colorPrimary</item>
+        <item name="notCheckedTextColor">?attr/colorOnBackground</item>
+        <item name="checkedTextColor">?attr/colorOnPrimary</item>
         <item name="checked">true</item>
         <item name="dayOfTheWeek">sun</item>
         <item name="dayOfTheMonth">1</item>
@@ -33,8 +33,8 @@
     </style>
 
     <style name="ShimmerView">
-        <item name="android:background">@color/gray_04</item>
-        <item name="android:backgroundTint">@color/gray_04</item>
+        <item name="android:background">?attr/colorSurfaceContainerHighest</item>
+        <item name="android:backgroundTint">?attr/colorSurfaceContainerHighest</item>
     </style>
 
     <style name="ShimmerView.Text">
@@ -53,49 +53,49 @@
 
     <!-- CardView -->
     <style name="LogCardView" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardBackgroundColor">@color/white</item>
+<!--        <item name="cardBackgroundColor">@color/white</item>-->
     </style>
 
     <style name="SelectTypeCardView" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardBackgroundColor">@color/white</item>
+<!--        <item name="cardBackgroundColor">@android:color/transparent</item>-->
     </style>
 
     <style name="CardViewIconStyle">
-        <item name="tint">@color/black</item>
+<!--        <item name="tint">?attr/color</item>-->
     </style>
 
     <style name="InputDataCardView" parent="Widget.Material3.CardView.Filled">
-        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
     </style>
 
     <!-- HabitItemView -->
     <style name="HabitItemViewMore" parent="Widget.Material3.Button.IconButton">
         <item name="android:layout_width">32dp</item>
         <item name="android:layout_height">32dp</item>
-        <item name="iconTint">@color/black</item>
+<!--        <item name="iconTint">@color/black</item>-->
         <item name="iconGravity">textStart</item>
         <item name="icon">@drawable/ic_baseline_more_vert</item>
     </style>
 
     <style name="HabitItemViewBell">
-        <item name="android:backgroundTint">@color/gray_05</item>
+        <item name="android:backgroundTint">?attr/colorOnSurface</item>
     </style>
 
     <style name="HabitItemViewAddedLogButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="icon">@drawable/ic_thin_plus</item>
         <item name="iconSize">12dp</item>
-        <item name="iconTint">@color/blue_03</item>
-        <item name="strokeColor">@color/blue_03</item>
+<!--        <item name="iconTint">@color/blue_03</item>-->
+<!--        <item name="strokeColor">@color/blue_03</item>-->
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
-        <item name="android:textColor">@color/blue_03</item>
+<!--        <item name="android:textColor">@color/blue_03</item>-->
     </style>
 
     <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:layout_margin">16dp</item>
         <item name="android:contentDescription">@string/add_habit</item>
-        <item name="android:backgroundTint">@color/blue_03</item>
+<!--        <item name="android:backgroundTint">@color/blue_03</item>-->
         <item name="srcCompat">@drawable/ic_thick_plus</item>
-        <item name="tint">@color/white</item>
+<!--        <item name="tint">@color/white</item>-->
         <item name="fabSize">normal</item>
     </style>
 
@@ -107,12 +107,11 @@
 
     <style name="RightArrowViewStyle">
         <item name="android:background">@drawable/ic_thick_right_arrow</item>
-        <item name="android:backgroundTint">@color/gray_05</item>
+        <item name="android:backgroundTint">?attr/colorOnBackground</item>
     </style>
 
     <style name="BottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="background">@drawable/bg_filled_rounded_rect_20</item>
-        <item name="android:backgroundTint">@color/white</item>
     </style>
 
     <style name="BottomSheetTitleStyle">
