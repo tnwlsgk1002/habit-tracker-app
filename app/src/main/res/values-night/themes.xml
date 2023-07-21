@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.HabitTracker" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/pink_04</item>
-        <item name="colorPrimaryVariant">@color/pink_03</item>
+        <item name="colorPrimary">@color/blue_03</item>
+        <item name="colorPrimaryVariant">@color/blue_04</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/pink_03</item>
-        <item name="colorSecondaryVariant">@color/pink_02</item>
+        <item name="colorSecondary">@color/blue_04</item>
+        <item name="colorSecondaryVariant">@color/blue_02</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:windowTranslucentStatus">true</item>
@@ -15,14 +15,15 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/Theme.HabitTracker.BottomSheetDialog</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
     <style name="Theme.HabitTracker.Main" parent="Theme.HabitTracker">
-        <item name="android:windowBackground">@color/gray_08</item>
+        <item name="android:windowBackground">@color/blue_05</item>
     </style>
 
     <style name="Theme.HabitTracker.Edit" parent="Theme.HabitTracker">
-        <item name="android:windowBackground">@color/gray_08</item>
+        <item name="android:windowBackground">@color/blue_05</item>
     </style>
 
     <style name="Theme.HabitTracker.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">

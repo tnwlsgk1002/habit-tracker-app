@@ -1,8 +1,8 @@
 <resources>
     <declare-styleable name="HabitTypeSelectView">
-        <attr name="habitTypeSelectView_titleText" format="string"/>
-        <attr name="habitTypeSelectView_descriptionText" format="string"/>
-        <attr name="habitTypeSelectView_icon" format="reference"/>
-        <attr name="habitTypeSelectView_iconTint" format="color"/>
+        <attr name="habitTypeSelectView_titleText" format="string" />
+        <attr name="habitTypeSelectView_descriptionText" format="string" />
+        <attr name="habitTypeSelectView_icon" format="reference" />
+        <attr name="habitTypeSelectView_iconTint" format="color" />
     </declare-styleable>
 </resources>

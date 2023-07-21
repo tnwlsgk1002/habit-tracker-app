@@ -94,7 +94,7 @@ abstract class AddHabitFragment(@LayoutRes contentLayoutId: Int) : Fragment(cont
     private val alarmTimePicker: MaterialTimePicker by lazy {
         val nowLocalTime = LocalTime.now()
         MaterialTimePicker.Builder().setInputMode(INPUT_MODE_KEYBOARD)
-            .setTimeFormat(TimeFormat.CLOCK_24H).setHour(nowLocalTime.hour)
+            .setTimeFormat(TimeFormat.CLOCK_12H).setHour(nowLocalTime.hour)
             .setMinute(nowLocalTime.minute).setTitleText(getString(R.string.input_alarm_time))
             .build().apply {
                 addOnPositiveButtonClickListener {

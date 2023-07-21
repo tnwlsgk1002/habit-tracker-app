@@ -3,13 +3,9 @@ package com.bibbidi.habittracker.ui.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -149,22 +145,19 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBindingData()
-        setActionBar()
+        initToolBar()
         collectEvent()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.home_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_select_date -> {
-                viewModel.clickDateIcon()
-                true
+    private fun initToolBar() {
+        binding.toolbar.setOnMenuItemClickListener { menu ->
+            when (menu.itemId) {
+                R.id.menu_select_date -> {
+                    viewModel.clickDateIcon()
+                    true
+                }
+                else -> false
             }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -174,10 +167,6 @@ class HomeFragment :
         binding.calendarAdapter = rowCalendarViewAdapter
         binding.habitsAdapter = habitsAdapter
         binding.vpRowCalendar.registerOnPageChangeCallback(rowCalendarViewPagerCallback)
-    }
-
-    private fun setActionBar() {
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
     }
 
     private fun collectEvent() {

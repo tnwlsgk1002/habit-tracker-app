@@ -3,7 +3,7 @@
 
     <style name="DateViewStyle">
         <item name="android:visibility">visible</item>
-        <item name="checkedBackgroundColor">@color/pink_04</item>
+        <item name="checkedBackgroundColor">@color/blue_02</item>
         <item name="notCheckedTextColor">@color/white</item>
         <item name="checkedTextColor">@color/white</item>
         <item name="checked">true</item>
@@ -28,24 +28,32 @@
         <item name="layout_constraintDimensionRatio">1:1</item>
     </style>
 
+    <style name="ToolBarStyle" parent="Widget.Material3.Toolbar">
+        <item name="titleTextAppearance">@style/HabitTracker.TextAppearance.Text20.SemiBold</item>
+        <item name="colorOnSurfaceVariant">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+    </style>
+
     <!-- CardView -->
-    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">10dp</item>
-        <item name="cardBackgroundColor">@color/gray_09</item>
-        <item name="android:background">@color/gray_09</item>
+    <style name="LogCardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/blue_04</item>
+    </style>
+
+    <style name="InputDataCardView" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/blue_05</item>
     </style>
 
     <style name="CardViewIconStyle">
         <item name="tint">@color/white</item>
     </style>
 
-    <style name="ImageButtonStyle" parent="Widget.AppCompat.ImageButton">
-        <item name="backgroundTint">@color/white</item>
+    <style name="SelectTypeCardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/blue_05</item>
     </style>
 
-    <style name="InputDataFromDialogStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">10dp</item>
-        <item name="cardBackgroundColor">@color/gray_09</item>
+    <style name="ImageButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="backgroundTint">@color/white</item>
     </style>
 
     <!-- Habit Item View -->
@@ -71,41 +79,24 @@
     <style name="HabitItemViewAddedLogButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="icon">@drawable/ic_thin_plus</item>
         <item name="iconSize">12dp</item>
-        <item name="iconTint">@color/pink_04</item>
-        <item name="strokeColor">@color/pink_04</item>
-        <item name="rippleColor">@color/pink_04</item>
+        <item name="iconTint">@color/blue_03</item>
+        <item name="strokeColor">@color/blue_03</item>
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text12.Medium</item>
-        <item name="android:textColor">@color/pink_04</item>
-    </style>
-
-    <style name="DividerLineView">
-        <item name="android:background">@color/pink_04</item>
-    </style>
-
-    <style name="DividerCircleView">
-        <item name="android:background">@drawable/bg_filled_circle</item>
-        <item name="android:backgroundTint">@color/pink_04</item>
+        <item name="android:textColor">@color/blue_03</item>
     </style>
 
     <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:layout_margin">16dp</item>
         <item name="android:contentDescription">@string/add_habit</item>
-        <item name="android:backgroundTint">@color/pink_04</item>
+        <item name="android:backgroundTint">@color/blue_03</item>
         <item name="srcCompat">@drawable/ic_thick_plus</item>
         <item name="tint">@color/white</item>
         <item name="fabSize">normal</item>
     </style>
 
-    <style name="BottomButtonStyle" parent="Widget.AppCompat.Button">
-        <item name="android:background">@drawable/selector_bottom_button_dark</item>
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text16.SemiBold</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_filled_rounded_rect_20</item>
-        <item name="android:backgroundTint">@color/gray_08</item>
-        <item name="android:layout_margin">16dp</item>
+        <item name="android:backgroundTint">@color/blue_04</item>
     </style>
 
 </resources>

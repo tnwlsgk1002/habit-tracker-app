@@ -1,7 +1,0 @@
-<resources>
-    <declare-styleable name="InputDataFromDialogView">
-        <attr name="inputDataFromDialogView_titleText" format="string"/>
-        <attr name="inputDataFromDialogView_contentText" format="string"/>
-        <attr name="inputDataFromDialogView_background" format="reference"/>
-    </declare-styleable>
-</resources>
