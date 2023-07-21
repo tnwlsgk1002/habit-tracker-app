@@ -20,6 +20,11 @@ class DateView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+    companion object {
+        const val ABLE_ALPHA = 1F
+        const val DISABLE_ALPHA = 0.5F
+    }
+
     private val tvDayOfWeek: TextView
     private val tvDayOfTheMonth: TextView
     private val bgDayOfTheMonth: GradientDrawable
@@ -27,9 +32,9 @@ class DateView @JvmOverloads constructor(
     var isToday: Boolean = false
         set(value) {
             tvDayOfTheMonth.alpha = if (value || checked) {
-                1F
+                ABLE_ALPHA
             } else {
-                0.5F
+                DISABLE_ALPHA
             }
             field = value
             invalidate()
@@ -53,9 +58,9 @@ class DateView @JvmOverloads constructor(
 
             tvDayOfTheMonth.setTextColor(contentTextColor)
             tvDayOfTheMonth.alpha = if (value || isToday) {
-                1F
+                ABLE_ALPHA
             } else {
-                0.5F
+                DISABLE_ALPHA
             }
             invalidate()
         }
