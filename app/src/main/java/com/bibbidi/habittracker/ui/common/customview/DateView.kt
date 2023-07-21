@@ -6,7 +6,6 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.ResourcesCompat
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.utils.dayOfWeekValues
 import com.bibbidi.habittracker.utils.getBasicTextColor
@@ -28,15 +27,6 @@ class DateView @JvmOverloads constructor(
     var isToday: Boolean = false
         set(value) {
             field = value
-
-            tvDayOfTheMonth.typeface = ResourcesCompat.getFont(
-                context,
-                when (value) {
-                    true -> R.font.pretendard_bold
-                    false -> R.font.pretendard_semibold
-                }
-            )
-            ResourcesCompat.getFont(context, R.font.pretendard_bold)
             invalidate()
         }
 

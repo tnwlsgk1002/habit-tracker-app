@@ -32,7 +32,6 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
-                style="@style/ToolBarStyle"
                 android:layout_width="0dp"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_habit_message"
-                android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+                android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
                 app:layout_constraintBottom_toTopOf="@id/button_add_habit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

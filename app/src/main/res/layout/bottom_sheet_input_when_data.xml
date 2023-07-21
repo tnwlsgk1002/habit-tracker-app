@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="20"
-                android:textAppearance="@style/HabitTracker.TextAppearance.Text12.SemiBold" />
+                android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

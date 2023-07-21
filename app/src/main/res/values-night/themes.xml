@@ -15,7 +15,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/Theme.HabitTracker.BottomSheetDialog</item>
-        <item name="android:textColorSecondary">@color/white</item>
+        <item name="toolbarStyle">@style/Theme.HabitTracker.Toolbar</item>
     </style>
 
     <style name="Theme.HabitTracker.Main" parent="Theme.HabitTracker">

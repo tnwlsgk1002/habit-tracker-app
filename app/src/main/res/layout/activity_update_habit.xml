@@ -19,7 +19,6 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/ToolBarStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/update_habit_title"
-                    android:textAppearance="@style/HabitTracker.TextAppearance.Text20.SemiBold"
+                    android:textAppearance="@style/HabitTracker.TextAppearance.TitleLarge"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +53,7 @@
                     android:layout_marginTop="16dp"
                     android:hint="@string/habit_name_hint"
                     android:text="@={viewmodel.nameFlow}"
-                    android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+                    android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_page_title" />
@@ -80,7 +79,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/set_emoji"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.Medium"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +91,7 @@
                             android:layout_marginEnd="8dp"
                             android:gravity="end"
                             android:text="@{viewmodel.emojiFlow}"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
                             app:layout_constraintBaseline_toBaselineOf="@id/tv_emoji_title"
                             app:layout_constraintEnd_toStartOf="@id/view_emoji_right_arrow"
                             app:layout_constraintHorizontal_bias="1.0"
@@ -140,7 +139,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/set_alarm"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.Medium"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -151,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:checked="@{viewmodel.alarmTimeFlow != null}"
                             android:clickable="false"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="1.0"
@@ -185,7 +184,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/when_will_you_do_it"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.Medium"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -197,7 +196,7 @@
                             android:layout_marginEnd="8dp"
                             android:gravity="end"
                             android:text="@{viewmodel.whenRunFlow}"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
                             app:layout_constraintBaseline_toBaselineOf="@id/tv_when_run_title"
                             app:layout_constraintEnd_toStartOf="@id/view_right_arrow"
                             app:layout_constraintHorizontal_bias="1.0"

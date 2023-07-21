@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/semicolon"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text34.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             android:textColor="?attr/colorOnBackground"
             app:layout_constraintBaseline_toBaselineOf="@id/edit_text_hour"
             app:layout_constraintStart_toEndOf="@id/edit_text_hour" />

@@ -1,93 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- TextAppearance -->
-    <style name="HabitTracker.TextAppearance.Text34" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/pretendard_black</item>
-        <item name="android:textSize">34sp</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.TitleLarge" parent="TextAppearance.Material3.TitleLarge" />
 
-    <style name="HabitTracker.TextAppearance.Text34.SemiBold" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/pretendard_semibold</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.TitleMedium" parent="TextAppearance.Material3.TitleMedium" />
 
-    <style name="HabitTracker.TextAppearance.Text34.Medium" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/pretendard_medium</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.TitleSmall" parent="TextAppearance.Material3.TitleSmall" />
 
-    <style name="HabitTracker.TextAppearance.Text20" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/pretendard_black</item>
-        <item name="android:textSize">20sp</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.BodyLarge" parent="TextAppearance.Material3.BodyLarge" />
 
-    <style name="HabitTracker.TextAppearance.Text20.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.BodyMedium" parent="TextAppearance.Material3.BodyMedium" />
 
-    <style name="HabitTracker.TextAppearance.Text20.SemiBold">
-        <item name="fontFamily">@font/pretendard_semibold</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.BodySmall" parent="TextAppearance.Material3.BodySmall" />
 
-    <style name="HabitTracker.TextAppearance.Text16" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/pretendard_black</item>
-        <item name="android:textSize">16sp</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.LabelLarge" parent="TextAppearance.Material3.LabelLarge" />
 
-    <style name="HabitTracker.TextAppearance.Text16.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.LabelMedium" parent="TextAppearance.Material3.LabelMedium" />
 
-    <style name="HabitTracker.TextAppearance.Text16.SemiBold">
-        <item name="fontFamily">@font/pretendard_semibold</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text14" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/pretendard_black</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text14.SemiBold">
-        <item name="fontFamily">@font/pretendard_semibold</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text14.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text14.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text12" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/pretendard_black</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text12.SemiBold">
-        <item name="fontFamily">@font/pretendard_semibold</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text12.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text8" parent="TextAppearance.AppCompat.Body1">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="android:textSize">8sp</item>
-    </style>
-
-    <style name="HabitTracker.TextAppearance.Text8.Medium" parent="HabitTracker.TextAppearance.Text8">
-        <item name="android:textSize">8sp</item>
-    </style>
-
-    <!-- Toolbar -->
-
-    <style name="ToolBarStyle" parent="Widget.Material3.Toolbar">
-        <item name="titleTextAppearance">@style/HabitTracker.TextAppearance.Text20.SemiBold</item>
-        <item name="android:textColorSecondary">@color/black</item>
-    </style>
+    <style name="HabitTracker.TextAppearance.LabelSmall" parent="TextAppearance.Material3.LabelMedium" />
 
     <!-- DateView -->
-
     <style name="DateViewStyle">
         <item name="android:visibility">visible</item>
         <item name="checkedBackgroundColor">@color/blue_02</item>
@@ -135,20 +68,7 @@
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
-    <style name="ImageButtonStyle" parent="Widget.AppCompat.ImageButton">
-        <item name="backgroundTint">@color/black</item>
-    </style>
-
-    <!-- Habit Item View -->
-
-    <style name="HabitItemViewText.Title" parent="HabitTracker.TextAppearance.Text14.Bold">
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="HabitItemViewText.Caption" parent="HabitTracker.TextAppearance.Text12.Medium">
-        <item name="android:textColor">@color/gray_05</item>
-    </style>
-
+    <!-- HabitItemView -->
     <style name="HabitItemViewMore" parent="Widget.AppCompat.ImageButton">
         <item name="android:layout_width">18dp</item>
         <item name="android:layout_height">18dp</item>
@@ -164,7 +84,7 @@
         <item name="iconSize">12dp</item>
         <item name="iconTint">@color/blue_03</item>
         <item name="strokeColor">@color/blue_03</item>
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text12.Medium</item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
         <item name="android:textColor">@color/blue_03</item>
     </style>
 
@@ -177,10 +97,9 @@
         <item name="fabSize">normal</item>
     </style>
 
-    <!-- 습관 설정 -->
+    <!-- 습관 설정 화면(습관 추가, 수정) -->
     <style name="BottomButtonStyle" parent="Widget.Material3.Button">
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text16.SemiBold
-        </item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
         <item name="android:layout_margin">8dp</item>
     </style>
 
@@ -195,14 +114,12 @@
     </style>
 
     <style name="BottomSheetTitleStyle">
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text20.SemiBold
-        </item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.TitleLarge</item>
         <item name="android:layout_margin">32dp</item>
     </style>
 
     <style name="WhenChipStyle" parent="Widget.Material3.Chip.Assist">
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text14.SemiBold
-        </item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelMedium</item>
     </style>
 
     <style name="TimeInputEditEditTextStyle" parent="Widget.AppCompat.EditText">
@@ -210,18 +127,7 @@
         <item name="android:maxLength">2</item>
         <item name="android:text">00</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text34.SemiBold
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge
         </item>
-    </style>
-
-    <!-- 습관 설정 시 사용하는 Style -->
-    <style name="NameInputEditTextStyle" parent="Widget.AppCompat.EditText">
-        <item name="android:hint">@string/habit_name_hint</item>
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.Text16.SemiBold
-        </item>
-    </style>
-
-    <style name="HabitTracker.Button" parent="Widget.Material3.Button">
-
     </style>
 </resources>

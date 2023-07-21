@@ -31,7 +31,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/sunday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
@@ -43,7 +43,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/monday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_sun" />
@@ -55,7 +55,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/tuesday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_mon" />
@@ -67,7 +67,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/wednesday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_tue" />
@@ -79,7 +79,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/thursday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_wed" />
@@ -91,7 +91,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/friday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_thu" />
@@ -104,7 +104,7 @@
             android:layout_marginBottom="32dp"
             android:checked="true"
             android:text="@string/saturday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_fri"

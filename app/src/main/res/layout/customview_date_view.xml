@@ -9,7 +9,7 @@
         android:id="@+id/tv_day_of_week"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/HabitTracker.TextAppearance.Text12.Medium"
+        android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
         tools:text="일"
         tools:textColor="@color/black" />
 
@@ -21,7 +21,7 @@
         android:background="@drawable/bg_filled_circle"
         android:backgroundTint="?android:attr/colorPrimary"
         android:gravity="center"
-        android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
+        android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
         tools:text="1"
         tools:textColor="@color/white" />
 </LinearLayout>
