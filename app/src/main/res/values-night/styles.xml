@@ -50,11 +50,12 @@
     </style>
 
     <!-- Habit Item View -->
-
-    <style name="HabitItemViewMore" parent="Widget.AppCompat.ImageButton">
-        <item name="android:layout_width">18dp</item>
-        <item name="android:layout_height">18dp</item>
-        <item name="android:backgroundTint">@color/white</item>
+    <style name="HabitItemViewMore" parent="Widget.Material3.Button.IconButton">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="iconTint">@color/white</item>
+        <item name="iconGravity">textStart</item>
+        <item name="icon">@drawable/ic_baseline_more_vert</item>
     </style>
 
     <style name="HabitItemViewBell">

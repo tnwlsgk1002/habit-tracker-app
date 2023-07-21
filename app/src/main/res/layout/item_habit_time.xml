@@ -92,10 +92,9 @@
             android:visibility="visible"
             app:constraint_referenced_ids="tv_split_goal_to_alarm, tv_alarm" />
 
-        <ImageButton
+        <Button
             android:id="@+id/ib_menu"
             style="@style/HabitItemViewMore"
-            android:background="@drawable/ic_baseline_more_vert"
             android:contentDescription="@string/habit_edit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
