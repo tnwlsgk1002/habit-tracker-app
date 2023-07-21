@@ -32,12 +32,12 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
-                style="@style/ToolBarStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:menu="@menu/home_menu"
                 bind:title="@{viewmodel.dateFlow}"
                 tools:title="@string/date" />
 
@@ -47,12 +47,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
-                bind:adapter="@{calendarAdapter}"
-                bind:itemList="@{viewmodel.dateItemsFlow}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                bind:adapter="@{calendarAdapter}"
+                bind:itemList="@{viewmodel.dateItemsFlow}" />
 
             <androidx.constraintlayout.widget.Group
                 android:layout_width="wrap_content"
@@ -65,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_habit_message"
-                android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+                android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
                 app:layout_constraintBottom_toTopOf="@id/button_add_habit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -89,15 +88,16 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_habits"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_margin="16dp"
-                bind:adapter="@{habitsAdapter}"
-                bind:itemList="@{viewmodel.habitsStateFlow}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vp_row_calendar"
                 app:spanCount="2"
+                bind:adapter="@{habitsAdapter}"
+                bind:itemList="@{viewmodel.habitsStateFlow}"
                 tools:listitem="@layout/item_habit_check" />
 
             <ProgressBar
@@ -105,11 +105,11 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                bind:item_visibility="@{viewmodel.habitsStateFlow}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar" />
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                bind:item_visibility="@{viewmodel.habitsStateFlow}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -32,7 +32,7 @@ class NotificationManager @Inject constructor(
         }
 
         val builder = NotificationCompat.Builder(context, START_HABIT_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.mipmap.ic_launcher_foreground)
             .setContentText(
                 context.getString(
                     R.string.start_habit_alarm_message,

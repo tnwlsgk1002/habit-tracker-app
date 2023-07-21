@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
 
         <TextView
             android:id="@+id/tv_title"
@@ -26,7 +31,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/sunday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
@@ -38,7 +43,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/monday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_sun" />
@@ -50,7 +55,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/tuesday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_mon" />
@@ -62,7 +67,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/wednesday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_tue" />
@@ -74,7 +79,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/thursday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_wed" />
@@ -86,7 +91,7 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:text="@string/friday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_thu" />
@@ -99,11 +104,11 @@
             android:layout_marginBottom="32dp"
             android:checked="true"
             android:text="@string/saturday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/checkbox_fri"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

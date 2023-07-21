@@ -1,31 +1,13 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Theme.HabitTracker" parent="Theme.Material3.Dark.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/pink_04</item>
-        <item name="colorPrimaryVariant">@color/pink_03</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/pink_03</item>
-        <item name="colorSecondaryVariant">@color/pink_02</item>
-        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/Theme.HabitTracker.BottomSheetDialog</item>
+        <item name="toolbarStyle">@style/Theme.HabitTracker.Toolbar</item>
     </style>
 
-    <style name="Theme.HabitTracker.Main" parent="Theme.HabitTracker">
-        <item name="android:windowBackground">@color/gray_08</item>
-    </style>
-
-    <style name="Theme.HabitTracker.Edit" parent="Theme.HabitTracker">
-        <item name="android:windowBackground">@color/gray_08</item>
-    </style>
-
-    <style name="Theme.HabitTracker.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
-    </style>
 </resources>

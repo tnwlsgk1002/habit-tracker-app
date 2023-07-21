@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.Intent
 import com.bibbidi.habittracker.ui.common.Constants
 import com.bibbidi.habittracker.ui.model.habit.HabitAlarmUiModel
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AlarmReceiver : BroadcastReceiver() {
 
     @Inject

@@ -5,7 +5,9 @@ import android.view.View
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputEmojiBinding
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
+import com.bibbidi.habittracker.utils.getBackgroundColor
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.vanniktech.emoji.EmojiTheming
 import com.vanniktech.emoji.listeners.OnEmojiClickListener
 
 class EmojiPickerBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_input_emoji) {
@@ -36,11 +38,15 @@ class EmojiPickerBottomSheet : BottomSheetDialogFragment(R.layout.bottom_sheet_i
     }
 
     private fun setUpEmojiView() {
+        val theming = dialog?.window?.decorView?.getBackgroundColor()?.let {
+            EmojiTheming.from(requireContext()).copy(backgroundColor = it)
+        } ?: EmojiTheming.from(requireContext())
         binding.emojiView.setUp(
             rootView = binding.root,
             onEmojiClickListener = onEmojiClickListener,
             onEmojiBackspaceClickListener = null,
-            editText = null
+            editText = null,
+            theming = theming
         )
     }
 

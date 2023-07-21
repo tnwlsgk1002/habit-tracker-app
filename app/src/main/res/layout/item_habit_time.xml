@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/CardViewStyle"
+    style="@style/LogCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -28,7 +28,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="@style/HabitItemViewText.Title"
+            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
             app:layout_constraintBottom_toTopOf="@id/tv_when"
             app:layout_constraintEnd_toStartOf="@id/ib_menu"
             app:layout_constraintHorizontal_bias="0.0"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/HabitItemViewText.Caption"
+            android:textAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_habit_title"
             tools:text="공복" />
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/split_string"
-            android:textAppearance="@style/HabitItemViewText.Caption"
+            android:textAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_when"
             app:layout_constraintStart_toEndOf="@id/tv_when" />
 
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/HabitItemViewText.Caption"
+            android:textAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
             app:layout_constraintStart_toEndOf="@id/tv_split_when_to_goal"
             app:layout_constraintTop_toBottomOf="@id/tv_habit_title"
             tools:text="1h" />
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/split_string"
-            android:textAppearance="@style/HabitItemViewText.Caption"
+            android:textAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_when"
             app:layout_constraintStart_toEndOf="@id/tv_goal" />
 
@@ -90,12 +90,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="tv_split_goal_to_alarm, tv_alarm"/>
+            app:constraint_referenced_ids="tv_split_goal_to_alarm, tv_alarm" />
 
-        <ImageButton
+        <Button
             android:id="@+id/ib_menu"
             style="@style/HabitItemViewMore"
-            android:background="@drawable/ic_baseline_more_vert"
             android:contentDescription="@string/habit_edit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -110,7 +109,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:minLines="2"
-            android:textAppearance="@style/HabitItemViewText.Title"
+            android:textAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_habit_title"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/tv_habit_title"
@@ -121,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/HabitItemViewText.Caption"
+            android:textAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_fake_habit_title"
@@ -145,7 +144,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textAppearance="@style/HabitItemViewText.Title"
+            android:textAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_play"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/checkbox_play"
@@ -153,4 +152,4 @@
             tools:text="00:00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

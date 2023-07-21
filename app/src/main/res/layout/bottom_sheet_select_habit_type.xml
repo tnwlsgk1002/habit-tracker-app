@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
 
         <TextView
             android:id="@+id/tv_title"
@@ -30,7 +35,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             custom:habitTypeSelectView_descriptionText="@string/check_habit_description"
             custom:habitTypeSelectView_icon="@drawable/ic_check_circle"
-            custom:habitTypeSelectView_iconTint="@color/green_04"
+            custom:habitTypeSelectView_iconTint="@color/green"
             custom:habitTypeSelectView_titleText="@string/check_habit_title" />
 
         <com.bibbidi.habittracker.ui.common.customview.HabitTypeSelectView
@@ -43,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@id/btn_todo_type"
             custom:habitTypeSelectView_descriptionText="@string/track_habit_description"
             custom:habitTypeSelectView_icon="@drawable/ic_outline_edit"
-            custom:habitTypeSelectView_iconTint="@color/orange_03"
+            custom:habitTypeSelectView_iconTint="@color/orange"
             custom:habitTypeSelectView_titleText="@string/track_habit_title" />
 
         <com.bibbidi.habittracker.ui.common.customview.HabitTypeSelectView
@@ -59,8 +64,8 @@
             app:layout_constraintTop_toBottomOf="@id/btn_track_type"
             custom:habitTypeSelectView_descriptionText="@string/time_habit_description"
             custom:habitTypeSelectView_icon="@drawable/bg_outline_play_circle"
-            custom:habitTypeSelectView_iconTint="@color/red_03"
+            custom:habitTypeSelectView_iconTint="@color/red"
             custom:habitTypeSelectView_titleText="@string/time_habit_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

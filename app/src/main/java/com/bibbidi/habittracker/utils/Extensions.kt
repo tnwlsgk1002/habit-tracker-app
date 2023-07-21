@@ -1,5 +1,6 @@
 package com.bibbidi.habittracker.utils
 
+import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.view.View
 import android.widget.EditText
@@ -59,4 +60,8 @@ fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
     lifecycleScope.launch {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
     }
+}
+
+fun View.getBackgroundColor(): Int? {
+    return (background as? ColorDrawable)?.color
 }

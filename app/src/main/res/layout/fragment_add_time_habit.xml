@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -32,7 +31,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/set_up_habit_title"
-                    android:textAppearance="@style/HabitTracker.TextAppearance.Text20.SemiBold"
+                    android:textAppearance="@style/HabitTracker.TextAppearance.TitleLarge"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -44,41 +43,78 @@
                     android:layout_marginTop="16dp"
                     android:hint="@string/habit_name_hint"
                     android:text="@={viewmodel.nameFlow}"
-                    android:textAppearance="@style/HabitTracker.TextAppearance.Text16.SemiBold"
+                    android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_page_title" />
 
-                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
-                    android:id="@+id/button_set_emoji"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/container_emoji"
+                    style="@style/InputDataCardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewmodel.showInputEmojiDialog()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edit_text_name"
-                    bind:bind_contentText="@{viewmodel.emojiFlow}"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
-                    custom:inputDataFromDialogView_titleText="@string/set_emoij"
-                    tools:inputDataFromDialogView_contentText="💧" />
+                    app:layout_constraintTop_toBottomOf="@id/edit_text_name">
 
-                <View
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_emoji_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/set_emoji"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_emoji_content"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:gravity="end"
+                            android:text="@{viewmodel.emojiFlow}"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
+                            app:layout_constraintBaseline_toBaselineOf="@id/tv_emoji_title"
+                            app:layout_constraintEnd_toStartOf="@id/view_emoji_right_arrow"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@id/tv_emoji_title" />
+
+                        <View
+                            android:id="@+id/view_emoji_right_arrow"
+                            style="@style/RightArrowViewStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_emoji_title"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_emoji_title" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/divider_line1"
-                    style="@style/DividerLineView.Gray"
                     android:layout_width="0dp"
-                    android:layout_height="1dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/button_set_emoji" />
+                    app:layout_constraintTop_toBottomOf="@id/container_emoji" />
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/InputDataFromDialogStyle"
                     android:id="@+id/layout_alarm_time"
+                    style="@style/InputDataCardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewmodel.showInputAlarmDialog()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -86,108 +122,210 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/tv_alarm_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/set_alarm"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.Medium"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
+                        <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/switch_alarm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="@{viewmodel.alarmTimeFlow != null}"
                             android:clickable="false"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.Text14.SemiBold"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toEndOf="@id/tv_alarm_title"
                             app:layout_constraintTop_toTopOf="parent"
-                            bind:bind_contentText="@{viewmodel.alarmTimeFlow}"
+                            bind:text="@{viewmodel.alarmTimeFlow}"
                             tools:ignore="UseSwitchCompatOrMaterialXml"
-                            app:layout_constraintHorizontal_bias="1.0"
                             tools:text="09:00" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
-                    android:id="@+id/button_set_when"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/container_when_run"
+                    style="@style/InputDataCardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewmodel.showInputWhenRunDialog()}"
-                    app:layout_constraintBottom_toTopOf="@id/button_set_repeats_day_of_the_weeks"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_alarm_time"
-                    bind:bind_contentText="@{viewmodel.whenRunFlow}"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
-                    custom:inputDataFromDialogView_titleText="@string/when_will_you_do_it"
-                    tools:inputDataFromDialogView_contentText="출근길" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_alarm_time">
 
-                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
-                    android:id="@+id/button_set_repeats_day_of_the_weeks"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_when_run_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/when_will_you_do_it"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_when_run_content"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:gravity="end"
+                            android:text="@{viewmodel.whenRunFlow}"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
+                            app:layout_constraintBaseline_toBaselineOf="@id/tv_when_run_title"
+                            app:layout_constraintEnd_toStartOf="@id/view_when_run_right_arrow"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@id/tv_when_run_title"
+                            tools:text="출근길" />
+
+                        <View
+                            android:id="@+id/view_when_run_right_arrow"
+                            style="@style/RightArrowViewStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_when_run_title"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_when_run_title" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/container_repeats_day_of_weeks"
+                    style="@style/InputDataCardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewmodel.showInputRepeatsDayOfTheWeeksDialog()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/button_set_when"
-                    bind:bind_contentText="@{viewmodel.repeatsDayOfTheWeeksFlow}"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
-                    custom:inputDataFromDialogView_titleText="@string/habit_repeats_day_of_the_weeks" />
+                    app:layout_constraintTop_toBottomOf="@id/container_when_run">
 
-                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
-                    android:id="@+id/button_set_goal_time"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_repeats_day_of_weeks_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/habit_repeats_day_of_the_weeks"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_repeats_day_of_weeks_content"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:gravity="end"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
+                            app:layout_constraintBaseline_toBaselineOf="@id/tv_repeats_day_of_weeks_title"
+                            app:layout_constraintEnd_toStartOf="@id/view_repeats_day_of_the_weeks_right_arrow"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@id/tv_repeats_day_of_weeks_title"
+                            bind:text="@{viewmodel.repeatsDayOfTheWeeksFlow}"
+                            tools:text="일, 월, 화, 수, 목, 금, 토" />
+
+                        <View
+                            android:id="@+id/view_repeats_day_of_the_weeks_right_arrow"
+                            style="@style/RightArrowViewStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_repeats_day_of_weeks_title"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_repeats_day_of_weeks_title" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider_line2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:onClick="@{() -> viewmodel.showInputGoalTimeDialog()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/button_set_repeats_day_of_the_weeks"
-                    bind:bind_contentText="@{viewmodel.goalTimeFlow}"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
-                    custom:inputDataFromDialogView_titleText="@string/set_goal_time"
-                    tools:inputDataFromDialogView_contentText="3시간" />
+                    app:layout_constraintTop_toBottomOf="@id/container_repeats_day_of_weeks" />
 
-                <View
-                    android:id="@+id/divider_line2"
-                    style="@style/DividerLineView.Gray"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintBottom_toTopOf="@id/button_set_start_date"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/button_set_goal_time" />
-
-                <com.bibbidi.habittracker.ui.common.customview.InputDataFromDialogView
-                    android:id="@+id/button_set_start_date"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/container_start_date"
+                    style="@style/InputDataCardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> viewmodel.showInputStartDateDialog()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider_line2"
-                    bind:bind_contentText="@{viewmodel.startDateFlow}"
-                    custom:inputDataFromDialogView_background="@color/gray_05"
-                    custom:inputDataFromDialogView_titleText="@string/start_date"
-                    tools:inputDataFromDialogView_contentText="2023-05-09" />
+                    app:layout_constraintTop_toBottomOf="@id/divider_line2">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_start_date_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/start_date"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_start_date_content"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:gravity="end"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
+                            app:layout_constraintBaseline_toBaselineOf="@id/tv_start_date_title"
+                            app:layout_constraintEnd_toStartOf="@id/view_start_date_right_arrow"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@id/tv_start_date_title"
+                            bind:text="@{viewmodel.startDateFlow}"
+                            tools:text="2023-05-09" />
+
+                        <View
+                            android:id="@+id/view_start_date_right_arrow"
+                            style="@style/RightArrowViewStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_start_date_title"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_start_date_title" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/button_submit"
             style="@style/BottomButtonStyle"
             android:layout_width="match_parent"
