@@ -88,7 +88,7 @@ class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiMo
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.apply {
+        supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             title = ""
         }
@@ -98,7 +98,7 @@ class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitInfoUiMo
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            finish()
             return true
         }
         return super.onOptionsItemSelected(item)
