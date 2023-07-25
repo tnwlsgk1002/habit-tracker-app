@@ -3,8 +3,8 @@ package com.bibbidi.habittracker.ui.background
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.bibbidi.habittracker.domain.HabitsRepository
-import com.bibbidi.habittracker.domain.model.DBResult
+import com.bibbidi.habittracker.data.model.DBResult
+import com.bibbidi.habittracker.data.source.HabitsRepository
 import com.bibbidi.habittracker.ui.mapper.asUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

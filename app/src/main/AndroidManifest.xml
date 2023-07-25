@@ -18,14 +18,14 @@
         android:theme="@style/Theme.HabitTracker"
         tools:targetApi="31">
         <activity
-            android:name=".ui.updatehabit.UpdateHabitActivity"
+            android:name=".ui.sethabit.updatehabit.UpdateHabitActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.addhabit.AddHabitActivity"
+            android:name=".ui.sethabit.addhabit.AddHabitActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

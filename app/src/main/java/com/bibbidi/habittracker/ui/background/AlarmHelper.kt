@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import com.bibbidi.habittracker.ui.common.Constants
-import com.bibbidi.habittracker.ui.model.habit.HabitAlarmUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.utils.asLong
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.threeten.bp.LocalDate
@@ -19,8 +19,8 @@ class AlarmHelper @Inject constructor(@ApplicationContext private val context: C
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    fun registerAlarm(alarmInfo: HabitAlarmUiModel) {
-        val alarmTime = alarmInfo.alarmTime ?: return
+    fun registerAlarm(habit: HabitUiModel) {
+        val alarmTime = habit.alarmTime ?: return
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = if (LocalDateTime.now().withHour(alarmTime.hour).withMinute(alarmTime.minute)
@@ -28,7 +28,7 @@ class AlarmHelper @Inject constructor(@ApplicationContext private val context: C
             ) {
                 LocalDate.now().plusDays(1).asLong()
             } else {
-                alarmInfo.startDate.asLong()
+                habit.startDate.asLong()
             }
             set(Calendar.HOUR_OF_DAY, alarmTime.hour)
             set(Calendar.MINUTE, alarmTime.minute)
@@ -39,36 +39,36 @@ class AlarmHelper @Inject constructor(@ApplicationContext private val context: C
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
-            createPendingIntent(alarmInfo)
+            createPendingIntent(habit)
         )
     }
 
-    fun updateAlarm(alarmInfo: HabitAlarmUiModel) {
-        cancelAlarm(alarmInfo)
-        registerAlarm(alarmInfo)
+    fun updateAlarm(habit: HabitUiModel) {
+        cancelAlarm(habit)
+        registerAlarm(habit)
     }
 
-    fun cancelAlarm(alarmInfo: HabitAlarmUiModel) {
-        val pendingIntent = createPendingIntent(alarmInfo)
+    fun cancelAlarm(habit: HabitUiModel) {
+        val pendingIntent = createPendingIntent(habit)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent)
     }
 
-    private fun getRequestCode(alarmInfo: HabitAlarmUiModel): Int {
-        return "${alarmInfo.habitId}".hashCode()
+    private fun getRequestCode(habit: HabitUiModel): Int {
+        return "${habit.id}".hashCode()
     }
 
-    private fun createPendingIntent(alarmInfo: HabitAlarmUiModel): PendingIntent {
+    private fun createPendingIntent(habit: HabitUiModel): PendingIntent {
         val alarmIntent = Intent(context, AlarmReceiver::class.java).apply {
             val bundle = Bundle().apply {
-                putParcelable(Constants.HABIT_START_ALARM_KEY, alarmInfo)
+                putParcelable(Constants.HABIT_INFO_KEY, habit)
             }
             putExtras(bundle)
         }
 
         return PendingIntent.getBroadcast(
             context,
-            getRequestCode(alarmInfo),
+            getRequestCode(habit),
             alarmIntent,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 PendingIntent.FLAG_IMMUTABLE

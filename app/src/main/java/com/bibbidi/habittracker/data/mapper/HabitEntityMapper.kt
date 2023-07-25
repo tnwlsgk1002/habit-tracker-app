@@ -1,24 +1,28 @@
 package com.bibbidi.habittracker.data.mapper
 
 import com.bibbidi.habittracker.data.model.entity.HabitEntity
-import com.bibbidi.habittracker.domain.model.alarm.HabitAlarm
-import com.bibbidi.habittracker.domain.model.habitinfo.HabitInfo
+import com.bibbidi.habittracker.data.model.habit.Habit
 
-fun HabitInfo.asData(): HabitEntity = HabitEntity(
-    id = habitId,
-    name = name,
-    startDate = startDate,
-    emoji = emoji,
-    alarmTime = alarmTime,
-    whenRun = whenRun,
-    repeatDayOfTheWeeks = repeatsDayOfTheWeeks
-)
+object HabitEntityMapper : DataModelMapper<HabitEntity, Habit> {
+    override fun asData(domain: Habit) = HabitEntity(
+        id = domain.id,
+        name = domain.name,
+        startDate = domain.startDate,
+        emoji = domain.emoji,
+        alarmTime = domain.alarmTime,
+        repeatDayOfTheWeeks = domain.repeatsDayOfTheWeeks
+    )
 
-fun HabitEntity.asHabitAlarm() = HabitAlarm(
-    habitId = id,
-    name = name,
-    startDate = startDate,
-    emoji = emoji,
-    alarmTime = alarmTime,
-    repeatsDayOfTheWeeks = repeatDayOfTheWeeks
-)
+    override fun asDomain(data: HabitEntity) = Habit(
+        id = data.id,
+        name = data.name,
+        startDate = data.startDate,
+        emoji = data.emoji,
+        alarmTime = data.alarmTime,
+        repeatsDayOfTheWeeks = data.repeatDayOfTheWeeks
+    )
+}
+
+fun HabitEntity.asDomain(): Habit = HabitEntityMapper.asDomain(this)
+
+fun Habit.asData(): HabitEntity = HabitEntityMapper.asData(this)

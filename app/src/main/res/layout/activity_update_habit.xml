@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="viewmodel"
-            type="com.bibbidi.habittracker.ui.updatehabit.UpdateHabitViewModel" />
+            name="vm"
+            type="com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitViewModel" />
     </data>
 
     <LinearLayout
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/habit_name_hint"
-                    android:text="@={viewmodel.nameFlow}"
+                    android:text="@={vm.nameFlow}"
                     android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:onClick="@{() -> viewmodel.showInputEmojiDialog()}"
+                    android:onClick="@{() -> vm.showInputEmojiDialog()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edit_text_name">
@@ -90,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:gravity="end"
-                            android:text="@{viewmodel.emojiFlow}"
+                            android:text="@{vm.emojiFlow}"
                             android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
                             app:layout_constraintBaseline_toBaselineOf="@id/tv_emoji_title"
                             app:layout_constraintEnd_toStartOf="@id/view_emoji_right_arrow"
@@ -125,7 +125,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:onClick="@{() -> viewmodel.showInputAlarmDialog()}"
+                    android:onClick="@{() -> vm.showInputAlarmDialog()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider_line1">
@@ -148,7 +148,7 @@
                             android:id="@+id/switch_alarm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="@{viewmodel.alarmTimeFlow != null}"
+                            android:checked="@{vm.alarmTimeFlow != null}"
                             android:clickable="false"
                             android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -156,66 +156,12 @@
                             app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toEndOf="@id/tv_alarm_title"
                             app:layout_constraintTop_toTopOf="parent"
-                            bind:text="@{viewmodel.alarmTimeFlow}"
+                            bind:text="@{vm.alarmTimeFlow}"
                             tools:ignore="UseSwitchCompatOrMaterialXml"
                             tools:text="09:00" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/container_when_run"
-                    style="@style/InputDataCardView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:onClick="@{() -> viewmodel.showInputWhenRunDialog()}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/container_alarm_time">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp">
-
-                        <TextView
-                            android:id="@+id/tv_when_run_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/when_will_you_do_it"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tv_when_run_content"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="end"
-                            android:text="@{viewmodel.whenRunFlow}"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
-                            app:layout_constraintBaseline_toBaselineOf="@id/tv_when_run_title"
-                            app:layout_constraintEnd_toStartOf="@id/view_right_arrow"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toEndOf="@id/tv_when_run_title"
-                            tools:text="출근길" />
-
-                        <View
-                            android:id="@+id/view_right_arrow"
-                            style="@style/RightArrowViewStyle"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_when_run_title"
-                            app:layout_constraintDimensionRatio="1:1"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_when_run_title" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -224,8 +170,8 @@
             style="@style/BottomButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="@{viewmodel.isEnabled}"
-            android:onClick="@{() -> viewmodel.onSubmit()}"
+            android:enabled="@{vm.isEnabled}"
+            android:onClick="@{() -> vm.onSubmit()}"
             android:text="@string/update_finish" />
 
     </LinearLayout>

@@ -9,7 +9,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.ui.MainActivity
 import com.bibbidi.habittracker.ui.common.Constants.START_HABIT_CHANNEL_ID
-import com.bibbidi.habittracker.ui.model.habit.HabitAlarmUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -17,11 +17,11 @@ class NotificationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    private fun getNotifyId(alarm: HabitAlarmUiModel): Int {
-        return "${alarm.habitId} - ${System.currentTimeMillis()}".hashCode()
+    private fun getNotifyId(habit: HabitUiModel): Int {
+        return "${habit.id} - ${System.currentTimeMillis()}".hashCode()
     }
 
-    fun showNotification(alarmInfo: HabitAlarmUiModel) {
+    fun showNotification(habit: HabitUiModel) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
@@ -36,8 +36,8 @@ class NotificationManager @Inject constructor(
             .setContentText(
                 context.getString(
                     R.string.start_habit_alarm_message,
-                    alarmInfo.name,
-                    alarmInfo.emoji
+                    habit.name,
+                    habit.emoji
                 )
             )
             .setContentIntent(pendingIntent)
@@ -45,7 +45,7 @@ class NotificationManager @Inject constructor(
             .setAutoCancel(true)
 
         with(NotificationManagerCompat.from(context)) {
-            notify(getNotifyId(alarmInfo), builder.build())
+            notify(getNotifyId(habit), builder.build())
         }
     }
 }

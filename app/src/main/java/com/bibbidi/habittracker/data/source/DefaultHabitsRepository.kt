@@ -1,35 +1,23 @@
 package com.bibbidi.habittracker.data.source
 
+import android.util.LongSparseArray
 import com.bibbidi.habittracker.data.mapper.asData
-import com.bibbidi.habittracker.data.mapper.asHabitAlarm
-import com.bibbidi.habittracker.data.mapper.check.asData
-import com.bibbidi.habittracker.data.mapper.check.createCheckHabitInfo
-import com.bibbidi.habittracker.data.mapper.check.createHabitLog
-import com.bibbidi.habittracker.data.mapper.time.asData
-import com.bibbidi.habittracker.data.mapper.time.createHabitLog
-import com.bibbidi.habittracker.data.mapper.time.createTimeHabitInfo
-import com.bibbidi.habittracker.data.mapper.track.asData
-import com.bibbidi.habittracker.data.mapper.track.createHabitLog
-import com.bibbidi.habittracker.data.mapper.track.createTrackHabitInfo
-import com.bibbidi.habittracker.data.model.entity.check.CheckHabitEntity
-import com.bibbidi.habittracker.data.model.entity.time.TimeHabitEntity
-import com.bibbidi.habittracker.data.model.entity.track.TrackHabitEntity
+import com.bibbidi.habittracker.data.mapper.asDomain
+import com.bibbidi.habittracker.data.model.DBResult
+import com.bibbidi.habittracker.data.model.HabitWithHabitLog
+import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
+import com.bibbidi.habittracker.data.model.habit.Habit
+import com.bibbidi.habittracker.data.model.habit.HabitLog
 import com.bibbidi.habittracker.data.source.database.HabitsDao
-import com.bibbidi.habittracker.domain.HabitsRepository
-import com.bibbidi.habittracker.domain.model.DBResult
-import com.bibbidi.habittracker.domain.model.alarm.HabitAlarm
-import com.bibbidi.habittracker.domain.model.habitinfo.CheckHabitInfo
-import com.bibbidi.habittracker.domain.model.habitinfo.HabitInfo
-import com.bibbidi.habittracker.domain.model.habitinfo.TimeHabitInfo
-import com.bibbidi.habittracker.domain.model.habitinfo.TrackHabitInfo
-import com.bibbidi.habittracker.domain.model.log.CheckHabitLog
-import com.bibbidi.habittracker.domain.model.log.HabitLog
-import com.bibbidi.habittracker.domain.model.log.TimeHabitLog
-import com.bibbidi.habittracker.domain.model.log.TrackHabitLog
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DefaultHabitsRepository @Inject constructor(
     private val dao: HabitsDao
 ) : HabitsRepository {
@@ -38,96 +26,60 @@ class DefaultHabitsRepository @Inject constructor(
         dao.deleteAll()
     }
 
-    override suspend fun insertHabit(habitInfo: HabitInfo) {
-        when (habitInfo) {
-            is CheckHabitInfo -> dao.insertHabitAndCheckHabit(habitInfo.asData())
-            is TimeHabitInfo -> dao.insertHabitAndTimeHabit(habitInfo.asData())
-            is TrackHabitInfo -> dao.insertHabitAndTrackHabit(habitInfo.asData())
-        }
+    override suspend fun insertHabit(habit: Habit): Habit {
+        return getHabitById(dao.insertHabit(habit.asData()))
     }
 
-    override suspend fun deleteHabitById(id: Long) {
-        dao.deleteHabitById(id)
+    override suspend fun deleteHabitById(id: Long): Habit {
+        return getHabitById(id).also { dao.deleteHabitById(id) }
     }
 
-    override suspend fun getHabitById(id: Long): HabitInfo {
-        val habit = dao.getHabitAndChildrenById(id)
-        return when (
-            val type =
-                listOfNotNull(habit.timeHabit, habit.trackHabit, habit.checkHabit).firstOrNull()
-        ) {
-            is CheckHabitEntity -> createCheckHabitInfo(habit.habit, type)
-            is TimeHabitEntity -> createTimeHabitInfo(habit.habit, type)
-            is TrackHabitEntity -> createTrackHabitInfo(habit.habit, type)
-            else -> error("invalid join of getHabitAndChildrenById()")
-        }
+    override suspend fun insertHabitLog(habitLog: HabitLog) {
+        habitLog.asData().habitLog?.let { dao.insertHabitLog(it) }
     }
 
-    override suspend fun updateHabit(habit: HabitInfo) {
-        dao.updateHabits(habit.asData())
-    }
-
-    override suspend fun getHabitAndHabitLogsByDate(date: LocalDate) = flow {
+    override suspend fun getHabitWithHabitLogsByDate(date: LocalDate) = flow {
         emit(DBResult.Loading)
-        dao.getHabitsAndChildrenByDate(date).collect { habitAndChildren ->
-            habitAndChildren.filter { it.habit.repeatDayOfTheWeeks.contains(date.dayOfWeek) }
-                .runCatching {
-                    map {
-                        when (
-                            val type = listOfNotNull(
-                                it.timeHabit,
-                                it.trackHabit,
-                                it.checkHabit
-                            ).firstOrNull()
-                        ) {
-                            is CheckHabitEntity -> {
-                                val log = dao.getCheckLogByCheckHabitIdInDateTransaction(
-                                    type.checkHabitId,
-                                    date
-                                )
-                                createHabitLog(it.habit, type, log)
-                            }
-                            is TimeHabitEntity -> {
-                                val log = dao.getTimeLogByTimeHabitIdInDateTransaction(
-                                    type.timeHabitId,
-                                    date
-                                )
-                                createHabitLog(it.habit, type, log)
-                            }
-                            is TrackHabitEntity -> {
-                                val log = dao.getTrackLogByTrackHabitIdInDateTransaction(
-                                    type.trackHabitId,
-                                    date
-                                )
-                                createHabitLog(it.habit, type, log)
-                            }
-                            else -> error("invalid join of getHabitAndChildren()")
-                        }
-                    }
-                }.onSuccess {
-                    if (it.isEmpty()) {
-                        emit(DBResult.Empty)
-                    } else {
-                        emit(DBResult.Success(it))
-                    }
-                }.onFailure {
-                    emit(DBResult.Error(it))
+        combine(dao.getHabitsByDate(date), dao.getHabitLogsByDate(date)) { habits, logs ->
+            val sparseArray = LongSparseArray<HabitLogEntity>().apply {
+                logs.forEach { log ->
+                    log.habitId?.let { id -> put(id, log) }
                 }
+            }
+            habits.filter { it.repeatDayOfTheWeeks.contains(date.dayOfWeek) }.mapNotNull { habit ->
+                habit.id?.let {
+                    HabitWithHabitLog(
+                        habit,
+                        sparseArray[habit.id] ?: HabitLogEntity(habitId = habit.id, date = date)
+                    ).asDomain()
+                }
+            }
+        }.map {
+            it.sortedWith(compareBy({ log -> log.isCompleted }, { log -> log.habitInfo.id }))
+        }.collect {
+            if (it.isEmpty()) {
+                emit(DBResult.Empty)
+            } else {
+                emit(DBResult.Success(it))
+            }
         }
+    }.catch {
+        emit(DBResult.Error(it))
     }
 
-    override suspend fun updateHabitLog(habitLog: HabitLog) {
-        when (habitLog) {
-            is CheckHabitLog -> dao.updateCheckHabitLog(habitLog.asData())
-            is TimeHabitLog -> dao.updateTimeHabitLog(habitLog.asData())
-            is TrackHabitLog -> dao.updateTrackHabitLog(habitLog.asData())
-        }
+    override suspend fun getHabitById(id: Long): Habit {
+        return dao.getHabitById(id).asDomain()
     }
 
-    override suspend fun getHabitAlarms(): DBResult<List<HabitAlarm>> {
+    override suspend fun updateHabit(habit: Habit): Habit {
+        dao.updateHabit(habit.asData())
+        return dao.getHabitById(habit.id).asDomain()
+    }
+
+    override suspend fun getHabitAlarms(): DBResult<List<Habit>> {
         return DBResult.Success(
             dao.getHabits().map {
-                it.asHabitAlarm()
+                it.asDomain()
             }
         )
     }

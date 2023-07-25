@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.bibbidi.habittracker.ui.common.Constants
-import com.bibbidi.habittracker.ui.model.habit.HabitAlarmUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -15,9 +15,9 @@ class AlarmReceiver : BroadcastReceiver() {
     lateinit var notificationManager: NotificationManager
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val habitAlarm =
-            intent?.extras?.getParcelable<HabitAlarmUiModel>(Constants.HABIT_START_ALARM_KEY)
+        val habit =
+            intent?.extras?.getParcelable<HabitUiModel>(Constants.HABIT_INFO_KEY)
                 ?: return
-        notificationManager.showNotification(habitAlarm)
+        notificationManager.showNotification(habit)
     }
 }

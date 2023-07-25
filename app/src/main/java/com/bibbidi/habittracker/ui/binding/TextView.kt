@@ -1,5 +1,6 @@
 package com.bibbidi.habittracker.ui.binding
 
+import android.graphics.Paint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bibbidi.habittracker.utils.getStringResource
@@ -26,7 +27,19 @@ fun setDayOfWeekText(
     textView: TextView,
     dayOfWeeks: Set<DayOfWeek>
 ) {
-    textView.text = dayOfWeeks.sortedBy { it.ordinal }.joinToString(separator = ",") {
+    textView.text = dayOfWeeks.sortedBy { it.ordinal }.joinToString(separator = "/") {
         it.getStringResource(textView.context)
+    }
+}
+
+@BindingAdapter("bind:strikethrough")
+fun setStrikethrough(
+    textView: TextView,
+    isStrikeThrough: Boolean
+) {
+    textView.paintFlags = if (isStrikeThrough) {
+        textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+    } else {
+        textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
 }

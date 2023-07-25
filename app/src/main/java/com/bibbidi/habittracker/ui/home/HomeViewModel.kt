@@ -2,26 +2,21 @@ package com.bibbidi.habittracker.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bibbidi.habittracker.domain.HabitsRepository
-import com.bibbidi.habittracker.domain.model.DBResult
-import com.bibbidi.habittracker.domain.model.log.HabitLog
+import com.bibbidi.habittracker.data.model.DBResult
+import com.bibbidi.habittracker.data.model.habit.HabitLog
+import com.bibbidi.habittracker.data.source.HabitsRepository
 import com.bibbidi.habittracker.ui.common.Constants.ONE_WEEK
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_SIZE
 import com.bibbidi.habittracker.ui.common.EventFlow
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
-import com.bibbidi.habittracker.ui.mapper.asHabitStartAlarmUiModel
-import com.bibbidi.habittracker.ui.mapper.habitinfo.asDomain
-import com.bibbidi.habittracker.ui.mapper.habitinfo.asUiModel
-import com.bibbidi.habittracker.ui.mapper.habitlog.asDomain
-import com.bibbidi.habittracker.ui.mapper.habitlog.asUiModel
+import com.bibbidi.habittracker.ui.mapper.asDomain
+import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
-import com.bibbidi.habittracker.ui.model.habit.habitinfo.HabitInfoUiModel
-import com.bibbidi.habittracker.ui.model.habit.log.CheckHabitLogUiModel
-import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
-import com.bibbidi.habittracker.ui.model.habit.log.TrackHabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.utils.getStartOfTheWeek
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -31,7 +26,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
@@ -49,9 +43,8 @@ class HomeViewModel @Inject constructor(
     private val _dateFlow: MutableStateFlow<LocalDate> = MutableStateFlow(LocalDate.now())
     val dateFlow: StateFlow<LocalDate> = _dateFlow.asStateFlow()
 
-    private val _dateItemsFlow: MutableStateFlow<List<UiState<Array<DateItem>>>> = MutableStateFlow(
-        List(ROW_CALENDAR_SIZE) { UiState.Loading }
-    )
+    private val _dateItemsFlow: MutableStateFlow<List<UiState<Array<DateItem>>>> =
+        MutableStateFlow(List(ROW_CALENDAR_SIZE) { UiState.Loading })
     val dateItemsFlow: StateFlow<List<UiState<Array<DateItem>>>> = _dateItemsFlow.asStateFlow()
 
     private val habits = MutableStateFlow<DBResult<List<HabitLog>>>(DBResult.Loading)
@@ -80,11 +73,17 @@ class HomeViewModel @Inject constructor(
     private fun loadData() {
         viewModelScope.launch {
             setDateItems(dateFlow.value)
-            dateFlow.flatMapLatest { date ->
-                habitsRepository.getHabitAndHabitLogsByDate(date)
-            }.collectLatest { result ->
-                habits.value = result
+            dateFlow.collectLatest { date ->
+                habitsRepository.getHabitWithHabitLogsByDate(date).collectLatest {
+                    habits.value = it
+                    // habitsRepository.test(dateFlow.value)
+                }
             }
+//            dateFlow.flatMapLatest { date ->
+//                habitsRepository.getHabitAndHabitLogsByDate(date)
+//            }.collectLatest { result ->
+//                habits.value = result
+//            }
         }
     }
 
@@ -104,10 +103,39 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun pickDate(date: LocalDate) {
+    fun deleteHabit(habitLog: HabitLogUiModel) {
+        viewModelScope.launch {
+            habitLog.habitInfo.id?.let {
+                val habit = habitsRepository.deleteHabitById(it).asUiModel()
+                _event.emit(HomeEvent.SuccessDeleteHabit(habit))
+            }
+        }
+    }
+
+    fun updateHabit(habit: HabitUiModel) {
+        viewModelScope.launch {
+            val habit = habitsRepository.updateHabit(habit.asDomain())
+            _event.emit(HomeEvent.SuccessUpdateHabit(habit.asUiModel()))
+        }
+    }
+
+    fun updateHabitLog(log: HabitLogUiModel, isChecked: Boolean) {
+        viewModelScope.launch {
+            println("viewmodel - updateHabitLog: ${log.copy(isCompleted = isChecked)}")
+            habitsRepository.insertHabitLog(log.copy(isCompleted = isChecked).asDomain())
+        }
+    }
+
+    fun onSelectDate(date: LocalDate) {
         viewModelScope.launch {
             setDateItems(date)
             setDate(date)
+        }
+    }
+
+    fun onSelectDate(dateItem: DateItem) {
+        viewModelScope.launch {
+            setDate(dateItem.date)
         }
     }
 
@@ -117,13 +145,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun clickDateItem(dateItem: DateItem) {
-        viewModelScope.launch {
-            setDate(dateItem.date)
-        }
-    }
-
-    fun swipeDatePages(position: PageAction) {
+    fun onSwipeDatePage(position: PageAction) {
         viewModelScope.launch {
             val date = when (position) {
                 PageAction.PREV -> dateFlow.value.plusDays(-ONE_WEEK.toLong())
@@ -135,65 +157,30 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun clickAddHabit() {
+    fun onAddHabit() {
         viewModelScope.launch {
-            _event.emit(HomeEvent.ShowSelectHabitType)
+            _event.emit(HomeEvent.AttemptAddHabit(habitInfo = HabitUiModel(startDate = dateFlow.value)))
         }
     }
 
-    fun setHabit(habitInfo: HabitInfoUiModel) {
+    fun onSetHabit(habit: HabitUiModel) {
         viewModelScope.launch {
-            habitsRepository.insertHabit(habitInfo.asDomain())
-            _event.emit(HomeEvent.SuccessAddHabit(habitInfo.asHabitStartAlarmUiModel()))
+            habitsRepository.insertHabit(habit.asDomain())
+            _event.emit(HomeEvent.SuccessAddHabit(habit))
         }
     }
 
-    fun onUpdateHabitClicked(habitLog: HabitLogUiModel) {
+    fun onUpdateHabit(habitLog: HabitLogUiModel) {
         viewModelScope.launch {
-            val id = habitLog.habitId ?: return@launch
+            val id = habitLog.habitInfo.id ?: return@launch
             val habit = habitsRepository.getHabitById(id)
             _event.emit(HomeEvent.AttemptUpdateHabit(habit.asUiModel()))
         }
     }
 
-    fun onDeleteHabitClicked(habitLog: HabitLogUiModel) {
+    fun onDeleteHabit(habitLog: HabitLogUiModel) {
         viewModelScope.launch {
             _event.emit(HomeEvent.AttemptDeleteHabit(habitLog))
-        }
-    }
-
-    fun deleteHabit(habitLog: HabitLogUiModel) {
-        viewModelScope.launch {
-            habitLog.habitId?.let {
-                val habitInfo = habitsRepository.getHabitById(it).asUiModel()
-                habitsRepository.deleteHabitById(it)
-                _event.emit(HomeEvent.SuccessDeleteHabit(habitInfo.asHabitStartAlarmUiModel()))
-            }
-        }
-    }
-
-    fun updateHabit(habitInfo: HabitInfoUiModel) {
-        viewModelScope.launch {
-            habitsRepository.updateHabit(habitInfo.asDomain())
-            _event.emit(HomeEvent.SuccessUpdateHabit(habitInfo.asHabitStartAlarmUiModel()))
-        }
-    }
-
-    fun updateCheckHabitLog(log: CheckHabitLogUiModel, isChecked: Boolean) {
-        viewModelScope.launch {
-            habitsRepository.updateHabitLog(log.copy(isChecked = isChecked).asDomain())
-        }
-    }
-
-    fun showInputTrackHabitValue(log: TrackHabitLogUiModel) {
-        viewModelScope.launch {
-            _event.emit(HomeEvent.ShowTrackValueDialog(log))
-        }
-    }
-
-    fun updateTrackHabitLog(log: TrackHabitLogUiModel, value: Long?) {
-        viewModelScope.launch {
-            habitsRepository.updateHabitLog(log.copy(value = value).asDomain())
         }
     }
 }
