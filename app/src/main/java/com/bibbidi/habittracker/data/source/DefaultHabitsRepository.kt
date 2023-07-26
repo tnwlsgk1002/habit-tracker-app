@@ -6,6 +6,7 @@ import com.bibbidi.habittracker.data.mapper.asDomain
 import com.bibbidi.habittracker.data.model.DBResult
 import com.bibbidi.habittracker.data.model.HabitWithHabitLog
 import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
+import com.bibbidi.habittracker.data.model.habit.DailyHabitLogs.Companion.createDailyHabitLogs
 import com.bibbidi.habittracker.data.model.habit.Habit
 import com.bibbidi.habittracker.data.model.habit.HabitLog
 import com.bibbidi.habittracker.data.source.database.HabitsDao
@@ -60,7 +61,7 @@ class DefaultHabitsRepository @Inject constructor(
             if (it.isEmpty()) {
                 emit(DBResult.Empty)
             } else {
-                emit(DBResult.Success(it))
+                emit(DBResult.Success(createDailyHabitLogs(it)))
             }
         }
     }.catch {

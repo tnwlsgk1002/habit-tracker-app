@@ -3,6 +3,8 @@ package com.bibbidi.habittracker.ui.binding
 import android.graphics.Paint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.bibbidi.habittracker.R
+import com.bibbidi.habittracker.ui.model.ProgressUiModel
 import com.bibbidi.habittracker.utils.getStringResource
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
@@ -42,4 +44,16 @@ fun setStrikethrough(
     } else {
         textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
+}
+
+@BindingAdapter("bind:progress")
+fun setProgressText(
+    textView: TextView,
+    progressUiModel: ProgressUiModel
+) {
+    textView.text = textView.context.getString(
+        R.string.progress,
+        progressUiModel.finishCount,
+        progressUiModel.total
+    )
 }

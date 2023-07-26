@@ -15,46 +15,43 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="8dp">
-
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:background="@drawable/selector_habit_check"
-            android:button="@drawable/bg_not_check"
-            android:checked="@{habitLog.completed}"
-            android:checkedButton="@drawable/ic_filled_check"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:checked="true" />
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             style="?attr/materialCardViewFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:alpha="@{habitLog.completed ? 0.5f : 1f}"
             app:cardCornerRadius="20dp"
-            android:alpha="@{habitLog.completed ? 0.7f : 1f}"
-            tools:alpha="0.7f">
+            tools:alpha="0.5f">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/selector_habit_check"
+                    android:button="@drawable/bg_not_check"
+                    android:checked="@{habitLog.completed}"
+                    android:checkedButton="@drawable/ic_filled_check"
+                    app:layout_constraintBottom_toBottomOf="@id/container_chip"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_title"
+                    tools:checked="true" />
+
                 <TextView
                     android:id="@+id/tv_emoji"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="@{habitLog.habitInfo.emoji}"
-                    android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
-                    app:layout_constraintBottom_toBottomOf="@id/container_chip"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textAppearance="@style/HabitTracker.TextAppearance.TitleMedium"
+                    app:layout_constraintStart_toEndOf="@id/checkbox"
                     app:layout_constraintTop_toTopOf="@id/tv_title"
                     tools:text="🚿" />
 
@@ -62,8 +59,8 @@
                     android:id="@+id/tv_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:ellipsize="end"
+                    android:layout_marginStart="8dp"
                     android:maxLines="1"
                     android:text="@{habitLog.habitInfo.name}"
                     android:textAppearance="@style/HabitTracker.TextAppearance.TitleMedium"
@@ -92,8 +89,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/ib_menu"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@id/tv_title"
-                    app:layout_constraintTop_toBottomOf="@id/tv_title">
+                    app:layout_constraintStart_toStartOf="@id/tv_emoji"
+                    app:layout_constraintTop_toBottomOf="@id/tv_emoji">
 
                     <com.google.android.material.chip.ChipGroup
                         android:layout_width="wrap_content"
@@ -128,14 +125,9 @@
                             app:chipMinTouchTargetSize="0dp"
                             bind:text="@{habitLog.habitInfo.alarmTime}"
                             tools:text="08:00" />
-
                     </com.google.android.material.chip.ChipGroup>
                 </HorizontalScrollView>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.cardview.widget.CardView>
-
     </LinearLayout>
 </layout>

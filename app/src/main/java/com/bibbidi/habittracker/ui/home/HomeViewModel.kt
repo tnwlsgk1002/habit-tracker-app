@@ -3,7 +3,7 @@ package com.bibbidi.habittracker.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.data.model.DBResult
-import com.bibbidi.habittracker.data.model.habit.HabitLog
+import com.bibbidi.habittracker.data.model.habit.DailyHabitLogs
 import com.bibbidi.habittracker.data.source.HabitsRepository
 import com.bibbidi.habittracker.ui.common.Constants.ONE_WEEK
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_SIZE
@@ -13,6 +13,7 @@ import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.mapper.asDomain
 import com.bibbidi.habittracker.ui.mapper.asUiModel
+import com.bibbidi.habittracker.ui.model.ProgressUiModel
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
 import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
@@ -47,7 +48,9 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow(List(ROW_CALENDAR_SIZE) { UiState.Loading })
     val dateItemsFlow: StateFlow<List<UiState<Array<DateItem>>>> = _dateItemsFlow.asStateFlow()
 
-    private val habits = MutableStateFlow<DBResult<List<HabitLog>>>(DBResult.Loading)
+    private val habits = MutableStateFlow<DBResult<DailyHabitLogs>>(DBResult.Loading)
+
+    val progressFlow = MutableStateFlow(ProgressUiModel())
 
     val habitsStateFlow = combine(
         dateFlow,
@@ -55,7 +58,7 @@ class HomeViewModel @Inject constructor(
     ) { _, habits ->
         when (habits) {
             is DBResult.Success -> {
-                UiState.Success(habits.data.map { it.asUiModel() })
+                UiState.Success(habits.data.logs.map { it.asUiModel() })
             }
             is DBResult.Loading -> UiState.Loading
             is DBResult.Empty -> UiState.Empty
@@ -76,14 +79,13 @@ class HomeViewModel @Inject constructor(
             dateFlow.collectLatest { date ->
                 habitsRepository.getHabitWithHabitLogsByDate(date).collectLatest {
                     habits.value = it
-                    // habitsRepository.test(dateFlow.value)
+                    progressFlow.value = if (it is DBResult.Success) {
+                        ProgressUiModel(it.data.finishCount, it.data.total)
+                    } else {
+                        ProgressUiModel(0, 0)
+                    }
                 }
             }
-//            dateFlow.flatMapLatest { date ->
-//                habitsRepository.getHabitAndHabitLogsByDate(date)
-//            }.collectLatest { result ->
-//                habits.value = result
-//            }
         }
     }
 
@@ -121,7 +123,6 @@ class HomeViewModel @Inject constructor(
 
     fun updateHabitLog(log: HabitLogUiModel, isChecked: Boolean) {
         viewModelScope.launch {
-            println("viewmodel - updateHabitLog: ${log.copy(isCompleted = isChecked)}")
             habitsRepository.insertHabitLog(log.copy(isCompleted = isChecked).asDomain())
         }
     }
@@ -147,6 +148,7 @@ class HomeViewModel @Inject constructor(
 
     fun onSwipeDatePage(position: PageAction) {
         viewModelScope.launch {
+            habits.value = DBResult.Loading
             val date = when (position) {
                 PageAction.PREV -> dateFlow.value.plusDays(-ONE_WEEK.toLong())
                 PageAction.NEXT -> dateFlow.value.plusDays(ONE_WEEK.toLong())

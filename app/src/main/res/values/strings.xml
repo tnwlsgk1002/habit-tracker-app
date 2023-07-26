@@ -73,4 +73,7 @@
     <string name="weekend">주말</string>
     <string name="weekdays">평일</string>
     <string name="everyday">매일</string>
+    <string name="today">오늘</string>
+    <string name="finish">완료</string>
+    <string name="progress">%d / %d</string>
 </resources>
