@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import com.bibbidi.habittracker.ui.common.UiState
-import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 
 @BindingAdapter("bind:item_visibility")
 fun setItemVisibility(view: ProgressBar, itemList: UiState<List<HabitLogUiModel>>?) {

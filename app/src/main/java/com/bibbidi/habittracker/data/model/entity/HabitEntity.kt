@@ -17,6 +17,5 @@ data class HabitEntity(
     val startDate: LocalDate,
     val emoji: String,
     val alarmTime: LocalTime?,
-    val whenRun: String = "",
     val repeatDayOfTheWeeks: Set<DayOfWeek> = DayOfWeek.values().toSet()
 )

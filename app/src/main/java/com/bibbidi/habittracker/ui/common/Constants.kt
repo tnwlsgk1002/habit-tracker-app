@@ -26,7 +26,7 @@ object Constants {
     const val WHEN_RUN_KEY = "WHEN_RUN"
 
     // bundle key
-    const val HABIT_TYPE_KEY = "HABIT_TYPE"
+    const val DATE_KEY = "DATE_KEY"
     const val HABIT_INFO_KEY = "HABIT_INFO"
     const val HABIT_START_ALARM_KEY = "HABIT_START_ALARM"
     const val DAY_OF_THE_WEEKS_KEY = "DAY_OF_THE_WEEKS"

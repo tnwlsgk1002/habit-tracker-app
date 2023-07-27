@@ -10,7 +10,7 @@ import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.home.HabitsAdapter
 import com.bibbidi.habittracker.ui.home.RowCalendarAdapter
 import com.bibbidi.habittracker.ui.model.date.DateItem
-import com.bibbidi.habittracker.ui.model.habit.log.HabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 
 @BindingAdapter("bind:adapter")
 fun setAdapter(view: ViewPager2, adapter: RowCalendarAdapter) {

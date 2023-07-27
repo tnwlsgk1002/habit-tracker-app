@@ -7,5 +7,12 @@ import org.threeten.bp.LocalDate
 
 @BindingAdapter("bind:title")
 fun setTitle(view: MaterialToolbar, date: LocalDate) {
-    view.title = view.context.getString(R.string.date, date.year, date.month.value)
+    view.title =
+        view.context.getString(R.string.date, date.year, date.month.value) + if (LocalDate.now()
+        .isEqual(date)
+    ) {
+        "(" + view.context.getString(R.string.today) + ")"
+    } else {
+        ""
+    }
 }
