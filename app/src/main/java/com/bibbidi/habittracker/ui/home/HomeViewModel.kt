@@ -167,8 +167,8 @@ class HomeViewModel @Inject constructor(
 
     fun onSetHabit(habit: HabitUiModel) {
         viewModelScope.launch {
-            habitsRepository.insertHabit(habit.asDomain())
-            _event.emit(HomeEvent.SuccessAddHabit(habit))
+            val habit = habitsRepository.insertHabit(habit.asDomain())
+            _event.emit(HomeEvent.SuccessAddHabit(habit.asUiModel()))
         }
     }
 
