@@ -30,7 +30,7 @@ class NotificationHelper @Inject constructor(
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val builder = NotificationCompat.Builder(context, START_HABIT_CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_notification_icon)
             .setContentText(
                 context.getString(
                     R.string.start_habit_alarm_message,
