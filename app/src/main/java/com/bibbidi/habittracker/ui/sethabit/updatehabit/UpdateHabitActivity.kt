@@ -15,7 +15,7 @@ import com.bibbidi.habittracker.BuildConfig
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityUpdateHabitBinding
 import com.bibbidi.habittracker.ui.common.Constants
-import com.bibbidi.habittracker.ui.common.SendEventListener
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.isAlreadyGranted
@@ -32,7 +32,7 @@ import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitUiModel> {
+class UpdateHabitActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityUpdateHabitBinding::inflate)
 
@@ -104,20 +104,20 @@ class UpdateHabitActivity : AppCompatActivity(), SendEventListener<HabitUiModel>
 
     private fun collectEvent() {
         repeatOnStarted {
-            viewModel.event.collectLatest {
-                when (it) {
+            viewModel.event.collectLatest { event ->
+                when (event) {
                     UpdateHabitEvent.EmojiClickedEvent -> showEmojiBottomSheet()
                     UpdateHabitEvent.AlarmTimeClickedEvent -> checkNotificationPermission()
-                    is UpdateHabitEvent.SubmitEvent -> sendEvent(it.habitInfo)
+                    is UpdateHabitEvent.SubmitEvent -> submit(event.habit)
                 }
             }
         }
     }
 
-    override fun sendEvent(value: HabitUiModel) {
+    private fun submit(habit: HabitUiModel) {
         val resultIntent = Intent()
         val bundle = Bundle().apply {
-            putParcelable(Constants.HABIT_INFO_KEY, value)
+            putParcelable(HABIT_INFO_KEY, habit)
         }
         resultIntent.putExtras(bundle)
         setResult(Activity.RESULT_OK, resultIntent)

@@ -49,7 +49,7 @@ interface HabitsDao {
     @Transaction
     @Query(
         "SELECT * FROM habits " +
-            "INNER JOIN habit_logs ON habits.habit_id = habit_logs.fk_habit_id " +
+            "LEFT JOIN habit_logs ON habits.habit_id = habit_logs.fk_habit_id " +
             "WHERE habits.habit_id = :id " +
             "ORDER BY habit_logs.date ASC"
     )

@@ -130,23 +130,23 @@ class AddHabitActivity : AppCompatActivity() {
 
     private fun collectEvent() {
         repeatOnStarted {
-            viewModel.event.collectLatest {
-                when (it) {
+            viewModel.event.collectLatest { event ->
+                when (event) {
                     AddHabitEvent.EmojiClickedEvent -> showEmojiPicketBottomSheet()
                     AddHabitEvent.AlarmTimeClickedEvent -> checkNotificationPermission()
                     AddHabitEvent.RepeatsDayOfTheWeekClickEvent -> showDayOfTheWeeksPickerBottomSheet()
                     AddHabitEvent.StartDateClickEvent -> showSelectStartDatePicker()
-                    is AddHabitEvent.SubmitEvent -> onSubmit(it.habit)
-                    is AddHabitEvent.StartDateIsBeforeNowEvent -> showStartDateIsBeforeNowSnackBar()
+                    AddHabitEvent.StartDateIsBeforeNowEvent -> showStartDateIsBeforeNowSnackBar()
+                    is AddHabitEvent.SubmitEvent -> submit(event.habit)
                 }
             }
         }
     }
 
-    private fun onSubmit(value: HabitUiModel) {
+    private fun submit(habit: HabitUiModel) {
         val resultIntent = Intent()
         val bundle = Bundle().apply {
-            putParcelable(HABIT_INFO_KEY, value)
+            putParcelable(HABIT_INFO_KEY, habit)
         }
         resultIntent.putExtras(bundle)
         setResult(Activity.RESULT_OK, resultIntent)

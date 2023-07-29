@@ -3,7 +3,9 @@ package com.bibbidi.habittracker.ui.background
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.bibbidi.habittracker.data.source.AlarmHelper
 import com.bibbidi.habittracker.ui.common.Constants
+import com.bibbidi.habittracker.ui.mapper.asDomain
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,6 +24,6 @@ class AlarmReceiver : BroadcastReceiver() {
             intent?.extras?.getParcelable<HabitUiModel>(Constants.HABIT_INFO_KEY)
                 ?: return
         notificationManager.showNotification(habit)
-        alarmHelper.registerAlarm(habit, reRegister = true)
+        alarmHelper.registerAlarm(habit.asDomain(), isAgain = true)
     }
 }

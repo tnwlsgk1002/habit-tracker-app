@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.data.model.DBResult
 import com.bibbidi.habittracker.data.source.HabitsRepository
+import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
+import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitResultUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
@@ -48,6 +50,9 @@ class DetailViewModel @Inject constructor(
         MutableStateFlow<UiState<HabitWithLogsUiModel>>(UiState.Loading)
     val habitWithLogsFlow = _habitWithLogsFlow.asStateFlow()
 
+    private val _event = MutableEventFlow<DetailHabitEvent>()
+    val event = _event.asEventFlow()
+
     init {
         val now = LocalDate.now()
         dateFlow = MutableStateFlow(now)
@@ -63,12 +68,12 @@ class DetailViewModel @Inject constructor(
                     d.isSameYearAndMonth(date) && l.memo != null
                 }.values.toList()
             )
-
-            else -> UiState.Loading
+            is UiState.Loading -> UiState.Loading
+            else -> UiState.Empty
         }
     }.stateIn(viewModelScope, SharingStarted.Eagerly, UiState.Loading)
 
-    private fun fetchHabit() {
+    fun fetchHabit() {
         viewModelScope.launch {
             _habitFlow.value = repository.getHabitById(id).asUiModel()
         }
@@ -101,6 +106,18 @@ class DetailViewModel @Inject constructor(
     val setDate: (LocalDate) -> Unit = {
         viewModelScope.launch {
             dateFlow.value = it
+        }
+    }
+
+    fun showDeleteHabit() {
+        viewModelScope.launch {
+            _event.emit(DetailHabitEvent.ShowDeleteHabit(habitFlow.value))
+        }
+    }
+
+    fun showUpdateHabit() {
+        viewModelScope.launch {
+            _event.emit(DetailHabitEvent.ShowUpdateHabit(habitFlow.value))
         }
     }
 }

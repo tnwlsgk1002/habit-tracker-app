@@ -12,7 +12,7 @@ sealed class AddHabitEvent {
 
     object StartDateClickEvent : AddHabitEvent()
 
-    data class SubmitEvent(val habit: HabitUiModel) : AddHabitEvent()
-
     object StartDateIsBeforeNowEvent : AddHabitEvent()
+
+    data class SubmitEvent(val habit: HabitUiModel) : AddHabitEvent()
 }

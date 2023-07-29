@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorSurfaceVariant"
-            app:menu="@menu/habit_menu"
+            app:menu="@menu/detail_habit_menu"
             app:navigationIcon="@drawable/ic_thick_drop_down" />
 
         <androidx.core.widget.NestedScrollView

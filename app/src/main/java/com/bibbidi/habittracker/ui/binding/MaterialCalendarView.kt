@@ -1,6 +1,5 @@
 package com.bibbidi.habittracker.ui.binding
 
-import android.view.View
 import androidx.databinding.BindingAdapter
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.ui.common.UiState
@@ -19,15 +18,13 @@ fun setLogs(calendarView: MaterialCalendarView, logs: UiState<HabitWithLogsUiMod
     calendarView.removeDecorators()
     when (logs) {
         is UiState.Success -> {
-            calendarView.visibility = View.VISIBLE
             calendarView.addDecorators(
                 HabitCheckDecorator(calendarView.context, logs.data),
                 HabitMemoDecorator(calendarView.context, logs.data),
                 HabitDisableDecorator(logs.data)
             )
         }
-
-        else -> calendarView.visibility = View.INVISIBLE
+        else -> {}
     }
 }
 

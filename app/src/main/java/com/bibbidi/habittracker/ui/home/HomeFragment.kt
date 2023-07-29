@@ -7,12 +7,14 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
-import com.bibbidi.habittracker.ui.background.AlarmHelper
+import com.bibbidi.habittracker.ui.MainEvent
+import com.bibbidi.habittracker.ui.MainViewModel
 import com.bibbidi.habittracker.ui.common.Constants.DATE_PICKER_TAG
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_CENTER_POS
@@ -33,17 +35,14 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.LocalDate
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: HomeViewModel by viewModels()
+    private val activityViewModel: MainViewModel by activityViewModels()
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
-
-    @Inject
-    lateinit var alarmHelper: AlarmHelper
 
     private fun getDatePicker(date: LocalDate) = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
@@ -60,7 +59,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
                     data?.extras?.getParcelable<HabitUiModel>(HABIT_INFO_KEY)?.let {
-                        viewModel.onSetHabit(it)
+                        activityViewModel.addHabit(it)
                     }
                 }
                 else -> {}
@@ -73,7 +72,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
                     data?.extras?.getParcelable<HabitUiModel>(HABIT_INFO_KEY)?.let {
-                        viewModel.updateHabit(it)
+                        activityViewModel.updateHabit(it)
                     }
                 }
                 else -> {}
@@ -82,7 +81,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val rowCalendarViewAdapter by lazy {
         RowCalendarAdapter(
-            onClick = { dateItem -> viewModel.onSelectDate(dateItem) },
+            onClick = { dateItem -> viewModel.selectDate(dateItem) },
             itemRangeInserted = {
                 binding.vpRowCalendar.post {
                     binding.vpRowCalendar.setCurrentItem(ROW_CALENDAR_CENTER_POS, false)
@@ -104,7 +103,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
             if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                viewModel.onSwipeDatePage(
+                viewModel.swipeDatePage(
                     when (binding.vpRowCalendar.currentItem) {
                         ROW_CALENDAR_PREV_POS -> PageAction.PREV
                         ROW_CALENDAR_NEXT_POS -> PageAction.NEXT
@@ -158,34 +157,38 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun collectEvent() {
         repeatOnStarted {
-            viewModel.event.collectLatest {
-                when (it) {
-                    is HomeEvent.ShowDatePicker -> showDatePicker(it.date)
-                    is HomeEvent.SuccessAddHabit -> {
+            viewModel.event.collectLatest { event ->
+                when (event) {
+                    is HomeEvent.ShowDatePicker -> showDatePicker(event.date)
+                    is HomeEvent.ShowAddHabit -> goToAddHabit(event.habitInfo)
+                    is HomeEvent.ShowDeleteHabit -> showDeleteWarningDialog(event.habitLog)
+                    is HomeEvent.ShowUpdateHabit -> goToUpdateHabit(event.habitInfo)
+                }
+            }
+        }
+
+        repeatOnStarted {
+            activityViewModel.event.collect { event ->
+                when (event) {
+                    is MainEvent.SuccessAddHabit -> {
                         showSnackBar(R.string.add_habit_success_message)
-                        alarmHelper.registerAlarm(it.alarmInfo)
                     }
-                    is HomeEvent.SuccessUpdateHabit -> {
+                    is MainEvent.SuccessUpdateHabit -> {
                         showSnackBar(R.string.update_habit_success_message)
-                        alarmHelper.updateAlarm(it.alarmInfo)
                     }
-                    is HomeEvent.SuccessDeleteHabit -> {
+                    is MainEvent.SuccessDeleteHabit -> {
                         showSnackBar(R.string.delete_habit_success_message)
-                        alarmHelper.cancelAlarm(it.alarmInfo)
                     }
-                    is HomeEvent.AttemptAddHabit -> goToAddHabit(it.habitInfo)
-                    is HomeEvent.AttemptDeleteHabit -> showDeleteWarningDialog(it.habitLog)
-                    is HomeEvent.AttemptUpdateHabit -> goToUpdateHabit(it.habitInfo)
                 }
             }
         }
     }
 
     private fun showMenuInHabitLog(habitWithLog: HabitWithLogUiModel, view: View) {
-        showMenu(view, R.menu.habit_menu) { menuItem ->
+        showMenu(view, R.menu.home_habit_menu) { menuItem ->
             when (menuItem.itemId) {
-                R.id.option_edit -> viewModel.onUpdateHabit(habitWithLog)
-                R.id.option_delete -> viewModel.onDeleteHabit(habitWithLog)
+                R.id.option_edit -> viewModel.showUpdateHabit(habitWithLog)
+                R.id.option_delete -> viewModel.showDeleteHabit(habitWithLog)
             }
             true
         }
@@ -197,7 +200,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun showDeleteWarningDialog(habit: HabitUiModel) {
         deleteHabitDialog.setPositiveButton(getString(R.string.accept)) { _, _ ->
-            viewModel.deleteHabit(habit)
+            activityViewModel.deleteHabit(habit)
         }.show()
     }
 

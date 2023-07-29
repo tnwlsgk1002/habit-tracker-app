@@ -10,11 +10,11 @@ import org.threeten.bp.LocalDate
 
 interface HabitsRepository {
 
-    suspend fun insertHabit(habit: Habit): Habit
+    suspend fun insertHabit(habit: Habit)
 
-    suspend fun deleteHabitById(id: Long?): Habit
+    suspend fun deleteHabitById(id: Long?)
 
-    suspend fun updateHabit(habit: Habit): Habit
+    suspend fun updateHabit(habit: Habit)
 
     suspend fun getHabitById(id: Long?): Habit
 

@@ -8,5 +8,5 @@ sealed class UpdateHabitEvent {
 
     object AlarmTimeClickedEvent : UpdateHabitEvent()
 
-    data class SubmitEvent(val habitInfo: HabitUiModel) : UpdateHabitEvent()
+    data class SubmitEvent(val habit: HabitUiModel) : UpdateHabitEvent()
 }

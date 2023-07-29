@@ -23,6 +23,9 @@
         <argument
             android:name="habit_with_log"
             app:argType="com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel" />
+        <action
+            android:id="@+id/action_detailHabitFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
 </navigation>

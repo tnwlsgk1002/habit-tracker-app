@@ -22,19 +22,31 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultHabitsRepository @Inject constructor(
+    private val alarmHelper: AlarmHelper,
     private val dao: HabitsDao
 ) : HabitsRepository {
 
     override suspend fun deleteAll() {
+        dao.getHabits().forEach {
+            alarmHelper.cancelAlarm(it.asDomain())
+        }
         dao.deleteAll()
     }
 
-    override suspend fun insertHabit(habit: Habit): Habit {
-        return getHabitById(dao.insertHabit(habit.asData()))
+    override suspend fun insertHabit(habit: Habit) {
+        val addedHabit = getHabitById(dao.insertHabit(habit.asData()))
+        alarmHelper.registerAlarm(addedHabit)
     }
 
-    override suspend fun deleteHabitById(id: Long?): Habit {
-        return getHabitById(id).also { dao.deleteHabitById(id) }
+    override suspend fun deleteHabitById(id: Long?) {
+        val deletedHabit = getHabitById(id)
+        dao.deleteHabitById(id)
+        alarmHelper.cancelAlarm(deletedHabit)
+    }
+
+    override suspend fun updateHabit(habit: Habit) {
+        dao.updateHabit(habit.asData())
+        alarmHelper.updateAlarm(habit)
     }
 
     override suspend fun insertHabitLog(habitLog: HabitWithLog) {
@@ -72,11 +84,6 @@ class DefaultHabitsRepository @Inject constructor(
 
     override suspend fun getHabitById(id: Long?): Habit {
         return dao.getHabitById(id).asDomain()
-    }
-
-    override suspend fun updateHabit(habit: Habit): Habit {
-        dao.updateHabit(habit.asData())
-        return dao.getHabitById(habit.id).asDomain()
     }
 
     override suspend fun getHabitAlarms(): DBResult<List<Habit>> {
