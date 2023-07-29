@@ -9,7 +9,7 @@ import org.threeten.bp.LocalDate
 @Parcelize
 data class HabitLogUiModel(
     val id: Long?,
-    val habitInfo: HabitUiModel,
+    val habitId: Long?,
     @TypeParceler<LocalDate, LocalDateParceler>
     val date: LocalDate,
     val isCompleted: Boolean,

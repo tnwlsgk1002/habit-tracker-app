@@ -94,7 +94,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/tv_progress_text"
                 app:layout_constraintEnd_toStartOf="@id/tv_progress_text"
                 app:layout_constraintTop_toBottomOf="@id/vp_row_calendar"
-                bind:progress="@{viewmodel.progressFlow}"
+                bind:progressText="@{viewmodel.progressFlow}"
                 tools:text="4/10" />
 
             <TextView
@@ -118,8 +118,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_progress_text"
                 app:adapter="@{habitsAdapter}"
-                app:itemList="@{viewmodel.habitsStateFlow}"
-                tools:listitem="@layout/item_habit_log" />
+                bind:logItemList="@{viewmodel.habitsStateFlow}"
+                tools:listitem="@layout/item_habit_log"
+                android:transitionGroup="true"/>
 
             <ProgressBar
                 android:id="@+id/progressBar_loading"

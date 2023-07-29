@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.bibbidi.habittracker.data.model.entity.HabitEntity
 import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
+import com.bibbidi.habittracker.data.model.entity.HabitWithLogsEntity
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
 
@@ -44,6 +45,15 @@ interface HabitsDao {
             "WHERE habit_logs.date = :date "
     )
     fun getHabitLogsByDate(date: LocalDate): Flow<List<HabitLogEntity>>
+
+    @Transaction
+    @Query(
+        "SELECT * FROM habits " +
+            "INNER JOIN habit_logs ON habits.habit_id = habit_logs.fk_habit_id " +
+            "WHERE habits.habit_id = :id " +
+            "ORDER BY habit_logs.date ASC"
+    )
+    fun getHabitWithLogs(id: Long?): Flow<HabitWithLogsEntity>
 
     @Query("DELETE FROM habits WHERE habit_id = :id")
     suspend fun deleteHabitById(id: Long?)

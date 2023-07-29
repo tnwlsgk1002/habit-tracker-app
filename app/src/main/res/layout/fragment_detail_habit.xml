@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.prolificinteractive.materialcalendarview.MaterialCalendarView"/>
+
+        <import type="org.threeten.bp.Month"/>
+
+        <variable
+            name="viewmodel"
+            type="com.bibbidi.habittracker.ui.detailhabit.DetailViewModel" />
+
+        <variable
+            name="memoAdapter"
+            type="com.bibbidi.habittracker.ui.detailhabit.HabitMemoAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionName="@string/habit_name_detail_transition"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurfaceVariant"
+            app:menu="@menu/habit_menu"
+            app:navigationIcon="@drawable/ic_thick_drop_down" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/container_habit_info"
+                    style="@style/Widget.Material3.CardView.Filled"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/tv_habit_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewmodel.habitFlow.emoji + ' ' + viewmodel.habitFlow.name}"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleLarge"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/habit_name_hint" />
+
+                        <TextView
+                            android:id="@+id/tv_start_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                            app:layout_constraintStart_toStartOf="@id/tv_habit_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_habit_name"
+                            bind:startDateText="@{viewmodel.habitFlow.startDate}"
+                            tools:text="@string/start_date_message" />
+
+                        <HorizontalScrollView
+                            android:id="@+id/container_chip"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/tv_habit_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_start_date"
+                            app:layout_constraintVertical_bias="0.0">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:singleLine="true">
+
+                                <com.google.android.material.chip.Chip
+                                    style="@style/Widget.Material3.Chip.Assist.Elevated"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="0dp"
+                                    android:clickable="false"
+                                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                                    app:chipIcon="@drawable/ic_recycle"
+                                    app:chipIconTint="?attr/colorPrimary"
+                                    app:chipMinHeight="24dp"
+                                    app:chipMinTouchTargetSize="0dp"
+                                    bind:dayOfWeekSetText="@{viewmodel.habitFlow.repeatsDayOfTheWeeks}" />
+
+                                <com.google.android.material.chip.Chip
+                                    style="@style/Widget.Material3.Chip.Assist.Elevated"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="false"
+                                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                                    android:visibility="@{viewmodel.habitFlow.alarmTime == null ? View.GONE : View.VISIBLE}"
+                                    app:chipIcon="@drawable/ic_outline_bell"
+                                    app:chipIconTint="?attr/colorPrimary"
+                                    app:chipMinHeight="24dp"
+                                    app:chipMinTouchTargetSize="0dp"
+                                    bind:timeText="@{viewmodel.habitFlow.alarmTime}" />
+                            </com.google.android.material.chip.ChipGroup>
+                        </HorizontalScrollView>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/container_consecutive_achievements"
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="-20dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/container_habit_info">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/tv_number_consecutive_achievements"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/number_of_consecutive_achievements"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_current_number_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/current_number_of_consecutive_achievements"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
+
+                            app:layout_constraintEnd_toEndOf="@id/divider"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/divider" />
+
+                        <TextView
+                            android:id="@+id/tv_current_number_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            bind:cntNumberText="@{viewmodel.habitResultFlow}"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
+                            app:layout_constraintEnd_toEndOf="@id/divider"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_current_number_title"
+                            tools:text="0" />
+
+                        <TextView
+                            android:id="@+id/tv_best_number_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/best_current_number_of_consecutive_achievements"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/divider"
+                            app:layout_constraintTop_toTopOf="@id/divider" />
+
+                        <TextView
+                            android:id="@+id/tv_best_number_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            bind:bestNumberText="@{viewmodel.habitResultFlow}"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/divider"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_best_number_title"
+                            tools:text="0" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider"
+                            android:layout_width="1dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_number_consecutive_achievements" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/container_calendar"
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:padding="20dp"
+                    app:cardCornerRadius="20dp"
+                    app:layout_constraintEnd_toEndOf="@id/container_consecutive_achievements"
+                    app:layout_constraintStart_toStartOf="@id/container_consecutive_achievements"
+                    app:layout_constraintTop_toBottomOf="@id/container_consecutive_achievements">
+
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        app:mcv_arrowColor="?attr/colorOnBackground"
+                        app:mcv_dateTextAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
+                        app:mcv_headerTextAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                        app:mcv_showOtherDates="defaults"
+                        app:mcv_weekDayTextAppearance="@style/HabitTracker.TextAppearance.LabelMedium"
+                        bind:is_localization_format="@{true}"
+                        bind:logs="@{viewmodel.habitWithLogsFlow}"
+                        bind:onMonthChange="@{viewmodel.setDate}"
+                        bind:mcv_selectionMode="@{MaterialCalendarView.SELECTION_MODE_NONE}" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="@id/container_consecutive_achievements"
+                    app:layout_constraintStart_toStartOf="@id/container_consecutive_achievements"
+                    app:layout_constraintTop_toBottomOf="@id/container_calendar"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    bind:adapter="@{memoAdapter}"
+                    bind:memoItemList="@{viewmodel.memoFlow}"
+                    tools:listitem="@layout/item_habit_memo" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

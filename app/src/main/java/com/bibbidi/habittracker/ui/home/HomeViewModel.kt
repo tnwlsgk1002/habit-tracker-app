@@ -16,8 +16,8 @@ import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.ui.model.ProgressUiModel
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
-import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
 import com.bibbidi.habittracker.utils.getStartOfTheWeek
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             setDateItems(dateFlow.value)
             dateFlow.collectLatest { date ->
-                habitsRepository.getHabitWithHabitLogsByDate(date).collectLatest {
+                habitsRepository.getDailyHabitLogsByDate(date).collectLatest {
                     habits.value = it
                     progressFlow.value = if (it is DBResult.Success) {
                         ProgressUiModel(it.data.finishCount, it.data.total)
@@ -105,9 +105,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun deleteHabit(habitLog: HabitLogUiModel) {
+    fun deleteHabit(habit: HabitUiModel) {
         viewModelScope.launch {
-            habitLog.habitInfo.id?.let {
+            habit.id?.let {
                 val habit = habitsRepository.deleteHabitById(it).asUiModel()
                 _event.emit(HomeEvent.SuccessDeleteHabit(habit))
             }
@@ -121,9 +121,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateHabitLog(log: HabitLogUiModel, isChecked: Boolean) {
+    fun updateHabitLog(log: HabitWithLogUiModel, isChecked: Boolean) {
         viewModelScope.launch {
-            habitsRepository.insertHabitLog(log.copy(isCompleted = isChecked).asDomain())
+            habitsRepository.insertHabitLog(
+                log.copy(habitLog = log.habitLog.copy(isCompleted = isChecked)).asDomain()
+            )
         }
     }
 
@@ -172,17 +174,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onUpdateHabit(habitLog: HabitLogUiModel) {
+    fun onUpdateHabit(habitWithLog: HabitWithLogUiModel) {
         viewModelScope.launch {
-            val id = habitLog.habitInfo.id ?: return@launch
+            val id = habitWithLog.habit.id ?: return@launch
             val habit = habitsRepository.getHabitById(id)
             _event.emit(HomeEvent.AttemptUpdateHabit(habit.asUiModel()))
         }
     }
 
-    fun onDeleteHabit(habitLog: HabitLogUiModel) {
+    fun onDeleteHabit(habitWithLog: HabitWithLogUiModel) {
         viewModelScope.launch {
-            _event.emit(HomeEvent.AttemptDeleteHabit(habitLog))
+            _event.emit(HomeEvent.AttemptDeleteHabit(habitWithLog.habit))
         }
     }
 }

@@ -1,34 +1,24 @@
 package com.bibbidi.habittracker.data.mapper
 
-import com.bibbidi.habittracker.data.model.HabitWithHabitLog
-import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
-import com.bibbidi.habittracker.data.model.habit.HabitLog
+import com.bibbidi.habittracker.data.model.entity.HabitWithLogEntity
+import com.bibbidi.habittracker.data.model.habit.HabitWithLog
 
-object HabitWithLogMapper : DataModelMapper<HabitWithHabitLog, HabitLog> {
-    override fun asData(domain: HabitLog) = HabitWithHabitLog(
-        habit = domain.habitInfo.asData(),
-        habitLog = HabitLogEntity(
-            id = domain.id,
-            habitId = domain.habitInfo.id,
-            date = domain.date,
-            isCompleted = domain.isCompleted,
-            memo = domain.memo
-        )
+object HabitWithLogMapper : DataModelMapper<HabitWithLogEntity, HabitWithLog> {
+    override fun asData(domain: HabitWithLog) = HabitWithLogEntity(
+        habit = domain.habit.asData(),
+        habitLog = domain.habitLog.asData()
     )
 
-    override fun asDomain(data: HabitWithHabitLog): HabitLog {
+    override fun asDomain(data: HabitWithLogEntity): HabitWithLog {
         val habit = data.habit?.asDomain() ?: error("HabitWithLogMapper: habit is null")
         data.habitLog ?: error("HabitWithLogMapper: habitLog is null")
-        return HabitLog(
-            id = data.habitLog.id,
-            habitInfo = habit,
-            date = data.habitLog.date,
-            isCompleted = data.habitLog.isCompleted,
-            memo = data.habitLog.memo
+        return HabitWithLog(
+            habit = data.habit.asDomain(),
+            habitLog = data.habitLog.asDomain()
         )
     }
 }
 
-fun HabitWithHabitLog.asDomain() = HabitWithLogMapper.asDomain(this)
+fun HabitWithLogEntity.asDomain() = HabitWithLogMapper.asDomain(this)
 
-fun HabitLog.asData() = HabitWithLogMapper.asData(this)
+fun HabitWithLog.asData() = HabitWithLogMapper.asData(this)

@@ -20,3 +20,9 @@ fun getBasicTextColor(context: Context): Int {
     context.theme.resolveAttribute(android.R.attr.textColor, textColor, true)
     return textColor.data
 }
+
+fun getColorAccent(context: Context): Int {
+    val textColor = TypedValue()
+    context.theme.resolveAttribute(android.R.attr.colorAccent, textColor, true)
+    return textColor.data
+}

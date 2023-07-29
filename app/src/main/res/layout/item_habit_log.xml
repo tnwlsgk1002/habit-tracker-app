@@ -9,19 +9,21 @@
         <import type="android.view.View" />
 
         <variable
-            name="habitLog"
-            type="com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel" />
+            name="habitWithLog"
+            type="com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/container_habit_log"
             style="?attr/materialCardViewFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:alpha="@{habitLog.completed ? 0.5f : 1f}"
+            android:alpha="@{habitWithLog.habitLog.completed ? 0.5f : 1f}"
+            android:transitionName="@{@string/habit_name_transition(habitWithLog.habit.id)}"
             app:cardCornerRadius="20dp"
             tools:alpha="0.5f">
 
@@ -37,41 +39,30 @@
                     android:layout_gravity="center"
                     android:background="@drawable/selector_habit_check"
                     android:button="@drawable/bg_not_check"
-                    android:checked="@{habitLog.completed}"
+                    android:checked="@{habitWithLog.habitLog.completed}"
                     android:checkedButton="@drawable/ic_filled_check"
-                    app:layout_constraintBottom_toBottomOf="@id/container_chip"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_title"
                     tools:checked="true" />
 
                 <TextView
-                    android:id="@+id/tv_emoji"
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="@{habitLog.habitInfo.emoji}"
-                    android:textAppearance="@style/HabitTracker.TextAppearance.TitleMedium"
-                    app:layout_constraintStart_toEndOf="@id/checkbox"
-                    app:layout_constraintTop_toTopOf="@id/tv_title"
-                    tools:text="🚿" />
-
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:layout_marginStart="8dp"
                     android:maxLines="1"
-                    android:text="@{habitLog.habitInfo.name}"
+                    android:text="@{habitWithLog.habit.emoji + ' ' + habitWithLog.habit.name}"
                     android:textAppearance="@style/HabitTracker.TextAppearance.TitleMedium"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/container_chip"
-                    app:layout_constraintEnd_toStartOf="@id/ib_menu"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@id/tv_emoji"
+                    app:layout_constraintStart_toEndOf="@id/checkbox"
                     app:layout_constraintTop_toTopOf="parent"
-                    bind:strikethrough="@{habitLog.completed}"
-                    tools:text="샤워하기" />
+                    bind:strikethrough="@{habitWithLog.habitLog.completed}"
+                    tools:text="🚿 샤워하기" />
 
                 <Button
                     android:id="@+id/ib_menu"
@@ -79,55 +70,50 @@
                     android:contentDescription="@string/habit_edit"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@id/tv_emoji"
+                    app:layout_constraintStart_toEndOf="@id/tv_title"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <HorizontalScrollView
-                    android:id="@+id/container_chip"
+                <com.google.android.material.chip.ChipGroup
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/ib_menu"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@id/tv_emoji"
-                    app:layout_constraintTop_toBottomOf="@id/tv_emoji">
+                    app:layout_constraintStart_toStartOf="@id/tv_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title"
+                    app:singleLine="true">
 
-                    <com.google.android.material.chip.ChipGroup
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Assist.Elevated"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:singleLine="true">
+                        android:layout_margin="0dp"
+                        android:clickable="false"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        app:chipIcon="@drawable/ic_recycle"
+                        app:chipIconTint="?attr/colorPrimary"
+                        app:chipMinHeight="24dp"
+                        app:chipMinTouchTargetSize="0dp"
+                        bind:dayOfWeekSetText="@{habitWithLog.habit.repeatsDayOfTheWeeks}"
+                        tools:text="주중" />
 
-                        <com.google.android.material.chip.Chip
-                            style="@style/Widget.Material3.Chip.Assist.Elevated"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0dp"
-                            android:clickable="false"
-                            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                            app:chipIcon="@drawable/ic_recycle"
-                            app:chipIconTint="?attr/colorPrimary"
-                            app:chipMinHeight="24dp"
-                            app:chipMinTouchTargetSize="0dp"
-                            bind:text="@{habitLog.habitInfo.repeatsDayOfTheWeeks}"
-                            tools:text="주중" />
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/Widget.Material3.Chip.Assist.Elevated"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                            android:visibility="@{habitLog.habitInfo.alarmTime == null ? View.GONE : View.VISIBLE}"
-                            app:chipIcon="@drawable/ic_outline_bell"
-                            app:chipIconTint="?attr/colorPrimary"
-                            app:chipMinHeight="24dp"
-                            app:chipMinTouchTargetSize="0dp"
-                            bind:text="@{habitLog.habitInfo.alarmTime}"
-                            tools:text="08:00" />
-                    </com.google.android.material.chip.ChipGroup>
-                </HorizontalScrollView>
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Assist.Elevated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        android:visibility="@{habitWithLog.habit.alarmTime == null ? View.GONE : View.VISIBLE}"
+                        app:chipIcon="@drawable/ic_outline_bell"
+                        app:chipIconTint="?attr/colorPrimary"
+                        app:chipMinHeight="24dp"
+                        app:chipMinTouchTargetSize="0dp"
+                        bind:timeText="@{habitWithLog.habit.alarmTime}"
+                        tools:text="08:00" />
+                </com.google.android.material.chip.ChipGroup>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
 </layout>

@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
@@ -18,8 +19,8 @@ import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_CENTER_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_NEXT_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_PREV_POS
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
-import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
 import com.bibbidi.habittracker.ui.sethabit.addhabit.AddHabitActivity
 import com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.asLocalDate
@@ -93,6 +94,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val habitsAdapter by lazy {
         HabitsAdapter(
+            onClick = { v, habitWithLog -> goToDetailHabit(v, habitWithLog) },
             onCheck = { log, b -> viewModel.updateHabitLog(log, b) },
             onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
         )
@@ -179,11 +181,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun showMenuInHabitLog(habitLog: HabitLogUiModel, view: View) {
+    private fun showMenuInHabitLog(habitWithLog: HabitWithLogUiModel, view: View) {
         showMenu(view, R.menu.habit_menu) { menuItem ->
             when (menuItem.itemId) {
-                R.id.option_edit -> viewModel.onUpdateHabit(habitLog)
-                R.id.option_delete -> viewModel.onDeleteHabit(habitLog)
+                R.id.option_edit -> viewModel.onUpdateHabit(habitWithLog)
+                R.id.option_delete -> viewModel.onDeleteHabit(habitWithLog)
             }
             true
         }
@@ -193,9 +195,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         getDatePicker(date).show(parentFragmentManager, DATE_PICKER_TAG)
     }
 
-    private fun showDeleteWarningDialog(habitLog: HabitLogUiModel) {
+    private fun showDeleteWarningDialog(habit: HabitUiModel) {
         deleteHabitDialog.setPositiveButton(getString(R.string.accept)) { _, _ ->
-            viewModel.deleteHabit(habitLog)
+            viewModel.deleteHabit(habit)
         }.show()
     }
 
@@ -219,6 +221,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         intent.putExtras(bundle)
         launchAddHabitActivity.launch(intent)
+    }
+
+    private fun goToDetailHabit(cardView: View, habitWithLog: HabitWithLogUiModel) {
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailHabitFragment(habitWithLog)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

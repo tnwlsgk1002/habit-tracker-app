@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -93,6 +93,9 @@ dependencies {
 
     // emoji-picker
     implementation("com.vanniktech:emoji-google-compat:0.16.0")
+
+    // calendarview
+    implementation("com.github.prolificinteractive:material-calendarview:1.6.0")
 }
 
 // Allow references to generated code
