@@ -10,7 +10,7 @@ object HabitWithLogMapper : DataModelMapper<HabitWithLogEntity, HabitWithLog> {
     )
 
     override fun asDomain(data: HabitWithLogEntity): HabitWithLog {
-        val habit = data.habit?.asDomain() ?: error("HabitWithLogMapper: habit is null")
+        data.habit?.asDomain() ?: error("HabitWithLogMapper: habit is null")
         data.habitLog ?: error("HabitWithLogMapper: habitLog is null")
         return HabitWithLog(
             habit = data.habit.asDomain(),

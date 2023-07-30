@@ -82,7 +82,7 @@ class AddHabitActivity : AppCompatActivity() {
         val constraintsBuilder = CalendarConstraints.Builder().setStart(System.currentTimeMillis())
             .setValidator(DateValidatorPointForward.now())
         MaterialDatePicker.Builder.datePicker().setTitleText(getString(R.string.select_start_date))
-            .setSelection(viewModel.startDateFlow.value?.asLong())
+            .setSelection(viewModel.startDateFlow.value.asLong())
             .setCalendarConstraints(constraintsBuilder.build()).build().apply {
                 addOnPositiveButtonClickListener {
                     viewModel.setStartDate(it.asLocalDate())

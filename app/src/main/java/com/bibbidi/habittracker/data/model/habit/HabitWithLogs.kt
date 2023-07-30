@@ -14,7 +14,7 @@ data class HabitWithLogs(
     )
 
     fun getResult(date: LocalDate): HabitResult {
-        val completedDate = habitLogs.filter { (d, v) -> v.isCompleted }.toList()
+        val completedDate = habitLogs.filter { (_, v) -> v.isCompleted }.toList()
             .sortedBy { it.first }
             .map { it.first }
 

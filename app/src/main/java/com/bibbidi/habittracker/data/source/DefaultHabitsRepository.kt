@@ -118,7 +118,7 @@ class DefaultHabitsRepository @Inject constructor(
     }
 
     override suspend fun saveHabitMemo(habitLog: HabitLog, memo: String?) {
-        val memo = if (memo.isNullOrEmpty()) null else memo
-        dao.insertHabitLog(habitLog.copy(memo = memo).asData())
+        val newMemo = if (memo.isNullOrEmpty()) null else memo
+        dao.insertHabitLog(habitLog.copy(memo = newMemo).asData())
     }
 }
