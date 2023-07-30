@@ -140,7 +140,7 @@ class HomeViewModel @Inject constructor(
 
     fun showAddHabit() {
         viewModelScope.launch {
-            _event.emit(HomeEvent.ShowAddHabit(habitInfo = HabitUiModel(startDate = dateFlow.value)))
+            _event.emit(HomeEvent.ShowAddHabit(habit = HabitUiModel(startDate = dateFlow.value)))
         }
     }
 
@@ -163,6 +163,18 @@ class HomeViewModel @Inject constructor(
             habitsRepository.insertHabitLog(
                 log.copy(habitLog = log.habitLog.copy(isCompleted = isChecked)).asDomain()
             )
+        }
+    }
+
+    fun saveHabitMemo(habitWithLog: HabitWithLogUiModel, memo: String?) {
+        viewModelScope.launch {
+            habitsRepository.saveHabitMemo(habitWithLog.habitLog.asDomain(), memo)
+        }
+    }
+
+    fun showMemoEdit(habitWithLog: HabitWithLogUiModel) {
+        viewModelScope.launch {
+            _event.emit(HomeEvent.ShowMemoEdit(habitWithLog))
         }
     }
 }

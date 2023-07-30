@@ -8,18 +8,33 @@ import com.bibbidi.habittracker.ui.common.BaseViewHolder
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 
-class HabitMemoAdapter :
+class HabitMemoAdapter(
+    private val onClick: (HabitLogUiModel) -> (Unit)
+) :
     ListAdapter<HabitLogUiModel, HabitMemoAdapter.HabitMemoViewHolder>(HabitMemosDiffCallback) {
 
-    class HabitMemoViewHolder(val binding: ItemHabitMemoBinding) :
+    class HabitMemoViewHolder(
+        private val binding: ItemHabitMemoBinding,
+        private val onClick: (HabitLogUiModel) -> Unit
+    ) :
         BaseViewHolder<HabitLogUiModel, ItemHabitMemoBinding>(binding) {
+
+        private var habitLogItem: HabitLogUiModel? = null
+
+        init {
+            binding.containerMemo.setOnClickListener {
+                habitLogItem?.let(onClick)
+            }
+        }
+
         override fun bind(item: HabitLogUiModel) {
+            habitLogItem = item
             binding.log = item
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitMemoViewHolder {
-        return HabitMemoViewHolder(parent.viewBinding(ItemHabitMemoBinding::inflate))
+        return HabitMemoViewHolder(parent.viewBinding(ItemHabitMemoBinding::inflate), onClick)
     }
 
     override fun onBindViewHolder(holder: HabitMemoViewHolder, position: Int) {

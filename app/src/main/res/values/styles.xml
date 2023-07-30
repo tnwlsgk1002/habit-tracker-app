@@ -52,17 +52,9 @@
     </style>
 
     <!-- CardView -->
-    <style name="LogCardView" parent="Widget.Material3.CardView.Elevated">
-<!--        <item name="cardBackgroundColor">@color/white</item>-->
-    </style>
+    <style name="LogCardView" parent="Widget.Material3.CardView.Elevated"/>
 
-    <style name="SelectTypeCardView" parent="Widget.Material3.CardView.Elevated">
-<!--        <item name="cardBackgroundColor">@android:color/transparent</item>-->
-    </style>
-
-    <style name="CardViewIconStyle">
-<!--        <item name="tint">?attr/color</item>-->
-    </style>
+    <style name="CardViewIconStyle"/>
 
     <style name="InputDataCardView" parent="Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">@android:color/transparent</item>
@@ -83,23 +75,23 @@
     <style name="HabitItemViewAddedLogButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="icon">@drawable/ic_thin_plus</item>
         <item name="iconSize">12dp</item>
-<!--        <item name="iconTint">@color/blue_03</item>-->
-<!--        <item name="strokeColor">@color/blue_03</item>-->
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
-<!--        <item name="android:textColor">@color/blue_03</item>-->
     </style>
 
     <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:layout_margin">16dp</item>
         <item name="android:contentDescription">@string/add_habit</item>
-<!--        <item name="android:backgroundTint">@color/blue_03</item>-->
         <item name="srcCompat">@drawable/ic_thick_plus</item>
-<!--        <item name="tint">@color/white</item>-->
         <item name="fabSize">normal</item>
     </style>
 
     <!-- 습관 설정 화면(습관 추가, 수정) -->
     <style name="BottomButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <style name="BottomButtonStyle.Cancel" parent="Widget.Material3.Button.TonalButton">
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
         <item name="android:layout_margin">8dp</item>
     </style>
@@ -129,5 +121,14 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge
         </item>
+    </style>
+
+    <style name="CloseButton" parent="Widget.Material3.Button.IconButton">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="iconSize">32dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="icon">@drawable/ic_thick_close</item>
+        <item name="iconTint">?attr/colorOnBackground</item>
     </style>
 </resources>

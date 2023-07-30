@@ -8,9 +8,11 @@ import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
 import com.bibbidi.habittracker.data.model.entity.HabitWithLogEntity
 import com.bibbidi.habittracker.data.model.habit.DailyHabitLogs.Companion.createDailyHabitLogs
 import com.bibbidi.habittracker.data.model.habit.Habit
+import com.bibbidi.habittracker.data.model.habit.HabitLog
 import com.bibbidi.habittracker.data.model.habit.HabitWithLog
 import com.bibbidi.habittracker.data.model.habit.HabitWithLogs
 import com.bibbidi.habittracker.data.source.database.HabitsDao
+import com.bibbidi.habittracker.ui.mapper.asDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -113,5 +115,10 @@ class DefaultHabitsRepository @Inject constructor(
         }
     }.catch {
         emit(DBResult.Error(it))
+    }
+
+    override suspend fun saveHabitMemo(habitLog: HabitLog, memo: String?) {
+        val memo = if (memo.isNullOrEmpty()) null else memo
+        dao.insertHabitLog(habitLog.copy(memo = memo).asData())
     }
 }

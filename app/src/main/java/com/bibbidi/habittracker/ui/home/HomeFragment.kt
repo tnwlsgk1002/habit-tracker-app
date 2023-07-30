@@ -17,10 +17,12 @@ import com.bibbidi.habittracker.ui.MainEvent
 import com.bibbidi.habittracker.ui.MainViewModel
 import com.bibbidi.habittracker.ui.common.Constants.DATE_PICKER_TAG
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
+import com.bibbidi.habittracker.ui.common.Constants.MEMO_TAG
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_CENTER_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_NEXT_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_PREV_POS
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
+import com.bibbidi.habittracker.ui.common.dialog.memo.MemoBottomSheet
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
 import com.bibbidi.habittracker.ui.sethabit.addhabit.AddHabitActivity
@@ -62,6 +64,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         activityViewModel.addHabit(it)
                     }
                 }
+
                 else -> {}
             }
         }
@@ -75,6 +78,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         activityViewModel.updateHabit(it)
                     }
                 }
+
                 else -> {}
             }
         }
@@ -142,6 +146,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     viewModel.clickDateIcon()
                     true
                 }
+
                 else -> false
             }
         }
@@ -160,9 +165,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewModel.event.collectLatest { event ->
                 when (event) {
                     is HomeEvent.ShowDatePicker -> showDatePicker(event.date)
-                    is HomeEvent.ShowAddHabit -> goToAddHabit(event.habitInfo)
-                    is HomeEvent.ShowDeleteHabit -> showDeleteWarningDialog(event.habitLog)
-                    is HomeEvent.ShowUpdateHabit -> goToUpdateHabit(event.habitInfo)
+                    is HomeEvent.ShowAddHabit -> goToAddHabit(event.habit)
+                    is HomeEvent.ShowDeleteHabit -> showDeleteWarningDialog(event.habit)
+                    is HomeEvent.ShowUpdateHabit -> goToUpdateHabit(event.habit)
+                    is HomeEvent.ShowMemoEdit -> showMemoBottomSheet(event.habitLog)
                 }
             }
         }
@@ -173,9 +179,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     is MainEvent.SuccessAddHabit -> {
                         showSnackBar(R.string.add_habit_success_message)
                     }
+
                     is MainEvent.SuccessUpdateHabit -> {
                         showSnackBar(R.string.update_habit_success_message)
                     }
+
                     is MainEvent.SuccessDeleteHabit -> {
                         showSnackBar(R.string.delete_habit_success_message)
                     }
@@ -189,6 +197,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             when (menuItem.itemId) {
                 R.id.option_edit -> viewModel.showUpdateHabit(habitWithLog)
                 R.id.option_delete -> viewModel.showDeleteHabit(habitWithLog)
+                R.id.option_add_memo -> viewModel.showMemoEdit(habitWithLog)
             }
             true
         }
@@ -229,6 +238,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun goToDetailHabit(cardView: View, habitWithLog: HabitWithLogUiModel) {
         val action = HomeFragmentDirections.actionHomeFragmentToDetailHabitFragment(habitWithLog)
         findNavController().navigate(action)
+    }
+
+    private fun showMemoBottomSheet(habitWithLog: HabitWithLogUiModel) {
+        MemoBottomSheet.newInstance(
+            habitWithLog.habitLog.memo,
+            { memo -> viewModel.saveHabitMemo(habitWithLog, memo) },
+            { viewModel.saveHabitMemo(habitWithLog, null) }
+        ).show(parentFragmentManager, MEMO_TAG)
     }
 
     override fun onDestroyView() {

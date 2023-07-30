@@ -3,6 +3,7 @@ package com.bibbidi.habittracker.data.source
 import com.bibbidi.habittracker.data.model.DBResult
 import com.bibbidi.habittracker.data.model.habit.DailyHabitLogs
 import com.bibbidi.habittracker.data.model.habit.Habit
+import com.bibbidi.habittracker.data.model.habit.HabitLog
 import com.bibbidi.habittracker.data.model.habit.HabitWithLog
 import com.bibbidi.habittracker.data.model.habit.HabitWithLogs
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,8 @@ interface HabitsRepository {
     suspend fun getDailyHabitLogsByDate(date: LocalDate): Flow<DBResult<DailyHabitLogs>>
 
     suspend fun insertHabitLog(habitLog: HabitWithLog)
+
+    suspend fun saveHabitMemo(habitLog: HabitLog, memo: String?)
 
     suspend fun deleteAll()
 

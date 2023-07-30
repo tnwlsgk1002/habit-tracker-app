@@ -8,7 +8,9 @@ import com.bibbidi.habittracker.data.source.HabitsRepository
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
+import com.bibbidi.habittracker.ui.mapper.asDomain
 import com.bibbidi.habittracker.ui.mapper.asUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitResultUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
@@ -118,6 +120,12 @@ class DetailViewModel @Inject constructor(
     fun showUpdateHabit() {
         viewModelScope.launch {
             _event.emit(DetailHabitEvent.ShowUpdateHabit(habitFlow.value))
+        }
+    }
+
+    fun saveHabitMemo(log: HabitLogUiModel, memo: String?) {
+        viewModelScope.launch {
+            repository.saveHabitMemo(log.asDomain(), memo)
         }
     }
 }

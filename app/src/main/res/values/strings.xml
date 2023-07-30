@@ -84,6 +84,8 @@
     <string name="habit_name_transition">transition_name_%1$,d</string>
     <string name="habit_name_detail_transition">transition_detail_name</string>
     <string name="start_date_message">%d년 %d월 %d일에 시작했어요</string>
+    <string name="delete">삭제</string>
+    <string name="add_memo">메모 추가</string>
     <string-array name="custom_weekdays">
         <item>일</item>
         <item>월</item>

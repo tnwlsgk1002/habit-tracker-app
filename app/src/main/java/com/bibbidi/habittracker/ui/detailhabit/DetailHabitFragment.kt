@@ -17,6 +17,8 @@ import com.bibbidi.habittracker.ui.MainViewModel
 import com.bibbidi.habittracker.ui.common.Constants
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
+import com.bibbidi.habittracker.ui.common.dialog.memo.MemoBottomSheet
+import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.repeatOnStarted
@@ -34,7 +36,7 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
     private val binding by viewBinding(FragmentDetailHabitBinding::bind)
 
     private val habitMemoAdapter by lazy {
-        HabitMemoAdapter()
+        HabitMemoAdapter { showMemoBottomSheet(it) }
     }
 
     private val launchUpdateHabitActivity =
@@ -131,7 +133,7 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
     private fun goToUpdateHabit(habitInfo: HabitUiModel) {
         val intent = Intent(activity, UpdateHabitActivity::class.java)
         val bundle = Bundle().apply {
-            putParcelable(Constants.HABIT_INFO_KEY, habitInfo)
+            putParcelable(HABIT_INFO_KEY, habitInfo)
         }
         intent.putExtras(bundle)
         launchUpdateHabitActivity.launch(intent)
@@ -141,5 +143,16 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
         deleteHabitDialog.setPositiveButton(getString(R.string.accept)) { _, _ ->
             activityViewModel.deleteHabit(habit)
         }.show()
+    }
+
+    private fun showMemoBottomSheet(habitLog: HabitLogUiModel) {
+        MemoBottomSheet.newInstance(
+            habitLog.memo,
+            { memo -> viewModel.saveHabitMemo(habitLog, memo) },
+            { viewModel.saveHabitMemo(habitLog, null) }
+        ).show(
+            parentFragmentManager,
+            Constants.MEMO_TAG
+        )
     }
 }
