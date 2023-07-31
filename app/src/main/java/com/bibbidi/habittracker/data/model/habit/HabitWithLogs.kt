@@ -13,8 +13,8 @@ data class HabitWithLogs(
         val bestNumber: Int
     )
 
-    fun getResult(date: LocalDate): HabitResult {
-        val completedDate = habitLogs.filter { (_, v) -> v.isCompleted }.toList()
+    fun getResult(endDate: LocalDate): HabitResult {
+        val completedDate = habitLogs.filter { (_, v) -> v.isCompleted && !v.date.isAfter(endDate) }.toList()
             .sortedBy { it.first }
             .map { it.first }
 
@@ -26,13 +26,13 @@ data class HabitWithLogs(
         var nextDate = completedDate.first()
 
         completedDate.forEach { d ->
-            val index = repeatDayOfWeeks.indexOf(d.dayOfWeek) % repeatDayOfWeeks.size
+            val index = (repeatDayOfWeeks.indexOf(d.dayOfWeek) + 1) % repeatDayOfWeeks.size
             cntNumber = if (nextDate.isEqual(d)) cntNumber + 1 else 1
             nextDate = d.with(TemporalAdjusters.next(repeatDayOfWeeks[index]))
             bestNumber = max(bestNumber, cntNumber)
         }
 
-        if (completedDate.none { d -> date == d }) cntNumber = 0
+        if (completedDate.none { d -> endDate == d }) cntNumber = 0
 
         return HabitResult(cntNumber, bestNumber)
     }
