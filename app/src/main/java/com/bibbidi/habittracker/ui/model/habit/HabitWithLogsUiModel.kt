@@ -4,5 +4,5 @@ import org.threeten.bp.LocalDate
 
 data class HabitWithLogsUiModel(
     val habit: HabitUiModel,
-    val habitLogs: Map<LocalDate, HabitLogUiModel>
+    val habitLogs: LinkedHashMap<LocalDate, HabitLogUiModel>
 )

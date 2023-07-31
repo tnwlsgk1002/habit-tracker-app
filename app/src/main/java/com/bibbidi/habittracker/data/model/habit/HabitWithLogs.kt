@@ -6,7 +6,7 @@ import kotlin.math.max
 
 data class HabitWithLogs(
     val habit: Habit,
-    val habitLogs: Map<LocalDate, HabitLog> = mapOf()
+    val habitLogs: LinkedHashMap<LocalDate, HabitLog>
 ) {
     data class HabitResult(
         val cntNumber: Int,

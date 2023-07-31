@@ -6,6 +6,7 @@ import com.bibbidi.habittracker.data.mapper.asDomain
 import com.bibbidi.habittracker.data.model.DBResult
 import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
 import com.bibbidi.habittracker.data.model.entity.HabitWithLogEntity
+import com.bibbidi.habittracker.data.model.entity.HabitWithLogsEntity
 import com.bibbidi.habittracker.data.model.habit.DailyHabitLogs.Companion.createDailyHabitLogs
 import com.bibbidi.habittracker.data.model.habit.Habit
 import com.bibbidi.habittracker.data.model.habit.HabitLog
@@ -96,9 +97,13 @@ class DefaultHabitsRepository @Inject constructor(
         )
     }
 
+    private fun getHabitWithLogsSorted(id: Long?): Flow<HabitWithLogsEntity> {
+        return dao.getHabitWithLogs(id).map { it.copy(habitLogs = it.habitLogs.sortedBy { it.date }) }
+    }
+
     override suspend fun getHabitWithLogs(id: Long?) = flow {
         emit(DBResult.Loading)
-        dao.getHabitWithLogs(id).collect() {
+        getHabitWithLogsSorted(id).collect() {
             emit(DBResult.Success(it.asDomain()))
         }
     }.catch {
@@ -110,7 +115,7 @@ class DefaultHabitsRepository @Inject constructor(
         date: LocalDate
     ): Flow<DBResult<HabitWithLogs.HabitResult>> = flow {
         emit(DBResult.Loading)
-        dao.getHabitWithLogs(id).collect() {
+        getHabitWithLogsSorted(id).collect() {
             emit(DBResult.Success(it.asDomain().getResult(date)))
         }
     }.catch {

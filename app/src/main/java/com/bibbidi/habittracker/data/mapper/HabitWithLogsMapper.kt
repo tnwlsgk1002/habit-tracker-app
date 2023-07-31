@@ -1,7 +1,9 @@
 package com.bibbidi.habittracker.data.mapper
 
 import com.bibbidi.habittracker.data.model.entity.HabitWithLogsEntity
+import com.bibbidi.habittracker.data.model.habit.HabitLog
 import com.bibbidi.habittracker.data.model.habit.HabitWithLogs
+import org.threeten.bp.LocalDate
 
 object HabitWithLogsMapper : DataModelMapper<HabitWithLogsEntity, HabitWithLogs> {
 
@@ -16,7 +18,11 @@ object HabitWithLogsMapper : DataModelMapper<HabitWithLogsEntity, HabitWithLogs>
         return HabitWithLogs(
             habit = data.habit?.asDomain()
                 ?: error("HabitWithLogsMapper: HabitWithHabitLogsEntity is Null"),
-            habitLogs = data.habitLogs.associate { it.date to it.asDomain() }
+            habitLogs = LinkedHashMap<LocalDate, HabitLog>().apply {
+                data.habitLogs.forEach { habitLog ->
+                    this[habitLog.date] = habitLog.asDomain()
+                }
+            }
         )
     }
 }
