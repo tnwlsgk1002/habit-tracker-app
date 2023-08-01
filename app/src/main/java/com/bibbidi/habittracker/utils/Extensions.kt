@@ -1,7 +1,13 @@
 package com.bibbidi.habittracker.utils
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.core.content.res.use
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -32,4 +38,16 @@ fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
 
 fun View.getBackgroundColor(): Int? {
     return (background as? ColorDrawable)?.color
+}
+
+@ColorInt
+@SuppressLint("Recycle")
+fun Context.themeColor(
+    @AttrRes themeAttrId: Int
+): Int {
+    return obtainStyledAttributes(
+        intArrayOf(themeAttrId)
+    ).use {
+        it.getColor(0, Color.MAGENTA)
+    }
 }

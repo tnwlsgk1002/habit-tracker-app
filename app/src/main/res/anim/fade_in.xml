@@ -2,7 +2,7 @@
 <set>
     <alpha xmlns:android="http://schemas.android.com/apk/res/android"
         android:interpolator="@android:anim/accelerate_interpolator"
-        android:fromAlpha="1.0"
-        android:toAlpha="0.0"
-        android:duration="@android:integer/config_mediumAnimTime" />
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="@integer/reply_motion_duration_extra_large_3" />
 </set>

@@ -2,8 +2,11 @@ package com.bibbidi.habittracker.ui.detailhabit
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationSet
+import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -22,8 +25,10 @@ import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.repeatOnStarted
+import com.bibbidi.habittracker.utils.themeColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -48,6 +53,7 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
                         activityViewModel.updateHabit(it)
                     }
                 }
+
                 else -> {}
             }
         }
@@ -65,6 +71,36 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
         initToolbar()
         initBindingData()
         collectEvent()
+        initAnimation()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        startAnimation()
+    }
+
+    private fun initAnimation() {
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            duration = resources.getInteger(R.integer.reply_motion_duration_large_1).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
+        }
+    }
+
+    private fun startAnimation() {
+        val fadeInAnim = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        val slideUpAnim = AnimationUtils.loadAnimation(context, R.anim.slide_up)
+        val animationSet = AnimationSet(true).apply {
+            addAnimation(fadeInAnim)
+            addAnimation(slideUpAnim)
+        }
+
+        binding.run {
+            containerCalendar.startAnimation(animationSet)
+            containerConsecutiveAchievements.startAnimation(animationSet)
+            rvMemo.startAnimation(animationSet)
+        }
     }
 
     private fun initToolbar() {
@@ -75,10 +111,12 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
                         viewModel.showUpdateHabit()
                         true
                     }
+
                     R.id.option_delete -> {
                         viewModel.showDeleteHabit()
                         true
                     }
+
                     else -> false
                 }
             }
@@ -112,9 +150,11 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
                         viewModel.fetchHabit()
                         showSnackBar(R.string.update_habit_success_message)
                     }
+
                     is MainEvent.SuccessDeleteHabit -> {
                         goToHomeFragmentAfterDelete()
                     }
+
                     else -> {}
                 }
             }
