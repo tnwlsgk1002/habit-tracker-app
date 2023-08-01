@@ -17,8 +17,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            >
+            android:layout_margin="16dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_memo"
+                android:textAppearance="@style/HabitTracker.TextAppearance.TitleMedium"
+                app:layout_constraintStart_toStartOf="@id/container_edit_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/btn_close"/>
 
             <Button
                 android:id="@+id/btn_close"
@@ -34,7 +43,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="@id/btn_submit"
                 app:layout_constraintStart_toStartOf="@id/btn_cancel"
-                app:layout_constraintTop_toBottomOf="@id/btn_close"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
                 app:startIconDrawable="@drawable/ic_filled_edit">
 
                 <com.google.android.material.textfield.TextInputEditText

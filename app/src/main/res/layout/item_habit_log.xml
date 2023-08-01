@@ -64,6 +64,16 @@
                     bind:strikethrough="@{habitWithLog.habitLog.completed}"
                     tools:text="🚿 샤워하기" />
 
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_filled_circle"
+                    android:backgroundTint="?attr/colorError"
+                    android:visibility="@{habitWithLog.habitLog.memo != null ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toEndOf="@id/tv_title"
+                    app:layout_constraintTop_toTopOf="@id/tv_title" />
+
                 <Button
                     android:id="@+id/ib_menu"
                     style="@style/HabitItemViewMore"
