@@ -4,9 +4,10 @@ import com.bibbidi.habittracker.data.model.habit.HabitLog
 import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 
 object HabitLogUiModelMapper : UiModelMapper<HabitLogUiModel, HabitLog> {
+
     override fun asDomain(uiModel: HabitLogUiModel) = HabitLog(
         id = uiModel.id,
-        habitInfo = uiModel.habitInfo.asDomain(),
+        habitId = uiModel.habitId,
         date = uiModel.date,
         isCompleted = uiModel.isCompleted,
         memo = uiModel.memo
@@ -14,7 +15,7 @@ object HabitLogUiModelMapper : UiModelMapper<HabitLogUiModel, HabitLog> {
 
     override fun asUiModel(domain: HabitLog) = HabitLogUiModel(
         id = domain.id,
-        habitInfo = domain.habitInfo.asUiModel(),
+        habitId = domain.habitId,
         date = domain.date,
         isCompleted = domain.isCompleted,
         memo = domain.memo

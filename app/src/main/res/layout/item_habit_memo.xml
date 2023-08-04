@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.bibbidi.habittracker.ui.model.habit.HabitMemoItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{@string/date(item.date.year, item.date.monthValue)}"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
+            android:visibility="@{item.header ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@id/container_memo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2023년 9월" />
+
+        <com.bibbidi.habittracker.ui.common.customview.DateView
+            android:id="@+id/date_view"
+            style="@style/DateViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurfaceVariant"
+            app:layout_constraintBottom_toBottomOf="@id/container_memo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/container_memo"
+            bind:date="@{item.date}"
+            custom:checked="true" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/container_memo"
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/translucent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/date_view"
+            app:layout_constraintTop_toBottomOf="@id/tv_month"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/tv_memo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@{item.memo}"
+                android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
+                tools:text="- 데이터 피커 완료\n- DB 설계 완료\n- DB 설계 완료" />
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

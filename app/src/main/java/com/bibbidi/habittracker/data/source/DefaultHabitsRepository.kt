@@ -4,13 +4,21 @@ import android.util.LongSparseArray
 import com.bibbidi.habittracker.data.mapper.asData
 import com.bibbidi.habittracker.data.mapper.asDomain
 import com.bibbidi.habittracker.data.model.DBResult
-import com.bibbidi.habittracker.data.model.HabitWithHabitLog
 import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
+import com.bibbidi.habittracker.data.model.entity.HabitWithLogEntity
+import com.bibbidi.habittracker.data.model.entity.HabitWithLogsEntity
 import com.bibbidi.habittracker.data.model.habit.DailyHabitLogs.Companion.createDailyHabitLogs
 import com.bibbidi.habittracker.data.model.habit.Habit
 import com.bibbidi.habittracker.data.model.habit.HabitLog
+import com.bibbidi.habittracker.data.model.habit.HabitMemo
+import com.bibbidi.habittracker.data.model.habit.HabitResult
+import com.bibbidi.habittracker.data.model.habit.HabitWithLog
+import com.bibbidi.habittracker.data.model.habit.getResult
 import com.bibbidi.habittracker.data.source.database.HabitsDao
+import com.bibbidi.habittracker.ui.mapper.asDomain
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -20,26 +28,38 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultHabitsRepository @Inject constructor(
+    private val alarmHelper: AlarmHelper,
     private val dao: HabitsDao
 ) : HabitsRepository {
 
     override suspend fun deleteAll() {
+        dao.getHabits().forEach {
+            alarmHelper.cancelAlarm(it.asDomain())
+        }
         dao.deleteAll()
     }
 
-    override suspend fun insertHabit(habit: Habit): Habit {
-        return getHabitById(dao.insertHabit(habit.asData()))
+    override suspend fun insertHabit(habit: Habit) {
+        val addedHabit = getHabitById(dao.insertHabit(habit.asData()))
+        alarmHelper.registerAlarm(addedHabit)
     }
 
-    override suspend fun deleteHabitById(id: Long): Habit {
-        return getHabitById(id).also { dao.deleteHabitById(id) }
+    override suspend fun deleteHabitById(id: Long?) {
+        val deletedHabit = getHabitById(id)
+        dao.deleteHabitById(id)
+        alarmHelper.cancelAlarm(deletedHabit)
     }
 
-    override suspend fun insertHabitLog(habitLog: HabitLog) {
+    override suspend fun updateHabit(habit: Habit) {
+        dao.updateHabit(habit.asData())
+        alarmHelper.updateAlarm(habit)
+    }
+
+    override suspend fun insertHabitLog(habitLog: HabitWithLog) {
         habitLog.asData().habitLog?.let { dao.insertHabitLog(it) }
     }
 
-    override suspend fun getHabitWithHabitLogsByDate(date: LocalDate) = flow {
+    override suspend fun getDailyHabitLogsByDate(date: LocalDate) = flow {
         emit(DBResult.Loading)
         combine(dao.getHabitsByDate(date), dao.getHabitLogsByDate(date)) { habits, logs ->
             val sparseArray = LongSparseArray<HabitLogEntity>().apply {
@@ -49,14 +69,14 @@ class DefaultHabitsRepository @Inject constructor(
             }
             habits.filter { it.repeatDayOfTheWeeks.contains(date.dayOfWeek) }.mapNotNull { habit ->
                 habit.id?.let {
-                    HabitWithHabitLog(
+                    HabitWithLogEntity(
                         habit,
                         sparseArray[habit.id] ?: HabitLogEntity(habitId = habit.id, date = date)
                     ).asDomain()
                 }
             }
         }.map {
-            it.sortedWith(compareBy({ log -> log.isCompleted }, { log -> log.habitInfo.id }))
+            it.sortedWith(compareBy({ it.habitLog.isCompleted }, { it.habit.id }))
         }.collect {
             if (it.isEmpty()) {
                 emit(DBResult.Empty)
@@ -68,13 +88,8 @@ class DefaultHabitsRepository @Inject constructor(
         emit(DBResult.Error(it))
     }
 
-    override suspend fun getHabitById(id: Long): Habit {
+    override suspend fun getHabitById(id: Long?): Habit {
         return dao.getHabitById(id).asDomain()
-    }
-
-    override suspend fun updateHabit(habit: Habit): Habit {
-        dao.updateHabit(habit.asData())
-        return dao.getHabitById(habit.id).asDomain()
     }
 
     override suspend fun getHabitAlarms(): DBResult<List<Habit>> {
@@ -83,5 +98,60 @@ class DefaultHabitsRepository @Inject constructor(
                 it.asDomain()
             }
         )
+    }
+
+    private fun getHabitWithLogsSorted(id: Long?): Flow<HabitWithLogsEntity> {
+        return dao.getHabitWithLogs(id)
+            .map { it.copy(habitLogs = it.habitLogs.sortedBy { it.date }) }
+    }
+
+    override suspend fun getHabitWithLogs(id: Long?) = flow {
+        emit(DBResult.Loading)
+        getHabitWithLogsSorted(id).collect() {
+            emit(DBResult.Success(it.asDomain()))
+        }
+    }.catch {
+        emit(DBResult.Error(it))
+    }
+
+    override suspend fun getHabitResult(
+        id: Long?,
+        date: LocalDate
+    ): Flow<DBResult<HabitResult>> = flow {
+        emit(DBResult.Loading)
+        getHabitWithLogsSorted(id).collect() {
+            emit(DBResult.Success(it.asDomain().getResult(date)))
+        }
+    }.catch {
+        emit(DBResult.Error(it))
+    }
+
+    override suspend fun getHabitMemos(id: Long?, reverse: Boolean) = flow {
+        emit(DBResult.Loading)
+        dao.getHabitMemosById(id).collect() {
+            val result = if (reverse) {
+                it.sortedByDescending { it.date }
+            } else {
+                it.sortedBy { it.date }
+            }.map { it.asDomain() }
+            emit(DBResult.Success(result))
+        }
+    }.catch {
+        emit(DBResult.Error(it))
+    }
+
+    override suspend fun saveHabitMemo(habitMemo: HabitMemo, memo: String?) {
+        dao.updateHabitMemo(habitMemo.logId, memo)
+    }
+
+    override suspend fun saveHabitMemo(habitLog: HabitLog, memo: String?) {
+        val newMemo = if (memo.isNullOrEmpty()) null else memo
+        dao.insertHabitLog(habitLog.copy(memo = newMemo).asData())
+    }
+
+    override suspend fun deleteHabitMemo(logId: Long?) {
+        dao.getHabitLogByLogId(logId)?.let {
+            dao.insertHabitLog(it.copy(memo = null))
+        }
     }
 }

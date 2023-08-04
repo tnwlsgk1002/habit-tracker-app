@@ -5,8 +5,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.bibbidi.habittracker.data.model.habit.Habit
+import com.bibbidi.habittracker.data.source.AlarmHelper
 import com.bibbidi.habittracker.ui.common.Constants
-import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
+import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.utils.asLong
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.threeten.bp.LocalDate
@@ -17,7 +19,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AlarmHelper @Inject constructor(@ApplicationContext private val context: Context) {
+class AlarmHelperImpl @Inject constructor(@ApplicationContext private val context: Context) :
+    AlarmHelper {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -33,6 +36,7 @@ class AlarmHelper @Inject constructor(@ApplicationContext private val context: C
                     toLocalDate().isAfter(startDate) && toLocalTime().isBefore(alarmTime) -> toLocalDate()
                     isAfter(LocalDateTime.of(startDate, alarmTime)) -> toLocalDate()
                         .plusDays(1)
+
                     else -> startDate
                 }.asLong()
             }
@@ -43,14 +47,14 @@ class AlarmHelper @Inject constructor(@ApplicationContext private val context: C
         }
     }
 
-    private fun getRequestCode(habit: HabitUiModel): Int {
+    private fun getRequestCode(habit: Habit): Int {
         return "${habit.id}".hashCode()
     }
 
-    private fun createPendingIntent(habit: HabitUiModel): PendingIntent {
+    private fun createPendingIntent(habit: Habit): PendingIntent {
         val alarmIntent = Intent(context, AlarmReceiver::class.java).apply {
             val bundle = Bundle().apply {
-                putParcelable(Constants.HABIT_INFO_KEY, habit)
+                putParcelable(Constants.HABIT_INFO_KEY, habit.asUiModel())
             }
             putExtras(bundle)
         }
@@ -63,9 +67,9 @@ class AlarmHelper @Inject constructor(@ApplicationContext private val context: C
         )
     }
 
-    fun registerAlarm(habit: HabitUiModel, reRegister: Boolean = false) {
+    override fun registerAlarm(habit: Habit, isAgain: Boolean) {
         val alarmTime = habit.alarmTime ?: return
-        val calender = getAlarmCalender(habit.startDate, alarmTime, reRegister)
+        val calender = getAlarmCalender(habit.startDate, alarmTime, isAgain)
 
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
@@ -74,12 +78,12 @@ class AlarmHelper @Inject constructor(@ApplicationContext private val context: C
         )
     }
 
-    fun updateAlarm(habit: HabitUiModel) {
+    override fun updateAlarm(habit: Habit) {
         cancelAlarm(habit)
         registerAlarm(habit)
     }
 
-    fun cancelAlarm(habit: HabitUiModel) {
+    override fun cancelAlarm(habit: Habit) {
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             getRequestCode(habit),

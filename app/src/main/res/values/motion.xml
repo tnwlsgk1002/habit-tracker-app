@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Motion-->
+    <integer name="reply_motion_duration_extra_large_3">1000</integer>
+    <integer name="reply_motion_duration_extra_large_2">700</integer>
+    <integer name="reply_motion_duration_extra_large_1">500</integer>
+    <integer name="reply_motion_duration_large_1">300</integer>
+    <integer name="reply_motion_duration_medium_1">225</integer>
+    <integer name="reply_motion_duration_small_1">175</integer>
+</resources>

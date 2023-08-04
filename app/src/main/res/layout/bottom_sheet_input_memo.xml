@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.bibbidi.habittracker.ui.common.dialog.memo.MemoViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_memo"
+                android:textAppearance="@style/HabitTracker.TextAppearance.TitleMedium"
+                app:layout_constraintStart_toStartOf="@id/container_edit_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/btn_close"/>
+
+            <Button
+                android:id="@+id/btn_close"
+                style="@style/CloseButton"
+                android:onClick="@{() -> viewmodel.close()}"
+                app:layout_constraintEnd_toEndOf="@+id/container_edit_text"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/container_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@id/btn_submit"
+                app:layout_constraintStart_toStartOf="@id/btn_cancel"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                app:startIconDrawable="@drawable/ic_filled_edit">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_memo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewmodel.memoFlow}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_cancel"
+                style="@style/BottomButtonStyle.Cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewmodel.deleteMemo()}"
+                android:text="@string/delete"
+                app:layout_constraintEnd_toStartOf="@id/btn_submit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_edit_text" />
+
+            <Button
+                android:id="@+id/btn_submit"
+                style="@style/BottomButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewmodel.saveMemo()}"
+                android:text="@string/save"
+                app:layout_constraintBottom_toBottomOf="@id/btn_cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_cancel"
+                app:layout_constraintTop_toTopOf="@id/btn_cancel" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

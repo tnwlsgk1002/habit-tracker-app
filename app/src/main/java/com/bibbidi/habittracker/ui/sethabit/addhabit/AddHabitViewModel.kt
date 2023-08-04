@@ -19,7 +19,9 @@ import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 
-class AddHabitViewModel @AssistedInject constructor(@Assisted habit: HabitUiModel) :
+class AddHabitViewModel @AssistedInject constructor(
+    @Assisted habit: HabitUiModel
+) :
     ViewModel() {
 
     companion object {

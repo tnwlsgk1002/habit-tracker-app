@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/option_edit"
+        android:title="@string/edit"
+        android:icon="@drawable/ic_outline_edit" />
+    <item
+        android:id="@+id/option_delete"
+        android:icon="@drawable/ic_outline_delete"
+        android:title="@string/all_delete" />
+    <item
+        android:id="@+id/option_add_memo"
+        android:icon="@drawable/ic_filled_edit"
+        android:title="@string/add_memo" />
+</menu>

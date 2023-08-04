@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
 
-class UpdateHabitViewModel @AssistedInject constructor(@Assisted private val habit: HabitUiModel) :
+class UpdateHabitViewModel @AssistedInject constructor(
+    @Assisted private val habit: HabitUiModel
+) :
     ViewModel() {
 
     companion object {
@@ -79,7 +81,7 @@ class UpdateHabitViewModel @AssistedInject constructor(@Assisted private val hab
         }
     }
 
-    fun onSubmit() {
+    fun submit() {
         viewModelScope.launch {
             val updatedHabit = habit.copy(
                 name = nameFlow.value,

@@ -6,20 +6,27 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHomeBinding
-import com.bibbidi.habittracker.ui.background.AlarmHelper
+import com.bibbidi.habittracker.ui.MainEvent
+import com.bibbidi.habittracker.ui.MainViewModel
 import com.bibbidi.habittracker.ui.common.Constants.DATE_PICKER_TAG
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
+import com.bibbidi.habittracker.ui.common.Constants.MEMO_TAG
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_CENTER_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_NEXT_POS
 import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_PREV_POS
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
-import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
+import com.bibbidi.habittracker.ui.common.dialog.memo.MemoBottomSheet
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
 import com.bibbidi.habittracker.ui.sethabit.addhabit.AddHabitActivity
 import com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.asLocalDate
@@ -29,20 +36,18 @@ import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.LocalDate
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: HomeViewModel by viewModels()
+    private val activityViewModel: MainViewModel by activityViewModels()
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
-
-    @Inject
-    lateinit var alarmHelper: AlarmHelper
 
     private fun getDatePicker(date: LocalDate) = MaterialDatePicker.Builder.datePicker()
         .setTitleText(R.string.select_date)
@@ -59,9 +64,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
                     data?.extras?.getParcelable<HabitUiModel>(HABIT_INFO_KEY)?.let {
-                        viewModel.onSetHabit(it)
+                        activityViewModel.addHabit(it)
                     }
                 }
+
                 else -> {}
             }
         }
@@ -72,16 +78,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
                     data?.extras?.getParcelable<HabitUiModel>(HABIT_INFO_KEY)?.let {
-                        viewModel.updateHabit(it)
+                        activityViewModel.updateHabit(it)
                     }
                 }
+
                 else -> {}
             }
         }
 
     private val rowCalendarViewAdapter by lazy {
         RowCalendarAdapter(
-            onClick = { dateItem -> viewModel.onSelectDate(dateItem) },
+            onClick = { dateItem -> viewModel.selectDate(dateItem) },
             itemRangeInserted = {
                 binding.vpRowCalendar.post {
                     binding.vpRowCalendar.setCurrentItem(ROW_CALENDAR_CENTER_POS, false)
@@ -93,6 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val habitsAdapter by lazy {
         HabitsAdapter(
+            onClick = { v, habitWithLog -> goToDetailHabit(v, habitWithLog) },
             onCheck = { log, b -> viewModel.updateHabitLog(log, b) },
             onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
         )
@@ -102,7 +110,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
             if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                viewModel.onSwipeDatePage(
+                viewModel.swipeDatePage(
                     when (binding.vpRowCalendar.currentItem) {
                         ROW_CALENDAR_PREV_POS -> PageAction.PREV
                         ROW_CALENDAR_NEXT_POS -> PageAction.NEXT
@@ -132,6 +140,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         initBindingData()
         initToolBar()
         collectEvent()
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     private fun initToolBar() {
@@ -141,6 +151,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     viewModel.clickDateIcon()
                     true
                 }
+
                 else -> false
             }
         }
@@ -156,34 +167,42 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun collectEvent() {
         repeatOnStarted {
-            viewModel.event.collectLatest {
-                when (it) {
-                    is HomeEvent.ShowDatePicker -> showDatePicker(it.date)
-                    is HomeEvent.SuccessAddHabit -> {
+            viewModel.event.collectLatest { event ->
+                when (event) {
+                    is HomeEvent.ShowDatePicker -> showDatePicker(event.date)
+                    is HomeEvent.ShowAddHabit -> goToAddHabit(event.habit)
+                    is HomeEvent.ShowDeleteHabit -> showDeleteWarningDialog(event.habit)
+                    is HomeEvent.ShowUpdateHabit -> goToUpdateHabit(event.habit)
+                    is HomeEvent.ShowMemoEdit -> showMemoBottomSheet(event.habitLog)
+                }
+            }
+        }
+
+        repeatOnStarted {
+            activityViewModel.event.collect { event ->
+                when (event) {
+                    is MainEvent.SuccessAddHabit -> {
                         showSnackBar(R.string.add_habit_success_message)
-                        alarmHelper.registerAlarm(it.alarmInfo)
                     }
-                    is HomeEvent.SuccessUpdateHabit -> {
+
+                    is MainEvent.SuccessUpdateHabit -> {
                         showSnackBar(R.string.update_habit_success_message)
-                        alarmHelper.updateAlarm(it.alarmInfo)
                     }
-                    is HomeEvent.SuccessDeleteHabit -> {
+
+                    is MainEvent.SuccessDeleteHabit -> {
                         showSnackBar(R.string.delete_habit_success_message)
-                        alarmHelper.cancelAlarm(it.alarmInfo)
                     }
-                    is HomeEvent.AttemptAddHabit -> goToAddHabit(it.habitInfo)
-                    is HomeEvent.AttemptDeleteHabit -> showDeleteWarningDialog(it.habitLog)
-                    is HomeEvent.AttemptUpdateHabit -> goToUpdateHabit(it.habitInfo)
                 }
             }
         }
     }
 
-    private fun showMenuInHabitLog(habitLog: HabitLogUiModel, view: View) {
-        showMenu(view, R.menu.habit_menu) { menuItem ->
+    private fun showMenuInHabitLog(habitWithLog: HabitWithLogUiModel, view: View) {
+        showMenu(view, R.menu.home_habit_menu) { menuItem ->
             when (menuItem.itemId) {
-                R.id.option_edit -> viewModel.onUpdateHabit(habitLog)
-                R.id.option_delete -> viewModel.onDeleteHabit(habitLog)
+                R.id.option_edit -> viewModel.showUpdateHabit(habitWithLog)
+                R.id.option_delete -> viewModel.showDeleteHabit(habitWithLog)
+                R.id.option_add_memo -> viewModel.showMemoEdit(habitWithLog)
             }
             true
         }
@@ -193,9 +212,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         getDatePicker(date).show(parentFragmentManager, DATE_PICKER_TAG)
     }
 
-    private fun showDeleteWarningDialog(habitLog: HabitLogUiModel) {
+    private fun showDeleteWarningDialog(habit: HabitUiModel) {
         deleteHabitDialog.setPositiveButton(getString(R.string.accept)) { _, _ ->
-            viewModel.deleteHabit(habitLog)
+            activityViewModel.deleteHabit(habit)
         }.show()
     }
 
@@ -219,6 +238,32 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         intent.putExtras(bundle)
         launchAddHabitActivity.launch(intent)
+    }
+
+    private fun goToDetailHabit(cardView: View, habitWithLog: HabitWithLogUiModel) {
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(
+                R.integer.reply_motion_duration_large_1
+            ).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(
+                R.integer.reply_motion_duration_large_1
+            ).toLong()
+        }
+        val transitionName = getString(R.string.habit_name_detail_transition)
+        val extras = FragmentNavigatorExtras(cardView to transitionName)
+        val id = habitWithLog.habit.id ?: error("id is null")
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailHabitFragment(id)
+        findNavController().navigate(action, extras)
+    }
+
+    private fun showMemoBottomSheet(habitWithLog: HabitWithLogUiModel) {
+        MemoBottomSheet.newInstance(
+            habitWithLog.habitLog.memo,
+            { memo -> viewModel.saveHabitMemo(habitWithLog, memo) },
+            { viewModel.deleteHabitMemo(habitWithLog) }
+        ).show(parentFragmentManager, MEMO_TAG)
     }
 
     override fun onDestroyView() {

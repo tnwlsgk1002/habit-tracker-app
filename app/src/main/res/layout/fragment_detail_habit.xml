@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.prolificinteractive.materialcalendarview.MaterialCalendarView" />
+
+        <import type="org.threeten.bp.Month" />
+
+        <variable
+            name="viewmodel"
+            type="com.bibbidi.habittracker.ui.detailhabit.DetailViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionName="@string/habit_name_detail_transition"
+        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+        app:cardCornerRadius="0dp">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="?attr/actionBarSize"
+                        android:background="?attr/colorSurfaceVariant"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        app:layout_collapseMode="parallax">
+
+                        <TextView
+                            android:id="@+id/tv_habit_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewmodel.habitFlow.emoji + ' ' + viewmodel.habitFlow.name}"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleLarge"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@string/habit_name_hint" />
+
+                        <TextView
+                            android:id="@+id/tv_start_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:alpha="0.7"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                            app:layout_constraintStart_toStartOf="@id/tv_habit_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_habit_name"
+                            app:startDateText="@{viewmodel.habitFlow.startDate}"
+                            tools:text="@string/start_date_message" />
+
+                        <HorizontalScrollView
+                            android:id="@+id/container_chip"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/tv_habit_name"
+                            app:layout_constraintTop_toBottomOf="@id/tv_start_date"
+                            app:layout_constraintVertical_bias="0.0">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:singleLine="true">
+
+                                <com.google.android.material.chip.Chip
+                                    style="@style/Widget.Material3.Chip.Assist.Elevated"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="0dp"
+                                    android:clickable="false"
+                                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                                    app:chipIcon="@drawable/ic_recycle"
+                                    app:chipIconTint="?attr/colorPrimary"
+                                    app:chipMinHeight="24dp"
+                                    app:chipMinTouchTargetSize="0dp"
+                                    app:dayOfWeekSetText="@{viewmodel.habitFlow.repeatsDayOfTheWeeks}" />
+
+                                <com.google.android.material.chip.Chip
+                                    style="@style/Widget.Material3.Chip.Assist.Elevated"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="false"
+                                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                                    android:visibility="@{viewmodel.habitFlow.alarmTime == null ? View.GONE : View.VISIBLE}"
+                                    app:chipIcon="@drawable/ic_outline_bell"
+                                    app:chipIconTint="?attr/colorPrimary"
+                                    app:chipMinHeight="24dp"
+                                    app:chipMinTouchTargetSize="0dp"
+                                    app:timeText="@{viewmodel.habitFlow.alarmTime}" />
+                            </com.google.android.material.chip.ChipGroup>
+                        </HorizontalScrollView>
+                    </LinearLayout>
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="?attr/colorSurfaceVariant"
+                        app:layout_collapseMode="pin"
+                        app:menu="@menu/detail_habit_menu"
+                        app:navigationIcon="@drawable/ic_back"
+                        app:navigationIconTint="?attr/colorOnSurface" />
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSurfaceVariant" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

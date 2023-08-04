@@ -3,7 +3,7 @@ package com.bibbidi.habittracker.data.mapper
 import com.bibbidi.habittracker.data.model.entity.HabitEntity
 import com.bibbidi.habittracker.data.model.habit.Habit
 
-object HabitEntityMapper : DataModelMapper<HabitEntity, Habit> {
+object HabitDataModelMapper : DataModelMapper<HabitEntity, Habit> {
     override fun asData(domain: Habit) = HabitEntity(
         id = domain.id,
         name = domain.name,
@@ -23,6 +23,6 @@ object HabitEntityMapper : DataModelMapper<HabitEntity, Habit> {
     )
 }
 
-fun HabitEntity.asDomain(): Habit = HabitEntityMapper.asDomain(this)
+fun HabitEntity.asDomain(): Habit = HabitDataModelMapper.asDomain(this)
 
-fun Habit.asData(): HabitEntity = HabitEntityMapper.asData(this)
+fun Habit.asData(): HabitEntity = HabitDataModelMapper.asData(this)

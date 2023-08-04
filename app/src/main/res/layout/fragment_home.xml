@@ -37,7 +37,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:menu="@menu/home_menu"
+                app:menu="@menu/home_appbar_menu"
                 bind:title="@{viewmodel.dateFlow}"
                 tools:title="@string/date" />
 
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:onClick="@{()->viewmodel.onAddHabit()}"
+                android:onClick="@{()->viewmodel.showAddHabit()}"
                 android:text="@string/add_habit"
                 app:icon="@drawable/ic_thick_plus"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -94,7 +94,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/tv_progress_text"
                 app:layout_constraintEnd_toStartOf="@id/tv_progress_text"
                 app:layout_constraintTop_toBottomOf="@id/vp_row_calendar"
-                bind:progress="@{viewmodel.progressFlow}"
+                bind:progressText="@{viewmodel.progressFlow}"
                 tools:text="4/10" />
 
             <TextView
@@ -112,13 +112,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="16dp"
+                android:transitionGroup="true"
+                app:adapter="@{habitsAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_progress_text"
-                app:adapter="@{habitsAdapter}"
-                app:itemList="@{viewmodel.habitsStateFlow}"
+                bind:logItemList="@{viewmodel.habitsStateFlow}"
                 tools:listitem="@layout/item_habit_log" />
 
             <ProgressBar
@@ -139,7 +140,7 @@
             style="@style/FloatingActionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->viewmodel.onAddHabit()}"
+            android:onClick="@{() -> viewmodel.showAddHabit()}"
             app:layout_anchor="@id/layout_constraint"
             app:layout_anchorGravity="right|bottom"
             tools:ignore="ContentDescription" />

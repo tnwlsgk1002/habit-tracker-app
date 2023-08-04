@@ -8,17 +8,18 @@ import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 
-@BindingAdapter("bind:text")
+@BindingAdapter("bind:timeText")
 fun setLocalTimeText(chip: Chip, localTime: LocalTime?) {
     chip.text = localTime?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: ""
 }
 
-@BindingAdapter("bind:text")
+@BindingAdapter("bind:dayOfWeekSetText")
 fun setDayOfWeekText(
     chip: Chip,
-    dayOfWeeks: Set<DayOfWeek>
+    dayOfWeeks: Set<DayOfWeek>?
 ) {
     chip.text = when (dayOfWeeks) {
+        null -> "-"
         DayOfWeek.values().toSet() -> chip.context.getString(R.string.everyday)
         setOf(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY) -> chip.context.getString(R.string.weekend)
         setOf(

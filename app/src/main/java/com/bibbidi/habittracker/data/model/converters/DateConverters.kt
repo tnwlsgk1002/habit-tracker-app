@@ -17,7 +17,7 @@ object DateConverters {
 
     @TypeConverter
     fun toLocalDate(value: String?): LocalDate? {
-        val value = value ?: return null
+        value ?: return null
         return localDateFormatter.parse(value, LocalDate::from)
     }
 
@@ -28,7 +28,7 @@ object DateConverters {
 
     @TypeConverter
     fun toLocalTime(value: String?): LocalTime? {
-        val value = value ?: return null
+        value ?: return null
         return localTimeFormatter.parse(value, LocalTime::from)
     }
 }

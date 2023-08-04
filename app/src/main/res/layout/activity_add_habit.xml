@@ -156,7 +156,7 @@
                             app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toEndOf="@id/tv_alarm_title"
                             app:layout_constraintTop_toTopOf="parent"
-                            bind:text="@{vm.alarmTimeFlow}"
+                            bind:timeText="@{vm.alarmTimeFlow}"
                             tools:ignore="UseSwitchCompatOrMaterialXml"
                             tools:text="09:00" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -200,7 +200,7 @@
                             app:layout_constraintEnd_toStartOf="@id/view_repeats_day_of_the_weeks_right_arrow"
                             app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toEndOf="@id/tv_repeats_day_of_weeks_title"
-                            bind:text="@{vm.repeatsDayOfTheWeeksFlow}"
+                            bind:dayOfWeekSetText="@{vm.repeatsDayOfTheWeeksFlow}"
                             tools:text="일, 월, 화, 수, 목, 금, 토" />
 
                         <View
@@ -262,7 +262,7 @@
                             app:layout_constraintEnd_toStartOf="@id/view_start_date_right_arrow"
                             app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toEndOf="@id/tv_start_date_title"
-                            bind:text="@{vm.startDateFlow}"
+                            bind:dateText="@{vm.startDateFlow}"
                             tools:text="2023-05-09" />
 
                         <View

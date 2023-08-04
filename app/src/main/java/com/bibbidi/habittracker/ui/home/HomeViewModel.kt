@@ -16,8 +16,8 @@ import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.ui.model.ProgressUiModel
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
-import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
 import com.bibbidi.habittracker.utils.getStartOfTheWeek
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -46,6 +46,7 @@ class HomeViewModel @Inject constructor(
 
     private val _dateItemsFlow: MutableStateFlow<List<UiState<Array<DateItem>>>> =
         MutableStateFlow(List(ROW_CALENDAR_SIZE) { UiState.Loading })
+
     val dateItemsFlow: StateFlow<List<UiState<Array<DateItem>>>> = _dateItemsFlow.asStateFlow()
 
     private val habits = MutableStateFlow<DBResult<DailyHabitLogs>>(DBResult.Loading)
@@ -60,6 +61,7 @@ class HomeViewModel @Inject constructor(
             is DBResult.Success -> {
                 UiState.Success(habits.data.logs.map { it.asUiModel() })
             }
+
             is DBResult.Loading -> UiState.Loading
             is DBResult.Empty -> UiState.Empty
             else -> UiState.Empty
@@ -77,7 +79,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             setDateItems(dateFlow.value)
             dateFlow.collectLatest { date ->
-                habitsRepository.getHabitWithHabitLogsByDate(date).collectLatest {
+                habitsRepository.getDailyHabitLogsByDate(date).collectLatest {
                     habits.value = it
                     progressFlow.value = if (it is DBResult.Success) {
                         ProgressUiModel(it.data.finishCount, it.data.total)
@@ -105,25 +107,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun deleteHabit(habitLog: HabitLogUiModel) {
+    fun selectDate(dateItem: DateItem) {
         viewModelScope.launch {
-            habitLog.habitInfo.id?.let {
-                val habit = habitsRepository.deleteHabitById(it).asUiModel()
-                _event.emit(HomeEvent.SuccessDeleteHabit(habit))
-            }
-        }
-    }
-
-    fun updateHabit(habit: HabitUiModel) {
-        viewModelScope.launch {
-            val habit = habitsRepository.updateHabit(habit.asDomain())
-            _event.emit(HomeEvent.SuccessUpdateHabit(habit.asUiModel()))
-        }
-    }
-
-    fun updateHabitLog(log: HabitLogUiModel, isChecked: Boolean) {
-        viewModelScope.launch {
-            habitsRepository.insertHabitLog(log.copy(isCompleted = isChecked).asDomain())
+            setDate(dateItem.date)
         }
     }
 
@@ -134,19 +120,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onSelectDate(dateItem: DateItem) {
-        viewModelScope.launch {
-            setDate(dateItem.date)
-        }
-    }
-
     fun clickDateIcon() {
         viewModelScope.launch {
             _event.emit(HomeEvent.ShowDatePicker(date = _dateFlow.value))
         }
     }
 
-    fun onSwipeDatePage(position: PageAction) {
+    fun swipeDatePage(position: PageAction) {
         viewModelScope.launch {
             habits.value = DBResult.Loading
             val date = when (position) {
@@ -159,30 +139,49 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onAddHabit() {
+    fun showAddHabit() {
         viewModelScope.launch {
-            _event.emit(HomeEvent.AttemptAddHabit(habitInfo = HabitUiModel(startDate = dateFlow.value)))
+            _event.emit(HomeEvent.ShowAddHabit(habit = HabitUiModel(startDate = dateFlow.value)))
         }
     }
 
-    fun onSetHabit(habit: HabitUiModel) {
+    fun showUpdateHabit(habitWithLog: HabitWithLogUiModel) {
         viewModelScope.launch {
-            val habit = habitsRepository.insertHabit(habit.asDomain())
-            _event.emit(HomeEvent.SuccessAddHabit(habit.asUiModel()))
-        }
-    }
-
-    fun onUpdateHabit(habitLog: HabitLogUiModel) {
-        viewModelScope.launch {
-            val id = habitLog.habitInfo.id ?: return@launch
+            val id = habitWithLog.habit.id ?: return@launch
             val habit = habitsRepository.getHabitById(id)
-            _event.emit(HomeEvent.AttemptUpdateHabit(habit.asUiModel()))
+            _event.emit(HomeEvent.ShowUpdateHabit(habit.asUiModel()))
         }
     }
 
-    fun onDeleteHabit(habitLog: HabitLogUiModel) {
+    fun showDeleteHabit(habitWithLog: HabitWithLogUiModel) {
         viewModelScope.launch {
-            _event.emit(HomeEvent.AttemptDeleteHabit(habitLog))
+            _event.emit(HomeEvent.ShowDeleteHabit(habitWithLog.habit))
+        }
+    }
+
+    fun updateHabitLog(log: HabitWithLogUiModel, isChecked: Boolean) {
+        viewModelScope.launch {
+            habitsRepository.insertHabitLog(
+                log.copy(habitLog = log.habitLog.copy(isCompleted = isChecked)).asDomain()
+            )
+        }
+    }
+
+    fun saveHabitMemo(habitWithLog: HabitWithLogUiModel, memo: String?) {
+        viewModelScope.launch {
+            habitsRepository.saveHabitMemo(habitWithLog.habitLog.asDomain(), memo)
+        }
+    }
+
+    fun deleteHabitMemo(habitWithLog: HabitWithLogUiModel) {
+        viewModelScope.launch {
+            habitsRepository.deleteHabitMemo(habitWithLog.habitLog.id)
+        }
+    }
+
+    fun showMemoEdit(habitWithLog: HabitWithLogUiModel) {
+        viewModelScope.launch {
+            _event.emit(HomeEvent.ShowMemoEdit(habitWithLog))
         }
     }
 }
