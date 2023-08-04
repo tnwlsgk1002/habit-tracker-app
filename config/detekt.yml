@@ -13,4 +13,4 @@ complexity:
 style:
   active: true
   UnnecessaryAbstractClass:
-    excludes: ['**/RepositoryModule.kt']
+    excludes: ['**/RepositoryModule.kt', '**/AlarmHelperModule.kt']
