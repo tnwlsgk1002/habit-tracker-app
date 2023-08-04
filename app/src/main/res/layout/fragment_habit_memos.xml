@@ -23,13 +23,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_memo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bind:adapter="@{memoAdapter}"
             bind:memoItemList="@{viewmodel.memoFlow}"
             tools:listitem="@layout/item_habit_memo"
-            tools:itemCount="1"/>
+            tools:itemCount="3"/>
     </FrameLayout>
 </layout>

@@ -106,12 +106,6 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    val setDate: (LocalDate) -> Unit = {
-        viewModelScope.launch {
-            dateFlow.value = it
-        }
-    }
-
     fun showDeleteHabit() {
         viewModelScope.launch {
             _event.emit(DetailHabitEvent.ShowDeleteHabit(habitFlow.value))

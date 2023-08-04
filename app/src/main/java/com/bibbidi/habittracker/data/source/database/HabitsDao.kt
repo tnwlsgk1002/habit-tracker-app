@@ -57,7 +57,7 @@ interface HabitsDao {
     fun getHabitWithLogs(id: Long?): Flow<HabitWithLogsEntity>
 
     @Query(
-        "SELECT habit_log_id AS id, fk_habit_id AS habitId, date AS date, memo AS memo FROM habit_logs " +
+        "SELECT habit_log_id AS logId, fk_habit_id AS habitId, date AS date, memo AS memo FROM habit_logs " +
             "WHERE fk_habit_id = :id " +
             "AND memo IS NOT NULL " +
             "ORDER BY CASE WHEN :reverse = 1 THEN date END ASC, " +

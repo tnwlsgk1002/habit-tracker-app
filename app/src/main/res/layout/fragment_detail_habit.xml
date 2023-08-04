@@ -120,8 +120,7 @@
                         app:layout_collapseMode="pin"
                         app:menu="@menu/detail_habit_menu"
                         app:navigationIcon="@drawable/ic_back"
-                        app:navigationIconTint="?attr/colorOnSurface"
-                        />
+                        app:navigationIconTint="?attr/colorOnSurface" />
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
                 <com.google.android.material.tabs.TabLayout
@@ -134,7 +133,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_result"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
