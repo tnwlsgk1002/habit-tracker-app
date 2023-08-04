@@ -22,7 +22,6 @@
             style="?attr/materialCardViewFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:alpha="@{habitWithLog.habitLog.completed ? 0.5f : 1f}"
             android:transitionName="@{@string/habit_name_transition(habitWithLog.habit.id)}"
             app:cardCornerRadius="20dp"
             tools:alpha="0.5f">
@@ -61,7 +60,6 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/checkbox"
                     app:layout_constraintTop_toTopOf="parent"
-                    bind:strikethrough="@{habitWithLog.habitLog.completed}"
                     tools:text="🚿 샤워하기" />
 
                 <View
