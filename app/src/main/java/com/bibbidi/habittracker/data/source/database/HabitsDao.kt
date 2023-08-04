@@ -6,10 +6,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.bibbidi.habittracker.data.model.entity.HabitEntity
-import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
-import com.bibbidi.habittracker.data.model.entity.HabitWithLogsEntity
-import com.bibbidi.habittracker.data.model.habit.HabitMemoDTO
+import com.bibbidi.habittracker.data.model.habit.dto.HabitMemoDTO
+import com.bibbidi.habittracker.data.model.habit.dto.HabitWithLogsDTO
+import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
+import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
 
@@ -54,7 +54,7 @@ interface HabitsDao {
             "WHERE habits.habit_id = :id " +
             "ORDER BY habit_logs.date ASC"
     )
-    fun getHabitWithLogs(id: Long?): Flow<HabitWithLogsEntity>
+    fun getHabitWithLogs(id: Long?): Flow<HabitWithLogsDTO>
 
     @Query(
         "SELECT habit_log_id AS logId, fk_habit_id AS habitId, date AS date, memo AS memo FROM habit_logs " +
@@ -63,7 +63,7 @@ interface HabitsDao {
             "ORDER BY CASE WHEN :reverse = 1 THEN date END ASC, " +
             "CASE WHEN :reverse = 0 THEN date END DESC"
     )
-    fun getHabitMemosById(id: Long?, reverse: Boolean = false): Flow<List<HabitMemoDTO>>
+    fun getHabitMemosById(id: Long?, reverse: Boolean): Flow<List<HabitMemoDTO>>
 
     @Query(
         "SELECT * FROM habit_logs " +

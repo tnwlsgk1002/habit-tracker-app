@@ -1,6 +1,6 @@
 package com.bibbidi.habittracker.di
 
-import com.bibbidi.habittracker.data.source.AlarmHelper
+import com.bibbidi.habittracker.domain.AlarmHelper
 import com.bibbidi.habittracker.ui.background.AlarmHelperImpl
 import dagger.Binds
 import dagger.Module

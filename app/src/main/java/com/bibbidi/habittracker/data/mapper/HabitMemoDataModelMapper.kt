@@ -1,7 +1,7 @@
 package com.bibbidi.habittracker.data.mapper
 
-import com.bibbidi.habittracker.data.model.habit.HabitMemo
-import com.bibbidi.habittracker.data.model.habit.HabitMemoDTO
+import com.bibbidi.habittracker.data.model.habit.dto.HabitMemoDTO
+import com.bibbidi.habittracker.domain.model.HabitMemo
 
 object HabitMemoDataModelMapper : DataModelMapper<HabitMemoDTO, HabitMemo> {
 

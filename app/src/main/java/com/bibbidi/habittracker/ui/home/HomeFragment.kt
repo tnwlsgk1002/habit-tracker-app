@@ -101,7 +101,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val habitsAdapter by lazy {
         HabitsAdapter(
             onClick = { v, habitWithLog -> goToDetailHabit(v, habitWithLog) },
-            onCheck = { log, b -> viewModel.updateHabitLog(log, b) },
+            onCheck = { log, b -> viewModel.checkHabitLog(log, b) },
             onClickMenu = { habitLog, v -> showMenuInHabitLog(habitLog, v) }
         )
     }

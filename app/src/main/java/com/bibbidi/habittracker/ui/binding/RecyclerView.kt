@@ -40,7 +40,7 @@ fun setLogItemList(view: RecyclerView, itemList: UiState<List<HabitWithLogUiMode
     if (itemList is UiState.Success) {
         view.visibility = View.VISIBLE
         (view.adapter as? HabitsAdapter)?.submitList(itemList.data)
-    } else if (itemList is UiState.Empty) {
+    } else {
         view.visibility = View.GONE
     }
 }
@@ -50,7 +50,7 @@ fun setMemoItemList(view: RecyclerView, itemList: UiState<List<HabitMemoItem>>?)
     if (itemList is UiState.Success) {
         view.visibility = View.VISIBLE
         (view.adapter as? HabitMemoAdapter)?.submitList(itemList.data)
-    } else if (itemList is UiState.Empty) {
-        view.visibility = View.INVISIBLE
+    } else {
+        view.visibility = View.GONE
     }
 }

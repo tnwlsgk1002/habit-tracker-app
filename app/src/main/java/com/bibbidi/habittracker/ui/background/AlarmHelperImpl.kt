@@ -5,8 +5,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.bibbidi.habittracker.data.model.habit.Habit
-import com.bibbidi.habittracker.data.source.AlarmHelper
+import com.bibbidi.habittracker.domain.AlarmHelper
+import com.bibbidi.habittracker.domain.model.Habit
 import com.bibbidi.habittracker.ui.common.Constants
 import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.utils.asLong
@@ -51,6 +51,10 @@ class AlarmHelperImpl @Inject constructor(@ApplicationContext private val contex
         return "${habit.id}".hashCode()
     }
 
+    private fun getRequestCode(id: Long): Int {
+        return "$id".hashCode()
+    }
+
     private fun createPendingIntent(habit: Habit): PendingIntent {
         val alarmIntent = Intent(context, AlarmReceiver::class.java).apply {
             val bundle = Bundle().apply {
@@ -79,14 +83,15 @@ class AlarmHelperImpl @Inject constructor(@ApplicationContext private val contex
     }
 
     override fun updateAlarm(habit: Habit) {
-        cancelAlarm(habit)
+        cancelAlarm(habit.id)
         registerAlarm(habit)
     }
 
-    override fun cancelAlarm(habit: Habit) {
+    override fun cancelAlarm(habitId: Long?) {
+        habitId ?: error("취소할 알람의 대상이 NULL 입니다.")
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            getRequestCode(habit),
+            getRequestCode(habitId),
             Intent(context, AlarmReceiver::class.java),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
         )

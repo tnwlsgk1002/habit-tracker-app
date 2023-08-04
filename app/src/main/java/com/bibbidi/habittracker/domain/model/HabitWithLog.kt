@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.data.model.habit
+package com.bibbidi.habittracker.domain.model
 
 data class HabitWithLog(
     val habit: Habit,

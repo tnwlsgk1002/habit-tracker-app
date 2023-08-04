@@ -1,6 +1,6 @@
 package com.bibbidi.habittracker.ui.mapper
 
-import com.bibbidi.habittracker.data.model.habit.HabitWithLog
+import com.bibbidi.habittracker.domain.model.HabitWithLog
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
 
 object HabitWithLogUiModelMapper : UiModelMapper<HabitWithLogUiModel, HabitWithLog> {

@@ -1,7 +1,7 @@
 package com.bibbidi.habittracker.data.mapper
 
-import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
-import com.bibbidi.habittracker.data.model.habit.HabitLog
+import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
+import com.bibbidi.habittracker.domain.model.HabitLog
 
 object HabitLogDataModelMapper : DataModelMapper<HabitLogEntity, HabitLog> {
 

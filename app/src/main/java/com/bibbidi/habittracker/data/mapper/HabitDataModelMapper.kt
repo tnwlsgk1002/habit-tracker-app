@@ -1,7 +1,7 @@
 package com.bibbidi.habittracker.data.mapper
 
-import com.bibbidi.habittracker.data.model.entity.HabitEntity
-import com.bibbidi.habittracker.data.model.habit.Habit
+import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
+import com.bibbidi.habittracker.domain.model.Habit
 
 object HabitDataModelMapper : DataModelMapper<HabitEntity, Habit> {
     override fun asData(domain: Habit) = HabitEntity(

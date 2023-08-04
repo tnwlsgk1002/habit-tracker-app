@@ -67,13 +67,21 @@ fun setStrikethrough(
 @BindingAdapter("bind:progressText")
 fun setProgressText(
     textView: TextView,
-    progressUiModel: ProgressUiModel
+    progress: UiState<ProgressUiModel>
 ) {
-    textView.text = textView.context.getString(
-        R.string.progress,
-        progressUiModel.finishCount,
-        progressUiModel.total
-    )
+    textView.text = if (progress is UiState.Success) {
+        textView.context.getString(
+            R.string.progress,
+            progress.data.finishCount,
+            progress.data.total
+        )
+    } else {
+        textView.context.getString(
+            R.string.progress,
+            0,
+            0
+        )
+    }
 }
 
 @BindingAdapter("bind:startDateText")

@@ -1,7 +1,7 @@
 package com.bibbidi.habittracker.ui.mapper
 
-import com.bibbidi.habittracker.data.model.habit.HabitLog
-import com.bibbidi.habittracker.data.model.habit.HabitWithLogs
+import com.bibbidi.habittracker.domain.model.HabitLog
+import com.bibbidi.habittracker.domain.model.HabitWithLogs
 import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel
 import org.threeten.bp.LocalDate

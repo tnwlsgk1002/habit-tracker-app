@@ -1,9 +1,11 @@
-package com.bibbidi.habittracker.data.model.entity
+package com.bibbidi.habittracker.data.model.habit.dto
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
+import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
 
-data class HabitWithLogEntity(
+data class HabitWithLogDTO(
     @Embedded val habit: HabitEntity?,
 
     @Relation(

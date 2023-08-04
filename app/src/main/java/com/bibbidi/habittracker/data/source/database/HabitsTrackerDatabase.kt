@@ -6,8 +6,8 @@ import androidx.room.TypeConverters
 import com.bibbidi.habittracker.data.model.converters.DateConverters
 import com.bibbidi.habittracker.data.model.converters.DayOfWeekConverter
 import com.bibbidi.habittracker.data.model.converters.DurationConverter
-import com.bibbidi.habittracker.data.model.entity.HabitEntity
-import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
+import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
+import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
 
 @Database(
     entities = [

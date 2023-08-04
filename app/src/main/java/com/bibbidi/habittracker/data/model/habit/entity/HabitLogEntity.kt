@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.data.model.entity
+package com.bibbidi.habittracker.data.model.habit.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

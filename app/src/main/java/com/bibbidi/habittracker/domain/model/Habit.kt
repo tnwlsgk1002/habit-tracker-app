@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.data.model.habit
+package com.bibbidi.habittracker.domain.model
 
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
