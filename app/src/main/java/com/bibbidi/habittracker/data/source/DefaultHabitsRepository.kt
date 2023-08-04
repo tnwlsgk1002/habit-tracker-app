@@ -10,12 +10,15 @@ import com.bibbidi.habittracker.data.model.entity.HabitWithLogsEntity
 import com.bibbidi.habittracker.data.model.habit.DailyHabitLogs.Companion.createDailyHabitLogs
 import com.bibbidi.habittracker.data.model.habit.Habit
 import com.bibbidi.habittracker.data.model.habit.HabitLog
+import com.bibbidi.habittracker.data.model.habit.HabitMemo
+import com.bibbidi.habittracker.data.model.habit.HabitResult
 import com.bibbidi.habittracker.data.model.habit.HabitWithLog
-import com.bibbidi.habittracker.data.model.habit.HabitWithLogs
+import com.bibbidi.habittracker.data.model.habit.getResult
 import com.bibbidi.habittracker.data.source.database.HabitsDao
 import com.bibbidi.habittracker.ui.mapper.asDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -98,7 +101,8 @@ class DefaultHabitsRepository @Inject constructor(
     }
 
     private fun getHabitWithLogsSorted(id: Long?): Flow<HabitWithLogsEntity> {
-        return dao.getHabitWithLogs(id).map { it.copy(habitLogs = it.habitLogs.sortedBy { it.date }) }
+        return dao.getHabitWithLogs(id)
+            .map { it.copy(habitLogs = it.habitLogs.sortedBy { it.date }) }
     }
 
     override suspend fun getHabitWithLogs(id: Long?) = flow {
@@ -113,7 +117,7 @@ class DefaultHabitsRepository @Inject constructor(
     override suspend fun getHabitResult(
         id: Long?,
         date: LocalDate
-    ): Flow<DBResult<HabitWithLogs.HabitResult>> = flow {
+    ): Flow<DBResult<HabitResult>> = flow {
         emit(DBResult.Loading)
         getHabitWithLogsSorted(id).collect() {
             emit(DBResult.Success(it.asDomain().getResult(date)))
@@ -122,8 +126,32 @@ class DefaultHabitsRepository @Inject constructor(
         emit(DBResult.Error(it))
     }
 
+    override suspend fun getHabitMemos(id: Long?, reverse: Boolean) = flow {
+        emit(DBResult.Loading)
+        dao.getHabitMemosById(id).collect() {
+            val result = if (reverse) {
+                it.sortedByDescending { it.date }
+            } else {
+                it.sortedBy { it.date }
+            }.map { it.asDomain() }
+            emit(DBResult.Success(result))
+        }
+    }.catch {
+        emit(DBResult.Error(it))
+    }
+
+    override suspend fun saveHabitMemo(habitMemo: HabitMemo, memo: String?) {
+        dao.updateHabitMemo(habitMemo.logId, memo)
+    }
+
     override suspend fun saveHabitMemo(habitLog: HabitLog, memo: String?) {
         val newMemo = if (memo.isNullOrEmpty()) null else memo
         dao.insertHabitLog(habitLog.copy(memo = newMemo).asData())
+    }
+
+    override suspend fun deleteHabitMemo(logId: Long?) {
+        dao.getHabitLogByLogId(logId)?.let {
+            dao.insertHabitLog(it.copy(memo = null))
+        }
     }
 }

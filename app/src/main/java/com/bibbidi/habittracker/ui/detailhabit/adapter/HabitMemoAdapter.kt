@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.detailhabit
+package com.bibbidi.habittracker.ui.detailhabit.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -6,30 +6,30 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bibbidi.habittracker.databinding.ItemHabitMemoBinding
 import com.bibbidi.habittracker.ui.common.BaseViewHolder
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
-import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitMemoItem
 
 class HabitMemoAdapter(
-    private val onClick: (HabitLogUiModel) -> (Unit)
+    private val onClick: (HabitMemoItem) -> (Unit)
 ) :
-    ListAdapter<HabitLogUiModel, HabitMemoAdapter.HabitMemoViewHolder>(HabitMemosDiffCallback) {
+    ListAdapter<HabitMemoItem, HabitMemoAdapter.HabitMemoViewHolder>(HabitMemosDiffCallback) {
 
     class HabitMemoViewHolder(
         private val binding: ItemHabitMemoBinding,
-        private val onClick: (HabitLogUiModel) -> Unit
+        private val onClick: (HabitMemoItem) -> Unit
     ) :
-        BaseViewHolder<HabitLogUiModel, ItemHabitMemoBinding>(binding) {
+        BaseViewHolder<HabitMemoItem, ItemHabitMemoBinding>(binding) {
 
-        private var habitLogItem: HabitLogUiModel? = null
+        private var memoItem: HabitMemoItem? = null
 
         init {
             binding.containerMemo.setOnClickListener {
-                habitLogItem?.let(onClick)
+                memoItem?.let(onClick)
             }
         }
 
-        override fun bind(item: HabitLogUiModel) {
-            habitLogItem = item
-            binding.log = item
+        override fun bind(item: HabitMemoItem) {
+            memoItem = item
+            binding.item = item
         }
     }
 
@@ -41,16 +41,16 @@ class HabitMemoAdapter(
         holder.bind(getItem(position))
     }
 
-    object HabitMemosDiffCallback : DiffUtil.ItemCallback<HabitLogUiModel>() {
-        override fun areItemsTheSame(oldItem: HabitLogUiModel, newItem: HabitLogUiModel): Boolean {
-            return oldItem.id == newItem.id
+    object HabitMemosDiffCallback : DiffUtil.ItemCallback<HabitMemoItem>() {
+        override fun areItemsTheSame(oldItem: HabitMemoItem, newItem: HabitMemoItem): Boolean {
+            return oldItem.logId == newItem.logId
         }
 
         override fun areContentsTheSame(
-            oldItem: HabitLogUiModel,
-            newItem: HabitLogUiModel
+            oldItem: HabitMemoItem,
+            newItem: HabitMemoItem
         ): Boolean {
-            return oldItem.memo == newItem.memo
+            return oldItem == newItem
         }
     }
 }

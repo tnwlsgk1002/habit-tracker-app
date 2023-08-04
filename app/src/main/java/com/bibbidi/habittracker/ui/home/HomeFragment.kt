@@ -253,7 +253,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         val transitionName = getString(R.string.habit_name_detail_transition)
         val extras = FragmentNavigatorExtras(cardView to transitionName)
-        val action = HomeFragmentDirections.actionHomeFragmentToDetailHabitFragment(habitWithLog)
+        val id = habitWithLog.habit.id ?: error("id is null")
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailHabitFragment(id)
         findNavController().navigate(action, extras)
     }
 
@@ -261,7 +262,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         MemoBottomSheet.newInstance(
             habitWithLog.habitLog.memo,
             { memo -> viewModel.saveHabitMemo(habitWithLog, memo) },
-            { viewModel.saveHabitMemo(habitWithLog, null) }
+            { viewModel.deleteHabitMemo(habitWithLog) }
         ).show(parentFragmentManager, MEMO_TAG)
     }
 

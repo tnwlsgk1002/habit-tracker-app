@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.bibbidi.habittracker.ui.detailhabit.DetailViewModel" />
+
+        <import type="com.prolificinteractive.materialcalendarview.MaterialCalendarView" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurfaceVariant">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/container_current_achievements"
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/translucent"
+                app:cardCornerRadius="20dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toStartOf="@id/container_best_achievements"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/current_number_of_consecutive_achievements"
+                        android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        bind:cntNumberText="@{vm.habitResultFlow}"
+                        android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
+                        tools:text="0" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/container_best_achievements"
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/translucent"
+                app:cardCornerRadius="20dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toBottomOf="@id/container_current_achievements"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/container_current_achievements"
+                app:layout_constraintTop_toTopOf="@id/container_current_achievements">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/best_current_number_of_consecutive_achievements"
+                        android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
+                        bind:bestNumberText="@{vm.habitResultFlow}"
+                        tools:text="0" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/container_calendar"
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toBottomOf="@id/container_current_achievements"
+                app:layout_constraintStart_toStartOf="@id/container_current_achievements"
+                app:layout_constraintEnd_toEndOf="@id/container_best_achievements"
+                app:cardBackgroundColor="@color/translucent">
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    bind:is_localization_format="@{true}"
+                    bind:logs="@{vm.habitWithLogsFlow}"
+                    app:mcv_rightArrowMask="@drawable/ic_thick_right_arrow"
+                    app:mcv_leftArrowMask="@drawable/ic_thick_left_arrow"
+                    app:mcv_arrowColor="?attr/colorOnBackground"
+                    app:mcv_dateTextAppearance="@style/HabitTracker.TextAppearance.BodySmall"
+                    app:mcv_headerTextAppearance="@style/HabitTracker.TextAppearance.TitleMedium"
+                    app:mcv_selectionMode="@{MaterialCalendarView.SELECTION_MODE_NONE}"
+                    app:mcv_showOtherDates="defaults"
+                    app:mcv_weekDayTextAppearance="@style/HabitTracker.TextAppearance.BodyMedium" />
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

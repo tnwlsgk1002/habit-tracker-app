@@ -1,23 +1,21 @@
-package com.bibbidi.habittracker.ui.common.customview
+package com.bibbidi.habittracker.ui.common.decoration
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel
-import com.bibbidi.habittracker.utils.asCalendarDay
+import com.bibbidi.habittracker.utils.asLocalDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 
-class HabitCheckDecorator(context: Context, habitWithLogs: HabitWithLogsUiModel) : DayViewDecorator {
-
-    private val logMap = habitWithLogs.habitLogs.map { (k, v) -> k.asCalendarDay() to v }.toMap()
+class HabitCheckDecorator(context: Context, private val habitWithLogs: HabitWithLogsUiModel) : DayViewDecorator {
 
     val drawable: Drawable? = ContextCompat.getDrawable(context, R.drawable.inset_calendar_day)
 
     override fun shouldDecorate(day: CalendarDay?): Boolean {
-        return logMap[day]?.isCompleted ?: false
+        return habitWithLogs.habitLogs[day?.asLocalDate()]?.isCompleted ?: false
     }
 
     override fun decorate(view: DayViewFacade?) {

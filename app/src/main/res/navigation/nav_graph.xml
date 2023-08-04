@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.bibbidi.habittracker.ui.home.HomeFragment"
         android:label="homeFragment"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_detailHabitFragment"
             app:destination="@id/detailHabitFragment" />
@@ -17,15 +17,12 @@
 
     <fragment
         android:id="@+id/detailHabitFragment"
-        android:name="com.bibbidi.habittracker.ui.detailhabit.DetailHabitFragment"
+        android:name="com.bibbidi.habittracker.ui.detailhabit.fragment.DetailHabitFragment"
         android:label="detailHabitFragment"
-        tools:layout="@layout/fragment_detail_habit" >
+        tools:layout="@layout/fragment_detail_habit">
         <argument
-            android:name="habit_with_log"
-            app:argType="com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel" />
-        <action
-            android:id="@+id/action_detailHabitFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:name="habit_id"
+            app:argType="long" />
     </fragment>
 
 </navigation>

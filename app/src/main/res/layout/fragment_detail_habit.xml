@@ -14,43 +14,36 @@
         <variable
             name="viewmodel"
             type="com.bibbidi.habittracker.ui.detailhabit.DetailViewModel" />
-
-        <variable
-            name="memoAdapter"
-            type="com.bibbidi.habittracker.ui.detailhabit.HabitMemoAdapter" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:transitionName="@string/habit_name_detail_transition"
+        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+        app:cardCornerRadius="0dp">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/container_app_bar"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:contentScrim="@android:color/transparent"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+                android:layout_height="wrap_content">
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.Material3.CardView.Filled"
+                <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:transitionName="@string/habit_name_detail_transition"
-                    app:layout_collapseMode="parallax"
-                    app:shapeAppearanceOverlay="@style/HabitTracker.ShapeAppearance.BottomCut">
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="?attr/actionBarSize"
+                        android:background="?attr/colorSurfaceVariant"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="16dp"
+                        app:layout_collapseMode="parallax">
 
                         <TextView
                             android:id="@+id/tv_habit_name"
@@ -118,149 +111,32 @@
                             </com.google.android.material.chip.ChipGroup>
                         </HorizontalScrollView>
                     </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/toolbar"
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="?attr/colorSurfaceVariant"
+                        app:layout_collapseMode="pin"
+                        app:menu="@menu/detail_habit_menu"
+                        app:navigationIcon="@drawable/ic_back"
+                        app:navigationIconTint="?attr/colorOnSurface"
+                        />
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorSurfaceVariant"
-                    app:layout_collapseMode="pin"
-                    app:menu="@menu/detail_habit_menu"
-                    app:navigationIcon="@drawable/ic_thick_down_arrow" />
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSurfaceVariant" />
+            </com.google.android.material.appbar.AppBarLayout>
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <LinearLayout
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/container_consecutive_achievements"
-                    style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="12dp"
-                    app:cardUseCompatPadding="true">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:id="@+id/tv_number_consecutive_achievements"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/number_of_consecutive_achievements"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tv_current_number_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/current_number_of_consecutive_achievements"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
-                            app:layout_constraintEnd_toEndOf="@id/divider"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/divider" />
-
-                        <TextView
-                            android:id="@+id/tv_current_number_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
-                            app:cntNumberText="@{viewmodel.habitResultFlow}"
-                            app:layout_constraintEnd_toEndOf="@id/divider"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_current_number_title"
-                            tools:text="0" />
-
-                        <TextView
-                            android:id="@+id/tv_best_number_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/best_current_number_of_consecutive_achievements"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.BodySmall"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/divider"
-                            app:layout_constraintTop_toTopOf="@id/divider" />
-
-                        <TextView
-                            android:id="@+id/tv_best_number_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
-                            app:bestNumberText="@{viewmodel.habitResultFlow}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/divider"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_best_number_title"
-                            tools:text="0" />
-
-                        <com.google.android.material.divider.MaterialDivider
-                            android:id="@+id/divider"
-                            android:layout_width="1dp"
-                            android:layout_height="0dp"
-                            android:layout_marginTop="16dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_number_consecutive_achievements" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/container_calendar"
-                    style="@style/Widget.Material3.CardView.Elevated"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    app:cardCornerRadius="20dp">
-
-                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                        android:id="@+id/calendarView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        app:is_localization_format="@{true}"
-                        app:logs="@{viewmodel.habitWithLogsFlow}"
-                        app:mcv_arrowColor="?attr/colorOnBackground"
-                        app:mcv_dateTextAppearance="@style/HabitTracker.TextAppearance.LabelSmall"
-                        app:mcv_headerTextAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
-                        app:mcv_selectionMode="@{MaterialCalendarView.SELECTION_MODE_NONE}"
-                        app:mcv_showOtherDates="defaults"
-                        app:mcv_weekDayTextAppearance="@style/HabitTracker.TextAppearance.LabelMedium"
-                        app:onMonthChange="@{viewmodel.setDate}" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_memo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    app:adapter="@{memoAdapter}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:memoItemList="@{viewmodel.memoFlow}"
-                    tools:listitem="@layout/item_habit_memo" />
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

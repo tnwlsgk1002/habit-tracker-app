@@ -26,6 +26,7 @@ object Constants {
     const val HABIT_INFO_KEY = "HABIT_INFO"
     const val DAY_OF_THE_WEEKS_KEY = "DAY_OF_THE_WEEKS"
     const val MEMO_KEY = "MEMO"
+    const val HABIT_ID_KEY = "habit_id"
 
     // date
     const val MIN_DAY_OF_WEEK_IDX = 0

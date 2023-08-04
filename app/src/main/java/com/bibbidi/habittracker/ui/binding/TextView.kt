@@ -32,8 +32,16 @@ fun setDayOfWeekText(
     dayOfWeeks: Set<DayOfWeek>
 ) {
     textView.text = dayOfWeeks.sortedBy { it.ordinal }.joinToString(separator = "/") {
-        it.getStringResource(textView.context)
+        it.getStringResource(textView.context, true)
     }
+}
+
+@BindingAdapter("bind:dayOfWeekShortText")
+fun setDayOfWeekShortText(
+    textView: TextView,
+    dayOfWeek: DayOfWeek
+) {
+    textView.text = dayOfWeek.getStringResource(textView.context, true)
 }
 
 @BindingAdapter("bind:dayOfWeekText")
@@ -41,7 +49,7 @@ fun setDayOfWeekText(
     textView: TextView,
     dayOfWeek: DayOfWeek
 ) {
-    textView.text = dayOfWeek.getStringResource(textView.context)
+    textView.text = dayOfWeek.getStringResource(textView.context, false)
 }
 
 @BindingAdapter("bind:strikethrough")

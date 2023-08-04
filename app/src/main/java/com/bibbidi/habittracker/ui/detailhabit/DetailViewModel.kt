@@ -5,24 +5,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.data.model.DBResult
 import com.bibbidi.habittracker.data.source.HabitsRepository
+import com.bibbidi.habittracker.ui.common.Constants.HABIT_ID_KEY
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.mapper.asDomain
 import com.bibbidi.habittracker.ui.mapper.asUiModel
-import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
+import com.bibbidi.habittracker.ui.model.habit.HabitMemoItem
 import com.bibbidi.habittracker.ui.model.habit.HabitResultUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
-import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel
-import com.bibbidi.habittracker.utils.isSameYearAndMonth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -33,11 +29,7 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    companion object {
-        const val HABIT_WITH_LOG_KEY = "habit_with_log"
-    }
-
-    private val id = savedStateHandle.get<HabitWithLogUiModel>(HABIT_WITH_LOG_KEY)?.habit?.id
+    private val id = savedStateHandle.get<Long>(HABIT_ID_KEY)
 
     private val dateFlow: MutableStateFlow<LocalDate>
 
@@ -55,25 +47,17 @@ class DetailViewModel @Inject constructor(
     private val _event = MutableEventFlow<DetailHabitEvent>()
     val event = _event.asEventFlow()
 
+    private val _memoFlow: MutableStateFlow<UiState<List<HabitMemoItem>>> = MutableStateFlow(UiState.Loading)
+    val memoFlow = _memoFlow.asStateFlow()
+
     init {
         val now = LocalDate.now()
         dateFlow = MutableStateFlow(now)
         fetchHabit()
         loadHabitWithLogs()
         loadHabitResult(now)
+        loadHabitMemos()
     }
-
-    val memoFlow = combine(dateFlow, habitWithLogsFlow) { date, habitWithLogs ->
-        when (habitWithLogs) {
-            is UiState.Success -> UiState.Success(
-                habitWithLogs.data.habitLogs.filter { (d, l) ->
-                    d.isSameYearAndMonth(date) && l.memo != null
-                }.values.toList()
-            )
-            is UiState.Loading -> UiState.Loading
-            else -> UiState.Empty
-        }
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, UiState.Loading)
 
     fun fetchHabit() {
         viewModelScope.launch {
@@ -105,6 +89,23 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    private fun loadHabitMemos() {
+        viewModelScope.launch {
+            repository.getHabitMemos(id, true).collectLatest {
+                _memoFlow.value = when (it) {
+                    is DBResult.Success -> UiState.Success(
+                        it.data.mapIndexed { i, data ->
+                            val prev = it.data.getOrNull(i - 1)?.date?.monthValue
+                            data.asUiModel().copy(isHeader = prev != data.date.monthValue)
+                        }
+                    )
+                    is DBResult.Loading -> UiState.Loading
+                    else -> UiState.Empty
+                }
+            }
+        }
+    }
+
     val setDate: (LocalDate) -> Unit = {
         viewModelScope.launch {
             dateFlow.value = it
@@ -123,9 +124,15 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun saveHabitMemo(log: HabitLogUiModel, memo: String?) {
+    fun saveHabitMemo(memoItem: HabitMemoItem, memo: String?) {
         viewModelScope.launch {
-            repository.saveHabitMemo(log.asDomain(), memo)
+            repository.saveHabitMemo(memoItem.asDomain(), memo)
+        }
+    }
+
+    fun deleteHabitMemo(memoItem: HabitMemoItem) {
+        viewModelScope.launch {
+            repository.deleteHabitMemo(memoItem.logId)
         }
     }
 }

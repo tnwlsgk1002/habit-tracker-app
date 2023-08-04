@@ -4,17 +4,16 @@ import android.content.Context
 import com.bibbidi.habittracker.R
 import org.threeten.bp.DayOfWeek
 
-fun DayOfWeek.getStringResource(context: Context) = context.getString(
-    when (this) {
-        DayOfWeek.SUNDAY -> R.string.sunday
-        DayOfWeek.MONDAY -> R.string.monday
-        DayOfWeek.TUESDAY -> R.string.tuesday
-        DayOfWeek.WEDNESDAY -> R.string.wednesday
-        DayOfWeek.THURSDAY -> R.string.thursday
-        DayOfWeek.FRIDAY -> R.string.friday
-        DayOfWeek.SATURDAY -> R.string.saturday
-    }
-)
+fun DayOfWeek.getStringResource(context: Context, isShort: Boolean = true): String {
+    val index = dayOfWeekValues.indexOf(this)
+    return context.resources.getStringArray(
+        if (isShort) {
+            R.array.short_weekdays
+        } else {
+            R.array.full_weekdays
+        }
+    )[index]
+}
 
 val dayOfWeekValues = arrayOf(
     DayOfWeek.SUNDAY,

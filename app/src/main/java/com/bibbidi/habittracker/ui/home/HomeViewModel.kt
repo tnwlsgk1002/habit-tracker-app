@@ -61,6 +61,7 @@ class HomeViewModel @Inject constructor(
             is DBResult.Success -> {
                 UiState.Success(habits.data.logs.map { it.asUiModel() })
             }
+
             is DBResult.Loading -> UiState.Loading
             is DBResult.Empty -> UiState.Empty
             else -> UiState.Empty
@@ -169,6 +170,12 @@ class HomeViewModel @Inject constructor(
     fun saveHabitMemo(habitWithLog: HabitWithLogUiModel, memo: String?) {
         viewModelScope.launch {
             habitsRepository.saveHabitMemo(habitWithLog.habitLog.asDomain(), memo)
+        }
+    }
+
+    fun deleteHabitMemo(habitWithLog: HabitWithLogUiModel) {
+        viewModelScope.launch {
+            habitsRepository.deleteHabitMemo(habitWithLog.habitLog.id)
         }
     }
 

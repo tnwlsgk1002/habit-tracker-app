@@ -1,12 +1,10 @@
-package com.bibbidi.habittracker.ui.detailhabit
+package com.bibbidi.habittracker.ui.detailhabit.fragment
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnimationSet
-import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -17,17 +15,18 @@ import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentDetailHabitBinding
 import com.bibbidi.habittracker.ui.MainEvent
 import com.bibbidi.habittracker.ui.MainViewModel
-import com.bibbidi.habittracker.ui.common.Constants
 import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
-import com.bibbidi.habittracker.ui.common.dialog.memo.MemoBottomSheet
-import com.bibbidi.habittracker.ui.model.habit.HabitLogUiModel
+import com.bibbidi.habittracker.ui.detailhabit.DetailHabitEvent
+import com.bibbidi.habittracker.ui.detailhabit.DetailViewModel
+import com.bibbidi.habittracker.ui.detailhabit.adapter.HabitResultAdapter
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.themeColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -35,14 +34,10 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
 
-    private val viewModel: DetailViewModel by viewModels()
+    private val sharedViewModel: DetailViewModel by viewModels()
     private val activityViewModel: MainViewModel by activityViewModels()
 
     private val binding by viewBinding(FragmentDetailHabitBinding::bind)
-
-    private val habitMemoAdapter by lazy {
-        HabitMemoAdapter { showMemoBottomSheet(it) }
-    }
 
     private val launchUpdateHabitActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -66,17 +61,16 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
             .setIcon(R.drawable.ic_filled_delete)
     }
 
+    private val habitResultAdapter by lazy {
+        HabitResultAdapter(this, sharedViewModel)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initBindingData()
         collectEvent()
         initAnimation()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        startAnimation()
     }
 
     private fun initAnimation() {
@@ -88,32 +82,17 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
         }
     }
 
-    private fun startAnimation() {
-        val fadeInAnim = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        val slideUpAnim = AnimationUtils.loadAnimation(context, R.anim.slide_up)
-        val animationSet = AnimationSet(true).apply {
-            addAnimation(fadeInAnim)
-            addAnimation(slideUpAnim)
-        }
-
-        binding.run {
-            containerCalendar.startAnimation(animationSet)
-            containerConsecutiveAchievements.startAnimation(animationSet)
-            rvMemo.startAnimation(animationSet)
-        }
-    }
-
     private fun initToolbar() {
         binding.toolbar.run {
             setOnMenuItemClickListener { menu ->
                 when (menu.itemId) {
                     R.id.option_edit -> {
-                        viewModel.showUpdateHabit()
+                        sharedViewModel.showUpdateHabit()
                         true
                     }
 
                     R.id.option_delete -> {
-                        viewModel.showDeleteHabit()
+                        sharedViewModel.showDeleteHabit()
                         true
                     }
 
@@ -122,20 +101,30 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
             }
 
             setNavigationOnClickListener {
-                findNavController().navigateUp()
+                goToHomeFragment()
             }
         }
     }
 
     private fun initBindingData() {
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewmodel = viewModel
-        binding.memoAdapter = habitMemoAdapter
+        binding.run {
+            lifecycleOwner = viewLifecycleOwner
+            viewmodel = sharedViewModel
+            vpResult.adapter = habitResultAdapter
+            TabLayoutMediator(tabLayout, vpResult) { tab, position ->
+                tab.text = getString(
+                    when (position) {
+                        0 -> R.string.statistics
+                        else -> R.string.record
+                    }
+                )
+            }.attach()
+        }
     }
 
     private fun collectEvent() {
         repeatOnStarted {
-            viewModel.event.collectLatest { event ->
+            sharedViewModel.event.collectLatest { event ->
                 when (event) {
                     is DetailHabitEvent.ShowUpdateHabit -> goToUpdateHabit(event.habit)
                     is DetailHabitEvent.ShowDeleteHabit -> showDeleteWarningDialog(event.habit)
@@ -147,12 +136,12 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
             activityViewModel.event.collectLatest { event ->
                 when (event) {
                     is MainEvent.SuccessUpdateHabit -> {
-                        viewModel.fetchHabit()
+                        sharedViewModel.fetchHabit()
                         showSnackBar(R.string.update_habit_success_message)
                     }
 
                     is MainEvent.SuccessDeleteHabit -> {
-                        goToHomeFragmentAfterDelete()
+                        goToHomeFragment()
                     }
 
                     else -> {}
@@ -161,9 +150,8 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
         }
     }
 
-    private fun goToHomeFragmentAfterDelete() {
-        val action = DetailHabitFragmentDirections.actionDetailHabitFragmentToHomeFragment()
-        findNavController().navigate(action)
+    private fun goToHomeFragment() {
+        findNavController().navigateUp()
     }
 
     private fun showSnackBar(@StringRes resId: Int) {
@@ -183,16 +171,5 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
         deleteHabitDialog.setPositiveButton(getString(R.string.accept)) { _, _ ->
             activityViewModel.deleteHabit(habit)
         }.show()
-    }
-
-    private fun showMemoBottomSheet(habitLog: HabitLogUiModel) {
-        MemoBottomSheet.newInstance(
-            habitLog.memo,
-            { memo -> viewModel.saveHabitMemo(habitLog, memo) },
-            { viewModel.saveHabitMemo(habitLog, null) }
-        ).show(
-            parentFragmentManager,
-            Constants.MEMO_TAG
-        )
     }
 }

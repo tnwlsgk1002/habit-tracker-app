@@ -4,6 +4,8 @@
     <!-- TextAppearance -->
     <style name="HabitTracker.TextAppearance.TitleLarge" parent="TextAppearance.Material3.TitleLarge" />
 
+    <style name="HabitTracker.TextAppearance.TitleLarge.Black" parent="TextAppearance.Material3.TitleLarge"/>
+
     <style name="HabitTracker.TextAppearance.TitleMedium" parent="TextAppearance.Material3.TitleMedium" />
 
     <style name="HabitTracker.TextAppearance.TitleSmall" parent="TextAppearance.Material3.TitleSmall" />
@@ -139,4 +141,5 @@
         <item name="cornerSizeBottomLeft">40dp</item>
         <item name="cornerSizeBottomRight">40dp</item>
     </style>
+
 </resources>
