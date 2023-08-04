@@ -3,7 +3,6 @@ package com.bibbidi.habittracker.ui.sethabit.updatehabit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.bibbidi.habittracker.data.source.HabitsRepository
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
@@ -19,7 +18,6 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
 
 class UpdateHabitViewModel @AssistedInject constructor(
-    private val repository: HabitsRepository,
     @Assisted private val habit: HabitUiModel
 ) :
     ViewModel() {

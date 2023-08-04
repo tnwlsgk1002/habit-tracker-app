@@ -3,7 +3,7 @@ package com.bibbidi.habittracker.data.mapper
 import com.bibbidi.habittracker.data.model.entity.HabitWithLogEntity
 import com.bibbidi.habittracker.data.model.habit.HabitWithLog
 
-object HabitWithLogMapper : DataModelMapper<HabitWithLogEntity, HabitWithLog> {
+object HabitWithLogDataModelMapper : DataModelMapper<HabitWithLogEntity, HabitWithLog> {
     override fun asData(domain: HabitWithLog) = HabitWithLogEntity(
         habit = domain.habit.asData(),
         habitLog = domain.habitLog.asData()
@@ -19,6 +19,6 @@ object HabitWithLogMapper : DataModelMapper<HabitWithLogEntity, HabitWithLog> {
     }
 }
 
-fun HabitWithLogEntity.asDomain() = HabitWithLogMapper.asDomain(this)
+fun HabitWithLogEntity.asDomain() = HabitWithLogDataModelMapper.asDomain(this)
 
-fun HabitWithLog.asData() = HabitWithLogMapper.asData(this)
+fun HabitWithLog.asData() = HabitWithLogDataModelMapper.asData(this)

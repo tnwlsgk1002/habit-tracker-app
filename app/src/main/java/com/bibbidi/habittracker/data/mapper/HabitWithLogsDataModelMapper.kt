@@ -5,7 +5,7 @@ import com.bibbidi.habittracker.data.model.habit.HabitLog
 import com.bibbidi.habittracker.data.model.habit.HabitWithLogs
 import org.threeten.bp.LocalDate
 
-object HabitWithLogsMapper : DataModelMapper<HabitWithLogsEntity, HabitWithLogs> {
+object HabitWithLogsDataModelMapper : DataModelMapper<HabitWithLogsEntity, HabitWithLogs> {
 
     override fun asData(domain: HabitWithLogs): HabitWithLogsEntity {
         return HabitWithLogsEntity(
@@ -27,6 +27,6 @@ object HabitWithLogsMapper : DataModelMapper<HabitWithLogsEntity, HabitWithLogs>
     }
 }
 
-fun HabitWithLogs.asData() = HabitWithLogsMapper.asData(this)
+fun HabitWithLogs.asData() = HabitWithLogsDataModelMapper.asData(this)
 
-fun HabitWithLogsEntity.asDomain() = HabitWithLogsMapper.asDomain(this)
+fun HabitWithLogsEntity.asDomain() = HabitWithLogsDataModelMapper.asDomain(this)
