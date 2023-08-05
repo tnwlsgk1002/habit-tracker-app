@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp">
 
         <TextView
             android:id="@+id/tv_title"
@@ -27,88 +28,115 @@
         <CheckBox
             android:id="@+id/checkbox_sun"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
+            android:background="@drawable/selector_checkbox_day"
+            android:button="@null"
             android:checked="true"
+            android:gravity="center"
             android:text="@string/sunday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
-            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            android:textColor="@color/white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/checkbox_mon"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
         <CheckBox
             android:id="@+id/checkbox_mon"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/selector_checkbox_day"
+            android:button="@null"
             android:checked="true"
+            android:gravity="center"
             android:text="@string/monday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
-            app:layout_constraintEnd_toEndOf="@id/tv_title"
-            app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_sun" />
+            android:textColor="@color/white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/checkbox_tue"
+            app:layout_constraintStart_toEndOf="@id/checkbox_sun"
+            app:layout_constraintTop_toTopOf="@id/checkbox_sun" />
 
         <CheckBox
             android:id="@+id/checkbox_tue"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/selector_checkbox_day"
+            android:button="@null"
             android:checked="true"
+            android:gravity="center"
             android:text="@string/tuesday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
-            app:layout_constraintEnd_toEndOf="@id/tv_title"
-            app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_mon" />
+            android:textColor="@color/white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/checkbox_wed"
+            app:layout_constraintStart_toEndOf="@id/checkbox_mon"
+            app:layout_constraintTop_toTopOf="@id/checkbox_mon" />
 
         <CheckBox
             android:id="@+id/checkbox_wed"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/selector_checkbox_day"
+            android:button="@null"
             android:checked="true"
+            android:gravity="center"
             android:text="@string/wednesday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
-            app:layout_constraintEnd_toEndOf="@id/tv_title"
-            app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_tue" />
+            android:textColor="@color/white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/checkbox_thu"
+            app:layout_constraintStart_toEndOf="@id/checkbox_tue"
+            app:layout_constraintTop_toTopOf="@id/checkbox_mon" />
 
         <CheckBox
             android:id="@+id/checkbox_thu"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/selector_checkbox_day"
+            android:button="@null"
             android:checked="true"
+            android:gravity="center"
             android:text="@string/thursday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
-            app:layout_constraintEnd_toEndOf="@id/tv_title"
-            app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_wed" />
+            android:textColor="@color/white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/checkbox_fri"
+            app:layout_constraintStart_toEndOf="@id/checkbox_wed"
+            app:layout_constraintTop_toTopOf="@id/checkbox_mon" />
 
         <CheckBox
             android:id="@+id/checkbox_fri"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/selector_checkbox_day"
+            android:button="@null"
             android:checked="true"
+            android:gravity="center"
             android:text="@string/friday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
-            app:layout_constraintEnd_toEndOf="@id/tv_title"
-            app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_thu" />
+            android:textColor="@color/white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/checkbox_sat"
+            app:layout_constraintStart_toEndOf="@id/checkbox_thu"
+            app:layout_constraintTop_toTopOf="@id/checkbox_mon" />
 
         <CheckBox
             android:id="@+id/checkbox_sat"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/selector_checkbox_day"
+            android:button="@null"
             android:checked="true"
+            android:gravity="center"
             android:text="@string/saturday"
-            android:textAppearance="@style/HabitTracker.TextAppearance.BodyLarge"
+            android:textColor="@color/white"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
-            app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_fri"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/checkbox_fri"
+            app:layout_constraintTop_toTopOf="@id/checkbox_mon" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
