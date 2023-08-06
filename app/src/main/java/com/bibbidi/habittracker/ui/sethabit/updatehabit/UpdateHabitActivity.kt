@@ -108,6 +108,7 @@ class UpdateHabitActivity : AppCompatActivity() {
                 when (event) {
                     UpdateHabitEvent.EmojiClickedEvent -> showEmojiBottomSheet()
                     UpdateHabitEvent.AlarmTimeClickedEvent -> checkNotificationPermission()
+                    UpdateHabitEvent.ShowLeastOneSelectedTimeFilterEvent -> showLeastOnSelectedTimeFilterSnackBar()
                     is UpdateHabitEvent.SubmitEvent -> submit(event.habit)
                 }
             }
@@ -160,6 +161,14 @@ class UpdateHabitActivity : AppCompatActivity() {
             }.setPositiveButton(getString(R.string.setting)) { _, _ ->
                 openAppSetting()
             }.show()
+    }
+
+    private fun showLeastOnSelectedTimeFilterSnackBar() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.least_on_selected_time_filter_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun openAppSetting() {

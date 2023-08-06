@@ -10,5 +10,6 @@ data class Habit(
     val emoji: String,
     val alarmTime: LocalTime?,
     val repeatsDayOfTheWeeks: Set<DayOfWeek>,
-    val startDate: LocalDate
+    val startDate: LocalDate,
+    val timeFilters: Set<TimeFilter>
 )

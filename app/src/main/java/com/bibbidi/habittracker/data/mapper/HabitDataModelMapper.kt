@@ -10,7 +10,8 @@ object HabitDataModelMapper : DataModelMapper<HabitEntity, Habit> {
         startDate = domain.startDate,
         emoji = domain.emoji,
         alarmTime = domain.alarmTime,
-        repeatDayOfTheWeeks = domain.repeatsDayOfTheWeeks
+        repeatDayOfTheWeeks = domain.repeatsDayOfTheWeeks,
+        timeFilters = domain.timeFilters
     )
 
     override fun asDomain(data: HabitEntity) = Habit(
@@ -19,7 +20,8 @@ object HabitDataModelMapper : DataModelMapper<HabitEntity, Habit> {
         startDate = data.startDate,
         emoji = data.emoji,
         alarmTime = data.alarmTime,
-        repeatsDayOfTheWeeks = data.repeatDayOfTheWeeks
+        repeatsDayOfTheWeeks = data.repeatDayOfTheWeeks,
+        timeFilters = data.timeFilters
     )
 }
 

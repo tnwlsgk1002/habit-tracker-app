@@ -10,7 +10,8 @@ object HabitUiModelMapper : UiModelMapper<HabitUiModel, Habit> {
         emoji = uiModel.emoji,
         alarmTime = uiModel.alarmTime,
         repeatsDayOfTheWeeks = uiModel.repeatsDayOfTheWeeks,
-        startDate = uiModel.startDate
+        startDate = uiModel.startDate,
+        timeFilters = uiModel.timeFilters.map { it.asDomain() }.toSet()
     )
 
     override fun asUiModel(domain: Habit) = HabitUiModel(
@@ -19,7 +20,8 @@ object HabitUiModelMapper : UiModelMapper<HabitUiModel, Habit> {
         emoji = domain.emoji,
         alarmTime = domain.alarmTime,
         repeatsDayOfTheWeeks = domain.repeatsDayOfTheWeeks,
-        startDate = domain.startDate
+        startDate = domain.startDate,
+        timeFilters = domain.timeFilters.map { it.asUiModel() }.toSet()
     )
 }
 

@@ -87,6 +87,8 @@
     <string name="delete">삭제</string>
     <string name="add_memo">메모 추가</string>
     <string name="statistics">통계</string>
+    <string name="time_filter">시간 필터</string>
+    <string name="least_on_selected_time_filter_message">시간은 반드시 하나 이상 선택 해야 해요</string>
     <string-array name="short_weekdays">
         <item>일</item>
         <item>월</item>

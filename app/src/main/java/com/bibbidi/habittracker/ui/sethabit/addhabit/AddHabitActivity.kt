@@ -137,6 +137,7 @@ class AddHabitActivity : AppCompatActivity() {
                     AddHabitEvent.RepeatsDayOfTheWeekClickEvent -> showDayOfTheWeeksPickerBottomSheet()
                     AddHabitEvent.StartDateClickEvent -> showSelectStartDatePicker()
                     AddHabitEvent.StartDateIsBeforeNowEvent -> showStartDateIsBeforeNowSnackBar()
+                    AddHabitEvent.ShowLeastOneSelectedTimeFilterEvent -> showLeastOnSelectedTimeFilterSnackBar()
                     is AddHabitEvent.SubmitEvent -> submit(event.habit)
                 }
             }
@@ -184,6 +185,14 @@ class AddHabitActivity : AppCompatActivity() {
         Snackbar.make(
             binding.root,
             getString(R.string.permission_notification_deny_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun showLeastOnSelectedTimeFilterSnackBar() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.least_on_selected_time_filter_message),
             Snackbar.LENGTH_SHORT
         ).show()
     }

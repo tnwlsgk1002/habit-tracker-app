@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.bibbidi.habittracker.data.model.converters.DateConverters
 import com.bibbidi.habittracker.data.model.converters.DayOfWeekConverter
 import com.bibbidi.habittracker.data.model.converters.DurationConverter
+import com.bibbidi.habittracker.data.model.converters.TimeFilterConverter
 import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
 import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
 
@@ -20,7 +21,8 @@ import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
 @TypeConverters(
     DateConverters::class,
     DayOfWeekConverter::class,
-    DurationConverter::class
+    DurationConverter::class,
+    TimeFilterConverter::class
 )
 abstract class HabitsTrackerDatabase : RoomDatabase() {
 

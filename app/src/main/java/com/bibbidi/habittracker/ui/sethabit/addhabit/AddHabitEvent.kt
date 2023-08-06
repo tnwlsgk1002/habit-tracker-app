@@ -14,5 +14,7 @@ sealed class AddHabitEvent {
 
     object StartDateIsBeforeNowEvent : AddHabitEvent()
 
+    object ShowLeastOneSelectedTimeFilterEvent : AddHabitEvent()
+
     data class SubmitEvent(val habit: HabitUiModel) : AddHabitEvent()
 }

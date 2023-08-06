@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 체크된 상태일 때 -->
+    <item android:drawable="@drawable/bg_checked_afternoon" android:state_checked="true" />
+    <!-- 눌렀을 때 (pressed 상태) -->
+    <item android:drawable="@drawable/bg_pressed_afternoon" android:state_pressed="true" />
+    <!-- 체크되지 않은 상태일 때 (나머지 상태) -->
+    <item android:drawable="@drawable/bg_not_checked_afternoon" />
+</selector>

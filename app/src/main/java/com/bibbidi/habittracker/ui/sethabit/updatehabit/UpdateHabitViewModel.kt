@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.asEventFlow
+import com.bibbidi.habittracker.ui.model.TimeFilterUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -42,14 +43,46 @@ class UpdateHabitViewModel @AssistedInject constructor(
     val emojiFlow = MutableStateFlow(habit.emoji)
     val alarmTimeFlow = MutableStateFlow(habit.alarmTime)
 
+    val morningFilterChecked =
+        MutableStateFlow(habit.timeFilters.contains(TimeFilterUiModel.MORNING))
+    val afternoonFilterChecked =
+        MutableStateFlow(habit.timeFilters.contains(TimeFilterUiModel.AFTERNOON))
+    val eveningFilterChecked =
+        MutableStateFlow(habit.timeFilters.contains(TimeFilterUiModel.EVENING))
+
+    private val timeFiltersFlow =
+        combine(morningFilterChecked, afternoonFilterChecked, eveningFilterChecked) { morning, afternoon, evening ->
+            setOfNotNull(
+                if (morning) TimeFilterUiModel.MORNING else null,
+                if (afternoon) TimeFilterUiModel.AFTERNOON else null,
+                if (evening) TimeFilterUiModel.EVENING else null
+            )
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, habit.timeFilters)
+
+    val morningTimeFilterEnabledFlow =
+        combine(afternoonFilterChecked, eveningFilterChecked) { afternoon, evening ->
+            afternoon || evening
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
+    val afternoonTimeFilterEnabledFlow =
+        combine(morningFilterChecked, eveningFilterChecked) { morning, evening ->
+            morning || evening
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
+    val eveningTimeFilterEnabledFlow =
+        combine(morningFilterChecked, afternoonFilterChecked) { morning, afternoon ->
+            morning || afternoon
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
     private val _event = MutableEventFlow<UpdateHabitEvent>()
     val event = _event.asEventFlow()
 
     val isEnabled: StateFlow<Boolean> = combine(
         nameFlow,
-        emojiFlow
-    ) { name, emoji ->
-        (name.isNotEmpty()) && (emoji.isNotEmpty())
+        emojiFlow,
+        timeFiltersFlow
+    ) { name, emoji, timeFilters ->
+        name.isNotEmpty() && emoji.isNotEmpty() && timeFilters.isNotEmpty()
     }
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
@@ -81,12 +114,19 @@ class UpdateHabitViewModel @AssistedInject constructor(
         }
     }
 
+    fun showLeastOneSelectedTimeFilter() {
+        viewModelScope.launch {
+            _event.emit(UpdateHabitEvent.ShowLeastOneSelectedTimeFilterEvent)
+        }
+    }
+
     fun submit() {
         viewModelScope.launch {
             val updatedHabit = habit.copy(
                 name = nameFlow.value,
                 emoji = emojiFlow.value,
-                alarmTime = alarmTimeFlow.value
+                alarmTime = alarmTimeFlow.value,
+                timeFilters = timeFiltersFlow.value
             )
             _event.emit(UpdateHabitEvent.SubmitEvent(updatedHabit))
         }
