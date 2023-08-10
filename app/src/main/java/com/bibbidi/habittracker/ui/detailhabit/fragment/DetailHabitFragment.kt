@@ -15,13 +15,13 @@ import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentDetailHabitBinding
 import com.bibbidi.habittracker.ui.MainEvent
 import com.bibbidi.habittracker.ui.MainViewModel
-import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.detailhabit.DetailHabitEvent
 import com.bibbidi.habittracker.ui.detailhabit.DetailViewModel
 import com.bibbidi.habittracker.ui.detailhabit.adapter.HabitResultAdapter
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitActivity
+import com.bibbidi.habittracker.utils.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.themeColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

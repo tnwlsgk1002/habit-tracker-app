@@ -80,22 +80,25 @@
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
     </style>
 
-    <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="android:layout_margin">16dp</item>
-        <item name="android:contentDescription">@string/add_habit</item>
-        <item name="srcCompat">@drawable/ic_thick_plus</item>
-        <item name="fabSize">normal</item>
-    </style>
-
     <!-- 습관 설정 화면(습관 추가, 수정) -->
     <style name="BottomButtonStyle" parent="Widget.Material3.Button">
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
         <item name="android:layout_margin">8dp</item>
     </style>
 
-    <style name="BottomButtonStyle.Cancel" parent="Widget.Material3.Button.TonalButton">
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
-        <item name="android:layout_margin">8dp</item>
+    <style name="BottomButtonStyle.Negative" parent="Widget.Material3.Button.TonalButton">
+<!--        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>-->
+<!--        <item name="android:layout_margin">8dp</item>-->
+    </style>
+
+    <style name="BottomButtonStyle.TextButton.Negative" parent="Widget.Material3.Button.TextButton">
+<!--        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>-->
+<!--        <item name="android:layout_margin">8dp</item>-->
+    </style>
+
+    <style name="BottomButtonStyle.TextButton.Positive" parent="Widget.Material3.Button.TextButton">
+<!--        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>-->
+<!--        <item name="android:layout_margin">8dp</item>-->
     </style>
 
     <style name="RightArrowViewStyle">

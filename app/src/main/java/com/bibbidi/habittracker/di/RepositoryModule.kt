@@ -1,8 +1,10 @@
 package com.bibbidi.habittracker.di
 
+import com.bibbidi.habittracker.data.source.ColorRepositoryImpl
 import com.bibbidi.habittracker.data.source.HabitLogRepositoryImpl
 import com.bibbidi.habittracker.data.source.HabitMemoRepositoryImpl
 import com.bibbidi.habittracker.data.source.HabitRepositoryImpl
+import com.bibbidi.habittracker.domain.repository.ColorRepository
 import com.bibbidi.habittracker.domain.repository.HabitLogRepository
 import com.bibbidi.habittracker.domain.repository.HabitMemoRepository
 import com.bibbidi.habittracker.domain.repository.HabitRepository
@@ -33,4 +35,10 @@ abstract class RepositoryModule {
     abstract fun bindHabitMemoRepository(
         habitMemoRepository: HabitMemoRepositoryImpl
     ): HabitMemoRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindColorRepository(
+        colorRepositoryImpl: ColorRepositoryImpl
+    ): ColorRepository
 }

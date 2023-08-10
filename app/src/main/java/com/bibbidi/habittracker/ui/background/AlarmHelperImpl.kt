@@ -7,8 +7,8 @@ import android.content.Intent
 import android.os.Bundle
 import com.bibbidi.habittracker.domain.AlarmHelper
 import com.bibbidi.habittracker.domain.model.Habit
-import com.bibbidi.habittracker.ui.common.Constants
 import com.bibbidi.habittracker.ui.mapper.asUiModel
+import com.bibbidi.habittracker.utils.Constants
 import com.bibbidi.habittracker.utils.asLong
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.threeten.bp.LocalDate

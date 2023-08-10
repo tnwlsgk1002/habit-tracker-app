@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.bibbidi.habittracker.ui.model.ColorItem" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/container_palette"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/bg_color_palette"
+        bind:backgroundColor="@{item.colorUiModel.hexCode}">
+
+        <View
+            android:id="@+id/view_check"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:background="@drawable/ic_check"
+            android:backgroundTint="@color/black"
+            android:visibility="@{item.checked ? View.VISIBLE : View.INVISIBLE}"/>
+    </FrameLayout>
+</layout>

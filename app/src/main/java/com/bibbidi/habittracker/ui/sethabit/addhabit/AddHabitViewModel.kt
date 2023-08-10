@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.asEventFlow
+import com.bibbidi.habittracker.ui.model.ColorUiModel
 import com.bibbidi.habittracker.ui.model.TimeFilterUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import dagger.assisted.Assisted
@@ -55,6 +56,8 @@ class AddHabitViewModel @AssistedInject constructor(
     val eveningFilterChecked =
         MutableStateFlow(habit.timeFilters.contains(TimeFilterUiModel.EVENING))
 
+    val colorFlow = MutableStateFlow(habit.color)
+
     private val timeFiltersFlow =
         combine(morningFilterChecked, afternoonFilterChecked, eveningFilterChecked) { morning, afternoon, evening ->
             setOfNotNull(
@@ -101,7 +104,8 @@ class AddHabitViewModel @AssistedInject constructor(
             alarmTime = alarmTimeFlow.value,
             repeatsDayOfTheWeeks = repeatsDayOfTheWeeksFlow.value,
             startDate = startDateFlow.value,
-            timeFilters = timeFiltersFlow.value
+            timeFilters = timeFiltersFlow.value,
+            color = colorFlow.value
         )
 
     fun setEmoji(emojiString: String) {
@@ -125,6 +129,12 @@ class AddHabitViewModel @AssistedInject constructor(
     fun setStartDate(startDate: LocalDate) {
         viewModelScope.launch {
             startDateFlow.value = startDate
+        }
+    }
+
+    fun setColor(color: ColorUiModel?) {
+        viewModelScope.launch {
+            colorFlow.value = color
         }
     }
 
@@ -159,6 +169,12 @@ class AddHabitViewModel @AssistedInject constructor(
     fun showInputStartDateDialog() {
         viewModelScope.launch {
             _event.emit(AddHabitEvent.StartDateClickEvent)
+        }
+    }
+
+    fun showColorPicker() {
+        viewModelScope.launch {
+            _event.emit(AddHabitEvent.ShowColorPickerEvent)
         }
     }
 

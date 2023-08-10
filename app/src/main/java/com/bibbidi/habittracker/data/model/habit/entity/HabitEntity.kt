@@ -1,6 +1,7 @@
 package com.bibbidi.habittracker.data.model.habit.entity
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bibbidi.habittracker.domain.model.TimeFilter
@@ -19,5 +20,7 @@ data class HabitEntity(
     val emoji: String,
     val alarmTime: LocalTime?,
     val repeatDayOfTheWeeks: Set<DayOfWeek> = DayOfWeek.values().toSet(),
-    val timeFilters: Set<TimeFilter> = TimeFilter.values().toSet()
+    val timeFilters: Set<TimeFilter> = TimeFilter.values().toSet(),
+    @Embedded
+    val color: ColorEntity?
 )

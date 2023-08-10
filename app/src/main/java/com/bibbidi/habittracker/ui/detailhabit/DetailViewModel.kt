@@ -10,7 +10,6 @@ import com.bibbidi.habittracker.domain.usecase.habitmemo.GetHabitMemosUseCase
 import com.bibbidi.habittracker.domain.usecase.habitmemo.SaveHabitMemoUseCase
 import com.bibbidi.habittracker.domain.usecase.habitresult.GetHabitResultUseCase
 import com.bibbidi.habittracker.domain.usecase.habltlog.GetHabitLogsByIdUseCase
-import com.bibbidi.habittracker.ui.common.Constants.HABIT_ID_KEY
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
@@ -20,6 +19,7 @@ import com.bibbidi.habittracker.ui.model.habit.HabitMemoItem
 import com.bibbidi.habittracker.ui.model.habit.HabitResultUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel
+import com.bibbidi.habittracker.utils.Constants.HABIT_ID_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

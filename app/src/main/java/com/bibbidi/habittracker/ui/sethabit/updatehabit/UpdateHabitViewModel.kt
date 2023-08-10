@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.asEventFlow
+import com.bibbidi.habittracker.ui.model.ColorUiModel
 import com.bibbidi.habittracker.ui.model.TimeFilterUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import dagger.assisted.Assisted
@@ -74,6 +75,8 @@ class UpdateHabitViewModel @AssistedInject constructor(
             morning || afternoon
         }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
 
+    val colorFlow = MutableStateFlow(habit.color)
+
     private val _event = MutableEventFlow<UpdateHabitEvent>()
     val event = _event.asEventFlow()
 
@@ -95,6 +98,12 @@ class UpdateHabitViewModel @AssistedInject constructor(
     fun setAlarmTime(alarmTime: LocalTime) {
         viewModelScope.launch {
             alarmTimeFlow.value = alarmTime
+        }
+    }
+
+    fun setColor(color: ColorUiModel?) {
+        viewModelScope.launch {
+            colorFlow.value = color
         }
     }
 
@@ -120,13 +129,20 @@ class UpdateHabitViewModel @AssistedInject constructor(
         }
     }
 
+    fun showColorPicker() {
+        viewModelScope.launch {
+            _event.emit(UpdateHabitEvent.ShowColorPickerEvent)
+        }
+    }
+
     fun submit() {
         viewModelScope.launch {
             val updatedHabit = habit.copy(
                 name = nameFlow.value,
                 emoji = emojiFlow.value,
                 alarmTime = alarmTimeFlow.value,
-                timeFilters = timeFiltersFlow.value
+                timeFilters = timeFiltersFlow.value,
+                color = colorFlow.value
             )
             _event.emit(UpdateHabitEvent.SubmitEvent(updatedHabit))
         }

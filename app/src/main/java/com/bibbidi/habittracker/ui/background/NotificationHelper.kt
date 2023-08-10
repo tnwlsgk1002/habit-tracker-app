@@ -7,8 +7,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.ui.MainActivity
-import com.bibbidi.habittracker.ui.common.Constants.START_HABIT_CHANNEL_ID
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
+import com.bibbidi.habittracker.utils.Constants.START_HABIT_CHANNEL_ID
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton

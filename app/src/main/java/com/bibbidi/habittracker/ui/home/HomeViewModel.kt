@@ -9,8 +9,6 @@ import com.bibbidi.habittracker.domain.usecase.habitmemo.SaveHabitMemoUseCase
 import com.bibbidi.habittracker.domain.usecase.habitresult.GetHabitProgressByDateUseCase
 import com.bibbidi.habittracker.domain.usecase.habltlog.CompleteHabitUseCase
 import com.bibbidi.habittracker.domain.usecase.habltlog.GetHabitLogsByDateUseCase
-import com.bibbidi.habittracker.ui.common.Constants.ONE_WEEK
-import com.bibbidi.habittracker.ui.common.Constants.ROW_CALENDAR_SIZE
 import com.bibbidi.habittracker.ui.common.EventFlow
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
@@ -22,6 +20,8 @@ import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
+import com.bibbidi.habittracker.utils.Constants.ONE_WEEK
+import com.bibbidi.habittracker.utils.Constants.ROW_CALENDAR_SIZE
 import com.bibbidi.habittracker.utils.getStartOfTheWeek
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

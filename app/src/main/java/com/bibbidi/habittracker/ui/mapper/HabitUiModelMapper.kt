@@ -11,7 +11,8 @@ object HabitUiModelMapper : UiModelMapper<HabitUiModel, Habit> {
         alarmTime = uiModel.alarmTime,
         repeatsDayOfTheWeeks = uiModel.repeatsDayOfTheWeeks,
         startDate = uiModel.startDate,
-        timeFilters = uiModel.timeFilters.map { it.asDomain() }.toSet()
+        timeFilters = uiModel.timeFilters.map { it.asDomain() }.toSet(),
+        color = uiModel.color?.asDomain()
     )
 
     override fun asUiModel(domain: Habit) = HabitUiModel(
@@ -21,7 +22,8 @@ object HabitUiModelMapper : UiModelMapper<HabitUiModel, Habit> {
         alarmTime = domain.alarmTime,
         repeatsDayOfTheWeeks = domain.repeatsDayOfTheWeeks,
         startDate = domain.startDate,
-        timeFilters = domain.timeFilters.map { it.asUiModel() }.toSet()
+        timeFilters = domain.timeFilters.map { it.asUiModel() }.toSet(),
+        color = domain.color?.asUiModel()
     )
 }
 

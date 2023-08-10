@@ -14,13 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bibbidi.habittracker.BuildConfig
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityUpdateHabitBinding
-import com.bibbidi.habittracker.ui.common.Constants
-import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
+import com.bibbidi.habittracker.ui.common.dialog.colorpicker.ColorPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.isAlreadyGranted
 import com.bibbidi.habittracker.ui.common.isRationale
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
+import com.bibbidi.habittracker.utils.Constants
+import com.bibbidi.habittracker.utils.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -67,6 +68,13 @@ class UpdateHabitActivity : AppCompatActivity() {
             }
     }
 
+    private val colorPicker: ColorPickerBottomSheet
+        get() = ColorPickerBottomSheet.newInstance(
+            viewModel.colorFlow.value
+        ) {
+            viewModel.setColor(it)
+        }
+
     private val requestNotificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -109,6 +117,7 @@ class UpdateHabitActivity : AppCompatActivity() {
                     UpdateHabitEvent.EmojiClickedEvent -> showEmojiBottomSheet()
                     UpdateHabitEvent.AlarmTimeClickedEvent -> checkNotificationPermission()
                     UpdateHabitEvent.ShowLeastOneSelectedTimeFilterEvent -> showLeastOnSelectedTimeFilterSnackBar()
+                    UpdateHabitEvent.ShowColorPickerEvent -> showColorPicker()
                     is UpdateHabitEvent.SubmitEvent -> submit(event.habit)
                 }
             }
@@ -169,6 +178,10 @@ class UpdateHabitActivity : AppCompatActivity() {
             getString(R.string.least_on_selected_time_filter_message),
             Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    private fun showColorPicker() {
+        colorPicker.show(supportFragmentManager, Constants.COLOR_PICKER_TAG)
     }
 
     private fun openAppSetting() {

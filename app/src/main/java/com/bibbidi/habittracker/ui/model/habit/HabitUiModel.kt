@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.bibbidi.habittracker.ui.common.parcer.DayOfWeekSetParceler
 import com.bibbidi.habittracker.ui.common.parcer.LocalDateParceler
 import com.bibbidi.habittracker.ui.common.parcer.LocalTimeParceler
+import com.bibbidi.habittracker.ui.model.ColorUiModel
 import com.bibbidi.habittracker.ui.model.TimeFilterUiModel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
@@ -22,5 +23,6 @@ data class HabitUiModel(
     val repeatsDayOfTheWeeks: Set<DayOfWeek> = DayOfWeek.values().toSet(),
     @TypeParceler<LocalDate, LocalDateParceler>
     val startDate: LocalDate = LocalDate.now(),
-    val timeFilters: Set<TimeFilterUiModel> = TimeFilterUiModel.values().toSet()
+    val timeFilters: Set<TimeFilterUiModel> = TimeFilterUiModel.values().toSet(),
+    val color: ColorUiModel? = null
 ) : Parcelable

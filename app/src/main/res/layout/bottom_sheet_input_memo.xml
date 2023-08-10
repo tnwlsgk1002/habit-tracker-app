@@ -56,7 +56,7 @@
 
             <Button
                 android:id="@+id/btn_cancel"
-                style="@style/BottomButtonStyle.Cancel"
+                style="@style/BottomButtonStyle.Negative"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> viewmodel.deleteMemo()}"

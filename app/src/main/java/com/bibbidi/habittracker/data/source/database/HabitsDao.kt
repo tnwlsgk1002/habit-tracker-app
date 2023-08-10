@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.bibbidi.habittracker.data.model.habit.dto.HabitMemoDTO
 import com.bibbidi.habittracker.data.model.habit.dto.HabitWithLogsDTO
+import com.bibbidi.habittracker.data.model.habit.entity.ColorEntity
 import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
 import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,9 @@ interface HabitsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHabitLog(habitLog: HabitLogEntity): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertColors(colors: List<ColorEntity>)
 
     @Update
     suspend fun updateHabit(habit: HabitEntity)
@@ -70,6 +74,9 @@ interface HabitsDao {
             "WHERE habit_logs.habit_log_id = :logId "
     )
     suspend fun getHabitLogByLogId(logId: Long?): HabitLogEntity?
+
+    @Query("SELECT * FROM habit_colors ORDER BY color_id ASC")
+    fun getAllColors(): Flow<List<ColorEntity>>
 
     @Query("DELETE FROM habits WHERE habit_id = :id")
     suspend fun deleteHabitById(id: Long?)

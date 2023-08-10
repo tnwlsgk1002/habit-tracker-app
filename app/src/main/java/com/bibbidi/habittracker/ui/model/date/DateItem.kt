@@ -1,7 +1,7 @@
 package com.bibbidi.habittracker.ui.model.date
 
-import com.bibbidi.habittracker.ui.common.Constants.MAX_DAY_OF_WEEK_IDX
-import com.bibbidi.habittracker.ui.common.Constants.MIN_DAY_OF_WEEK_IDX
+import com.bibbidi.habittracker.utils.Constants.MAX_DAY_OF_WEEK_IDX
+import com.bibbidi.habittracker.utils.Constants.MIN_DAY_OF_WEEK_IDX
 import com.bibbidi.habittracker.utils.getStartOfTheWeek
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate

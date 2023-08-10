@@ -58,6 +58,7 @@
     <string name="empty_habit_message">해야 할 습관이 없어요</string>
     <string name="accept">확인</string>
     <string name="cancel">취소</string>
+    <string name="erase">지우기</string>
     <string name="habit_delete_message">지금까지 모든 기록이 영구적으로 삭제돼요. 그래도 삭제할래요?</string>
     <string name="habit_delete_title">모든 기록이 삭제돼요!</string>
     <string name="update_finish">수정 완료</string>
@@ -89,6 +90,7 @@
     <string name="statistics">통계</string>
     <string name="time_filter">시간 필터</string>
     <string name="least_on_selected_time_filter_message">시간은 반드시 하나 이상 선택 해야 해요</string>
+    <string name="color">색상</string>
     <string-array name="short_weekdays">
         <item>일</item>
         <item>월</item>

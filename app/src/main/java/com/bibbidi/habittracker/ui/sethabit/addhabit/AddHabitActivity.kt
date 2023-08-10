@@ -14,14 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bibbidi.habittracker.BuildConfig
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityAddHabitBinding
-import com.bibbidi.habittracker.ui.common.Constants
-import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.DayOfTheWeeksPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
+import com.bibbidi.habittracker.ui.common.dialog.colorpicker.ColorPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.isAlreadyGranted
 import com.bibbidi.habittracker.ui.common.isRationale
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
+import com.bibbidi.habittracker.utils.Constants
+import com.bibbidi.habittracker.utils.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
@@ -103,6 +104,13 @@ class AddHabitActivity : AppCompatActivity() {
             }
     }
 
+    private val colorPicker: ColorPickerBottomSheet
+        get() = ColorPickerBottomSheet.newInstance(
+            viewModel.colorFlow.value
+        ) {
+            viewModel.setColor(it)
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -138,6 +146,7 @@ class AddHabitActivity : AppCompatActivity() {
                     AddHabitEvent.StartDateClickEvent -> showSelectStartDatePicker()
                     AddHabitEvent.StartDateIsBeforeNowEvent -> showStartDateIsBeforeNowSnackBar()
                     AddHabitEvent.ShowLeastOneSelectedTimeFilterEvent -> showLeastOnSelectedTimeFilterSnackBar()
+                    AddHabitEvent.ShowColorPickerEvent -> showColorPicker()
                     is AddHabitEvent.SubmitEvent -> submit(event.habit)
                 }
             }
@@ -195,6 +204,10 @@ class AddHabitActivity : AppCompatActivity() {
             getString(R.string.least_on_selected_time_filter_message),
             Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    private fun showColorPicker() {
+        colorPicker.show(supportFragmentManager, Constants.COLOR_PICKER_TAG)
     }
 
     private fun checkNotificationPermission() {

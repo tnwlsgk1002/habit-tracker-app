@@ -1,6 +1,6 @@
 package com.bibbidi.habittracker.utils
 
-import com.bibbidi.habittracker.ui.common.Constants.ONE_WEEK
+import com.bibbidi.habittracker.utils.Constants.ONE_WEEK
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate

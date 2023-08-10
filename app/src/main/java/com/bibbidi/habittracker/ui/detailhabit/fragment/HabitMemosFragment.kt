@@ -7,12 +7,12 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHabitMemosBinding
-import com.bibbidi.habittracker.ui.common.Constants
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.memo.MemoBottomSheet
 import com.bibbidi.habittracker.ui.detailhabit.DetailViewModel
 import com.bibbidi.habittracker.ui.detailhabit.adapter.HabitMemoAdapter
 import com.bibbidi.habittracker.ui.model.habit.HabitMemoItem
+import com.bibbidi.habittracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

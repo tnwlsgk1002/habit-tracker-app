@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.common
+package com.bibbidi.habittracker.utils
 
 object Constants {
 
@@ -21,12 +21,14 @@ object Constants {
     const val ALARM_TIME_PICKER_TAG = "alarmTimePicker"
     const val DATE_PICKER_TAG = "datePicker"
     const val MEMO_TAG = "MEMO"
+    const val COLOR_PICKER_TAG = "COLOR_PICKER"
 
     // bundle key
     const val HABIT_INFO_KEY = "HABIT_INFO"
     const val DAY_OF_THE_WEEKS_KEY = "DAY_OF_THE_WEEKS"
     const val MEMO_KEY = "MEMO"
     const val HABIT_ID_KEY = "habit_id"
+    const val COLOR_KEY = "COLOR"
 
     // date
     const val MIN_DAY_OF_WEEK_IDX = 0
@@ -34,4 +36,8 @@ object Constants {
 
     // channel
     const val START_HABIT_CHANNEL_ID = "HABIT_START"
+
+    // name
+    const val DATABASE_NAME = "Habits.db"
+    const val COLOR_ASSETS_FILE_NAME = "colors.json"
 }

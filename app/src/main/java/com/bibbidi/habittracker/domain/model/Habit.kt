@@ -11,5 +11,6 @@ data class Habit(
     val alarmTime: LocalTime?,
     val repeatsDayOfTheWeeks: Set<DayOfWeek>,
     val startDate: LocalDate,
-    val timeFilters: Set<TimeFilter>
+    val timeFilters: Set<TimeFilter>,
+    val color: ColorModel?
 )
