@@ -2,6 +2,7 @@ package com.bibbidi.habittracker.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bibbidi.habittracker.ui.model.ColorUiModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.threeten.bp.Instant
@@ -50,4 +52,9 @@ fun Context.themeColor(
     ).use {
         it.getColor(0, Color.MAGENTA)
     }
+}
+
+fun ColorUiModel.asStateColor(): ColorStateList {
+    val color = Color.parseColor(hexCode)
+    return ColorStateList.valueOf(color)
 }

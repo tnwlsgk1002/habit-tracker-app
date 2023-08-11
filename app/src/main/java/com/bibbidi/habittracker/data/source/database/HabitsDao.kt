@@ -11,6 +11,7 @@ import com.bibbidi.habittracker.data.model.habit.dto.HabitWithLogsDTO
 import com.bibbidi.habittracker.data.model.habit.entity.ColorEntity
 import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
 import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
+import com.bibbidi.habittracker.domain.model.TimeFilter
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
 
@@ -36,13 +37,36 @@ interface HabitsDao {
     @Query("SELECT * FROM habits WHERE habit_id = :id")
     suspend fun getHabitById(id: Long?): HabitEntity
 
+    fun getHabitsByDate(date: LocalDate): Flow<List<HabitEntity>> {
+        return getHabitsByDate(date, "%${date.dayOfWeek.name}%")
+    }
+
+    fun getHabitsByDateAndTimeFilter(date: LocalDate, filter: TimeFilter): Flow<List<HabitEntity>> {
+        return getHabitsByDateAndTimeFilter(date, "%${date.dayOfWeek.name}%", "%${filter.name}%")
+    }
+
     @Transaction
     @Query(
         "SELECT * FROM habits " +
             "WHERE habits.start_date <= :date " +
+            "AND repeatDayOfTheWeeks LIKE :dayOfWeek " +
             "ORDER BY habits.habit_id DESC"
     )
-    fun getHabitsByDate(date: LocalDate): Flow<List<HabitEntity>>
+    fun getHabitsByDate(date: LocalDate, dayOfWeek: String): Flow<List<HabitEntity>>
+
+    @Transaction
+    @Query(
+        "SELECT * FROM habits " +
+            "WHERE habits.start_date <= :date " +
+            "AND repeatDayOfTheWeeks LIKE :dayOfWeek " +
+            "AND timeFilters LIKE :timeFilter " +
+            "ORDER BY habits.habit_id DESC"
+    )
+    fun getHabitsByDateAndTimeFilter(
+        date: LocalDate,
+        dayOfWeek: String,
+        timeFilter: String
+    ): Flow<List<HabitEntity>>
 
     @Transaction
     @Query(

@@ -18,7 +18,7 @@ class GetHabitProgressByDateUseCase @Inject constructor(private val habitLogRepo
     }
 
     suspend operator fun invoke(date: LocalDate): Flow<DBResult<Progress>> {
-        return habitLogRepository.getHabitWithLogsByDate(date).map {
+        return habitLogRepository.getAllHabitWithLogByDate(date).map {
             when (it) {
                 is DBResult.Success -> DBResult.Success(it.data.getProgress())
                 is DBResult.Loading -> DBResult.Loading

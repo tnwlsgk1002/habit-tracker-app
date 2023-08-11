@@ -20,4 +20,7 @@
 <!--    <color name="gray_08">#010101</color>-->
 <!--    <color name="gray_09">#1E1E1E</color>-->
     <color name="black">#FF000000</color>
+    <color name="yellow">#F7C852</color>
+    <color name="purple">#D78FE9</color>
+    <color name="blue">#72D2E7</color>
 </resources>

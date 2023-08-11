@@ -2,6 +2,8 @@ package com.bibbidi.habittracker.utils
 
 import android.content.Context
 import android.util.TypedValue
+import android.view.View
+import com.google.android.material.color.MaterialColors
 
 fun getPrimaryColor(context: Context): Int {
     val primaryColor = TypedValue()
@@ -21,8 +23,6 @@ fun getBasicTextColor(context: Context): Int {
     return textColor.data
 }
 
-fun getColorAccent(context: Context): Int {
-    val textColor = TypedValue()
-    context.theme.resolveAttribute(android.R.attr.colorAccent, textColor, true)
-    return textColor.data
+fun getColorSurfaceVariant(view: View): Int {
+    return MaterialColors.getColor(view, com.google.android.material.R.attr.colorSurfaceVariant)
 }

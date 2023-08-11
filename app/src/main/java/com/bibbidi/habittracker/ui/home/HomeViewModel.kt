@@ -8,7 +8,8 @@ import com.bibbidi.habittracker.domain.usecase.habitmemo.DeleteHabitMemoUseCase
 import com.bibbidi.habittracker.domain.usecase.habitmemo.SaveHabitMemoUseCase
 import com.bibbidi.habittracker.domain.usecase.habitresult.GetHabitProgressByDateUseCase
 import com.bibbidi.habittracker.domain.usecase.habltlog.CompleteHabitUseCase
-import com.bibbidi.habittracker.domain.usecase.habltlog.GetHabitLogsByDateUseCase
+import com.bibbidi.habittracker.domain.usecase.habltlog.GetAllHabitLogsByDateUseCase
+import com.bibbidi.habittracker.domain.usecase.habltlog.GetFilteredHabitLogsByDateUseCase
 import com.bibbidi.habittracker.ui.common.EventFlow
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
@@ -16,6 +17,7 @@ import com.bibbidi.habittracker.ui.common.asEventFlow
 import com.bibbidi.habittracker.ui.mapper.asDomain
 import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.ui.model.ProgressUiModel
+import com.bibbidi.habittracker.ui.model.TimeFilterUiModel
 import com.bibbidi.habittracker.ui.model.date.DateItem
 import com.bibbidi.habittracker.ui.model.date.getDateItemsByDate
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
@@ -29,6 +31,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -36,7 +40,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getHabitUseCase: GetHabitUseCase,
-    private val getHabitLogsByDateUseCase: GetHabitLogsByDateUseCase,
+    private val getAllHabitLogsByDateUseCase: GetAllHabitLogsByDateUseCase,
+    private val getFilteredHabitLogsByDateUseCase: GetFilteredHabitLogsByDateUseCase,
     private val getHabitProgressByDateUseCase: GetHabitProgressByDateUseCase,
     private val completeHabitUseCase: CompleteHabitUseCase,
     private val saveHabitMemoUseCase: SaveHabitMemoUseCase,
@@ -57,8 +62,12 @@ class HomeViewModel @Inject constructor(
     private val _progressFlow = MutableStateFlow<UiState<ProgressUiModel>>(UiState.Loading)
     val progressFlow = _progressFlow.asStateFlow()
 
-    private val _habitLogsFlow = MutableStateFlow<UiState<List<HabitWithLogUiModel>>>(UiState.Loading)
+    private val _habitLogsFlow =
+        MutableStateFlow<UiState<List<HabitWithLogUiModel>>>(UiState.Loading)
     val habitLogsFlow = _habitLogsFlow.asStateFlow()
+
+    private val _filterFlow = MutableStateFlow<TimeFilterUiModel?>(null)
+    val filterFlow = _filterFlow.asStateFlow()
 
     private val _event: MutableEventFlow<HomeEvent> = MutableEventFlow()
     val event: EventFlow<HomeEvent> = _event.asEventFlow()
@@ -71,14 +80,22 @@ class HomeViewModel @Inject constructor(
 
     private fun loadHabitLogs() {
         viewModelScope.launch {
-            dateFlow.collectLatest { date ->
-                getHabitLogsByDateUseCase(date).collectLatest {
-                    _habitLogsFlow.value = when (it) {
-                        is DBResult.Success -> UiState.Success(it.data.map { it.asUiModel() })
-                        is DBResult.Loading -> UiState.Loading
-                        is DBResult.Empty -> UiState.Empty
-                        else -> UiState.Empty
-                    }
+            val dbResult = dateFlow.combine(filterFlow) { date, filter ->
+                println("combine $date, $filter")
+                Pair(date, filter)
+            }.flatMapLatest { (date, filter) ->
+                if (filter == null) {
+                    getAllHabitLogsByDateUseCase(date)
+                } else {
+                    getFilteredHabitLogsByDateUseCase(date, filter.asDomain())
+                }
+            }
+
+            dbResult.collectLatest { result ->
+                _habitLogsFlow.value = when (result) {
+                    is DBResult.Success -> UiState.Success(result.data.map { it.asUiModel() })
+                    is DBResult.Loading -> UiState.Loading
+                    else -> UiState.Empty
                 }
             }
         }
@@ -146,6 +163,15 @@ class HomeViewModel @Inject constructor(
             setDateItemsFlow(date)
             setDateFlow(date)
         }
+    }
+
+    fun setTimeFilter(timeFilterUiModel: TimeFilterUiModel?) {
+        println("setTimeFilter $timeFilterUiModel")
+        _filterFlow.value = timeFilterUiModel
+    }
+
+    fun setAllTimeFilter() {
+        setTimeFilter(null)
     }
 
     fun showAddHabit() {
