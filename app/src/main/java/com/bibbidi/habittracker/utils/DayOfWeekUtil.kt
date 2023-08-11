@@ -24,3 +24,11 @@ val dayOfWeekValues = arrayOf(
     DayOfWeek.FRIDAY,
     DayOfWeek.SATURDAY
 )
+
+fun Collection<DayOfWeek>.sortDaysOfWeek(isFirstMonday: Boolean = false): Collection<DayOfWeek> {
+    return if (isFirstMonday) {
+        sortedBy { it.value }
+    } else {
+        sortedBy { if (it.value == Constants.ONE_WEEK) 0 else it.value }
+    }
+}

@@ -56,9 +56,10 @@
 
             <Button
                 android:id="@+id/btn_cancel"
-                style="@style/BottomButtonStyle.Negative"
+                style="@style/BottomButtonStyle.TextButton.Negative"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:onClick="@{() -> viewmodel.deleteMemo()}"
                 android:text="@string/delete"
                 app:layout_constraintEnd_toStartOf="@id/btn_submit"
@@ -67,7 +68,7 @@
 
             <Button
                 android:id="@+id/btn_submit"
-                style="@style/BottomButtonStyle"
+                style="@style/BottomButtonStyle.TextButton.Positive"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> viewmodel.saveMemo()}"

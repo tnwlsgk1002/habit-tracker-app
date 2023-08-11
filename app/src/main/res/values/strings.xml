@@ -89,7 +89,7 @@
     <string name="add_memo">메모 추가</string>
     <string name="statistics">통계</string>
     <string name="time_filter">시간 필터</string>
-    <string name="least_on_selected_time_filter_message">시간은 반드시 하나 이상 선택 해야 해요</string>
+    <string name="least_on_selected_message">하나 이상 선택 해주세요</string>
     <string name="color">색상</string>
     <string name="morning">오전</string>
     <string name="afternoon">오후</string>

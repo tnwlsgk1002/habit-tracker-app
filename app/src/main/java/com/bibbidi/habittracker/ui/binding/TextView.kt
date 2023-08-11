@@ -8,6 +8,7 @@ import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.model.ProgressUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitResultUiModel
 import com.bibbidi.habittracker.utils.getStringResource
+import com.bibbidi.habittracker.utils.sortDaysOfWeek
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
@@ -31,7 +32,7 @@ fun setDayOfWeekText(
     textView: TextView,
     dayOfWeeks: Set<DayOfWeek>
 ) {
-    textView.text = dayOfWeeks.sortedBy { it.ordinal }.joinToString(separator = "/") {
+    textView.text = dayOfWeeks.sortDaysOfWeek().joinToString(separator = "/") {
         it.getStringResource(textView.context, true)
     }
 }

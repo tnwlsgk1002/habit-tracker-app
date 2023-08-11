@@ -137,6 +137,27 @@
             app:layout_constraintStart_toEndOf="@id/checkbox_fri"
             app:layout_constraintTop_toTopOf="@id/checkbox_mon" />
 
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/BottomButtonStyle.TextButton.Negative"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/cancel"
+            app:layout_constraintEnd_toStartOf="@id/btn_submit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_sun" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            style="@style/BottomButtonStyle.TextButton.Positive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="@id/btn_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_cancel"
+            app:layout_constraintTop_toTopOf="@id/btn_cancel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

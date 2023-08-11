@@ -39,7 +39,6 @@
             style="@style/DateViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/colorSurfaceVariant"
             app:layout_constraintBottom_toBottomOf="@id/container_memo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/container_memo"
@@ -48,11 +47,10 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/container_memo"
-            style="@style/Widget.Material3.CardView.Filled"
+            style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:cardBackgroundColor="@color/translucent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

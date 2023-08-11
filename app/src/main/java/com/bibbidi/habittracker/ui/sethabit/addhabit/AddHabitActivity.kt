@@ -71,13 +71,12 @@ class AddHabitActivity : AppCompatActivity() {
         }
     }
 
-    private val dayOfTheWeeksPickerBottomSheet: DayOfTheWeeksPickerBottomSheet by lazy {
-        DayOfTheWeeksPickerBottomSheet.newInstance(
+    private val dayOfTheWeeksPickerBottomSheet: DayOfTheWeeksPickerBottomSheet
+        get() = DayOfTheWeeksPickerBottomSheet.newInstance(
             viewModel.repeatsDayOfTheWeeksFlow.value
         ) { dayOfTheWeeks ->
             viewModel.setRepeatsDayOfTheWeeks(dayOfTheWeeks)
         }
-    }
 
     private val selectStartDatePicker: MaterialDatePicker<Long> by lazy {
         val constraintsBuilder = CalendarConstraints.Builder().setStart(System.currentTimeMillis())
@@ -201,7 +200,7 @@ class AddHabitActivity : AppCompatActivity() {
     private fun showLeastOnSelectedTimeFilterSnackBar() {
         Snackbar.make(
             binding.root,
-            getString(R.string.least_on_selected_time_filter_message),
+            getString(R.string.least_on_selected_message),
             Snackbar.LENGTH_SHORT
         ).show()
     }

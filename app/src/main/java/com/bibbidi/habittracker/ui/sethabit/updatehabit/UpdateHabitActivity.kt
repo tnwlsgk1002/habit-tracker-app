@@ -175,7 +175,7 @@ class UpdateHabitActivity : AppCompatActivity() {
     private fun showLeastOnSelectedTimeFilterSnackBar() {
         Snackbar.make(
             binding.root,
-            getString(R.string.least_on_selected_time_filter_message),
+            getString(R.string.least_on_selected_message),
             Snackbar.LENGTH_SHORT
         ).show()
     }

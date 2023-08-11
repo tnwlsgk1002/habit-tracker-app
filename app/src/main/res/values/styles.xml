@@ -34,6 +34,8 @@
         <item name="isToday">true</item>
     </style>
 
+    <!--  ShimmerView -->
+
     <style name="ShimmerView">
         <item name="android:background">?attr/colorSurfaceContainerHighest</item>
         <item name="android:backgroundTint">?attr/colorSurfaceContainerHighest</item>
@@ -51,6 +53,11 @@
         <item name="android:layout_marginTop">3.5dp</item>
         <item name="android:background">@drawable/bg_filled_circle</item>
         <item name="layout_constraintDimensionRatio">1:1</item>
+    </style>
+
+    <style name="ShimmerView.CardView" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">?attr/colorSurfaceContainerHighest</item>
+        <item name="cardCornerRadius">20dp</item>
     </style>
 
     <!-- CardView -->
@@ -80,26 +87,16 @@
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
     </style>
 
-    <!-- 습관 설정 화면(습관 추가, 수정) -->
     <style name="BottomButtonStyle" parent="Widget.Material3.Button">
         <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>
         <item name="android:layout_margin">8dp</item>
     </style>
 
-    <style name="BottomButtonStyle.Negative" parent="Widget.Material3.Button.TonalButton">
-<!--        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>-->
-<!--        <item name="android:layout_margin">8dp</item>-->
-    </style>
+    <style name="BottomButtonStyle.Negative" parent="Widget.Material3.Button.TonalButton"/>
 
-    <style name="BottomButtonStyle.TextButton.Negative" parent="Widget.Material3.Button.TextButton">
-<!--        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>-->
-<!--        <item name="android:layout_margin">8dp</item>-->
-    </style>
+    <style name="BottomButtonStyle.TextButton.Negative" parent="Widget.Material3.Button.TextButton"/>
 
-    <style name="BottomButtonStyle.TextButton.Positive" parent="Widget.Material3.Button.TextButton">
-<!--        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.LabelLarge</item>-->
-<!--        <item name="android:layout_margin">8dp</item>-->
-    </style>
+    <style name="BottomButtonStyle.TextButton.Positive" parent="Widget.Material3.Button.TextButton"/>
 
     <style name="RightArrowViewStyle">
         <item name="android:background">@drawable/ic_thick_right_arrow</item>
@@ -111,7 +108,7 @@
     </style>
 
     <style name="BottomSheetTitleStyle">
-        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.TitleLarge</item>
+        <item name="android:textAppearance">@style/HabitTracker.TextAppearance.TitleMedium</item>
         <item name="android:layout_margin">32dp</item>
     </style>
 
@@ -135,6 +132,13 @@
         <item name="iconGravity">textStart</item>
         <item name="icon">@drawable/ic_thick_close</item>
         <item name="iconTint">?attr/colorOnBackground</item>
+    </style>
+
+    <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:contentDescription">@string/add_habit</item>
+        <item name="srcCompat">@drawable/ic_thick_plus</item>
+        <item name="fabSize">normal</item>
     </style>
 
     <style name="HabitTracker.ShapeAppearance.BottomCut" parent="">

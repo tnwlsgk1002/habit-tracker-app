@@ -9,7 +9,9 @@ import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.utils.Constants.MEMO_KEY
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MemoBottomSheet :
     BottomSheetDialogFragment(R.layout.bottom_sheet_input_memo) {
 
