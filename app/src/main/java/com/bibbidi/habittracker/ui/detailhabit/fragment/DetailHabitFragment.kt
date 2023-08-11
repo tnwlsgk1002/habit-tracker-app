@@ -2,7 +2,6 @@ package com.bibbidi.habittracker.ui.detailhabit.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,11 +22,10 @@ import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitActivity
 import com.bibbidi.habittracker.utils.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.utils.repeatOnStarted
-import com.bibbidi.habittracker.utils.themeColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -65,21 +63,17 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
         HabitResultAdapter(this, sharedViewModel)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initBindingData()
         collectEvent()
-        initAnimation()
-    }
-
-    private fun initAnimation() {
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.nav_host_fragment
-            duration = resources.getInteger(R.integer.reply_motion_duration_large_1).toLong()
-            scrimColor = Color.TRANSPARENT
-            setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
-        }
     }
 
     private fun initToolbar() {

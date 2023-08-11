@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bibbidi.habittracker.R
@@ -36,7 +34,7 @@ import com.bibbidi.habittracker.utils.showMenu
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.LocalDate
@@ -133,6 +131,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -140,8 +140,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         initBindingData()
         initToolBar()
         collectEvent()
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     private fun initToolBar() {
@@ -240,22 +238,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         launchAddHabitActivity.launch(intent)
     }
 
-    private fun goToDetailHabit(cardView: View, habitWithLog: HabitWithLogUiModel) {
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(
-                R.integer.reply_motion_duration_large_1
-            ).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(
-                R.integer.reply_motion_duration_large_1
-            ).toLong()
-        }
-        val transitionName = getString(R.string.habit_name_detail_transition)
-        val extras = FragmentNavigatorExtras(cardView to transitionName)
+    private fun goToDetailHabit(view: View, habitWithLog: HabitWithLogUiModel) {
         val id = habitWithLog.habit.id ?: error("id is null")
         val action = HomeFragmentDirections.actionHomeFragmentToDetailHabitFragment(id)
-        findNavController().navigate(action, extras)
+        findNavController().navigate(action)
     }
 
     private fun showMemoBottomSheet(habitWithLog: HabitWithLogUiModel) {
