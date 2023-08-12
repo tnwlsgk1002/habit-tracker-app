@@ -13,6 +13,7 @@ object Constants {
 
     // util
     const val ONE_WEEK = 7
+    const val MAX_HOUR = 12
 
     // tag
     const val EMOJI_PICKER_TAG = "emojiPicker"

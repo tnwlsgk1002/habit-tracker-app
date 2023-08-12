@@ -12,8 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentDetailHabitBinding
-import com.bibbidi.habittracker.ui.MainEvent
-import com.bibbidi.habittracker.ui.MainViewModel
+import com.bibbidi.habittracker.ui.EditHabitEvent
+import com.bibbidi.habittracker.ui.EditHabitViewModel
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.detailhabit.DetailHabitEvent
 import com.bibbidi.habittracker.ui.detailhabit.DetailViewModel
@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
 class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
 
     private val sharedViewModel: DetailViewModel by viewModels()
-    private val activityViewModel: MainViewModel by activityViewModels()
+    private val activityViewModel: EditHabitViewModel by activityViewModels()
 
     private val binding by viewBinding(FragmentDetailHabitBinding::bind)
 
@@ -129,12 +129,12 @@ class DetailHabitFragment : Fragment(R.layout.fragment_detail_habit) {
         repeatOnStarted {
             activityViewModel.event.collectLatest { event ->
                 when (event) {
-                    is MainEvent.SuccessUpdateHabit -> {
+                    is EditHabitEvent.SuccessUpdateHabit -> {
                         sharedViewModel.fetchHabit()
                         showSnackBar(R.string.update_habit_success_message)
                     }
 
-                    is MainEvent.SuccessDeleteHabit -> {
+                    is EditHabitEvent.SuccessDeleteHabit -> {
                         goToHomeFragment()
                     }
 

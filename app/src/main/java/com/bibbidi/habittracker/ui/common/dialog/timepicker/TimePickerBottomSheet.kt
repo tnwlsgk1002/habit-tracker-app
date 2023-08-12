@@ -82,10 +82,17 @@ class TimePickerBottomSheet :
             maxValue = MAX_HOUR
             value = initLocalTime.hour
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+
+            val isChangeToMaxHour = { oldVal: Int, newVal: Int ->
+                (oldVal == MAX_HOUR - 1 && newVal == MAX_HOUR)
+            }
+
+            val isChangeFromMaxHour = { oldVal: Int, newVal: Int ->
+                (oldVal == MAX_HOUR && newVal == MAX_HOUR - 1)
+            }
+
             setOnValueChangedListener { _, oldVal, newVal ->
-                if ((oldVal == MAX_HOUR && newVal == MAX_HOUR - 1) ||
-                    (oldVal == MAX_HOUR - 1 && newVal == MAX_HOUR)
-                ) {
+                if (isChangeToMaxHour(oldVal, newVal) && isChangeFromMaxHour(oldVal, newVal)) {
                     binding.npAmpm.animateChange(binding.npAmpm.value == AM)
                 }
             }

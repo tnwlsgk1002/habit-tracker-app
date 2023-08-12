@@ -10,7 +10,7 @@ import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
 
 class HabitsAdapter(
-    private val onClick: (View, HabitWithLogUiModel) -> Unit,
+    private val onClick: (HabitWithLogUiModel) -> Unit,
     private val onCheck: (HabitWithLogUiModel, Boolean) -> Unit,
     private val onClickMenu: (HabitWithLogUiModel, View) -> Unit
 ) :
@@ -20,7 +20,7 @@ class HabitsAdapter(
 
     class HabitItemViewHolder(
         private val binding: ItemHabitLogBinding,
-        private val onClick: (View, HabitWithLogUiModel) -> Unit,
+        private val onClick: (HabitWithLogUiModel) -> Unit,
         private val onCheck: (HabitWithLogUiModel, Boolean) -> Unit,
         private val onClickMenu: (HabitWithLogUiModel, View) -> Unit
     ) : BaseViewHolder<HabitWithLogUiModel, ItemHabitLogBinding>(binding) {
@@ -33,7 +33,7 @@ class HabitsAdapter(
                     checkItem?.let { item -> onClickMenu(item, view) }
                 }
                 binding.containerHabitLog.setOnClickListener {
-                    checkItem?.let { item -> onClick(it, item) }
+                    checkItem?.let { item -> onClick(item) }
                 }
             }
         }

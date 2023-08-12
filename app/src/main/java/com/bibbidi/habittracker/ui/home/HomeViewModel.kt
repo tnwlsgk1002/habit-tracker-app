@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.data.model.DBResult
 import com.bibbidi.habittracker.domain.usecase.habit.GetHabitUseCase
-import com.bibbidi.habittracker.domain.usecase.habitmemo.DeleteHabitMemoUseCase
-import com.bibbidi.habittracker.domain.usecase.habitmemo.SaveHabitMemoUseCase
 import com.bibbidi.habittracker.domain.usecase.habitresult.GetHabitProgressByDateUseCase
-import com.bibbidi.habittracker.domain.usecase.habltlog.CompleteHabitUseCase
 import com.bibbidi.habittracker.domain.usecase.habltlog.GetAllHabitLogsByDateUseCase
 import com.bibbidi.habittracker.domain.usecase.habltlog.GetFilteredHabitLogsByDateUseCase
 import com.bibbidi.habittracker.ui.common.EventFlow
@@ -42,10 +39,7 @@ class HomeViewModel @Inject constructor(
     private val getHabitUseCase: GetHabitUseCase,
     private val getAllHabitLogsByDateUseCase: GetAllHabitLogsByDateUseCase,
     private val getFilteredHabitLogsByDateUseCase: GetFilteredHabitLogsByDateUseCase,
-    private val getHabitProgressByDateUseCase: GetHabitProgressByDateUseCase,
-    private val completeHabitUseCase: CompleteHabitUseCase,
-    private val saveHabitMemoUseCase: SaveHabitMemoUseCase,
-    private val deleteHabitMemoUseCase: DeleteHabitMemoUseCase
+    private val getHabitProgressByDateUseCase: GetHabitProgressByDateUseCase
 ) : ViewModel() {
 
     companion object {
@@ -145,7 +139,7 @@ class HomeViewModel @Inject constructor(
 
     fun clickDateIcon() {
         viewModelScope.launch {
-            _event.emit(HomeEvent.ShowDatePicker(date = _dateFlow.value))
+            _event.emit(HomeEvent.ShowDatePicker)
         }
     }
 
@@ -188,24 +182,6 @@ class HomeViewModel @Inject constructor(
     fun showDeleteHabit(habitWithLog: HabitWithLogUiModel) {
         viewModelScope.launch {
             _event.emit(HomeEvent.ShowDeleteHabit(habitWithLog.habit))
-        }
-    }
-
-    fun checkHabitLog(log: HabitWithLogUiModel, isChecked: Boolean) {
-        viewModelScope.launch {
-            completeHabitUseCase(log.asDomain(), isChecked)
-        }
-    }
-
-    fun saveHabitMemo(habitWithLog: HabitWithLogUiModel, memo: String?) {
-        viewModelScope.launch {
-            saveHabitMemoUseCase(habitWithLog.habitLog.asDomain(), memo)
-        }
-    }
-
-    fun deleteHabitMemo(habitWithLog: HabitWithLogUiModel) {
-        viewModelScope.launch {
-            deleteHabitMemoUseCase(habitWithLog.habitLog.asDomain())
         }
     }
 

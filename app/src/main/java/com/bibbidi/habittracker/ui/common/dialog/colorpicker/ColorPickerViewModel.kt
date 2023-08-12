@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -56,7 +55,9 @@ class ColorPickerViewModel @AssistedInject constructor(
         checkedColor
     ) { colorsResult, checkedColor ->
         when (colorsResult) {
-            is DBResult.Success -> colorsResult.data.map { ColorItem(it.asUiModel(), checked = it.id == checkedColor?.id) }
+            is DBResult.Success -> colorsResult.data.map {
+                ColorItem(it.asUiModel(), checked = it.id == checkedColor?.id)
+            }
             else -> emptyList()
         }
     }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())

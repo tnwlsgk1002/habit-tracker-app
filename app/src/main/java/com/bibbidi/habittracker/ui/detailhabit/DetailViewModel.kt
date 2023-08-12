@@ -5,15 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.data.model.DBResult
 import com.bibbidi.habittracker.domain.usecase.habit.GetHabitUseCase
-import com.bibbidi.habittracker.domain.usecase.habitmemo.DeleteHabitMemoUseCase
 import com.bibbidi.habittracker.domain.usecase.habitmemo.GetHabitMemosUseCase
-import com.bibbidi.habittracker.domain.usecase.habitmemo.SaveHabitMemoUseCase
 import com.bibbidi.habittracker.domain.usecase.habitresult.GetHabitResultUseCase
 import com.bibbidi.habittracker.domain.usecase.habltlog.GetHabitLogsByIdUseCase
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
-import com.bibbidi.habittracker.ui.mapper.asDomain
 import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitMemoItem
 import com.bibbidi.habittracker.ui.model.habit.HabitResultUiModel
@@ -34,8 +31,6 @@ class DetailViewModel @Inject constructor(
     private val getHabitLogsByIdUseCase: GetHabitLogsByIdUseCase,
     private val getHabitResultUseCase: GetHabitResultUseCase,
     private val getHabitMemosUseCase: GetHabitMemosUseCase,
-    private val saveHabitMemoUseCase: SaveHabitMemoUseCase,
-    private val deleteHabitMemoUseCase: DeleteHabitMemoUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -125,18 +120,6 @@ class DetailViewModel @Inject constructor(
     fun showUpdateHabit() {
         viewModelScope.launch {
             _event.emit(DetailHabitEvent.ShowUpdateHabit(habitFlow.value))
-        }
-    }
-
-    fun saveHabitMemo(memoItem: HabitMemoItem, memo: String?) {
-        viewModelScope.launch {
-            saveHabitMemoUseCase(memoItem.asDomain(), memo)
-        }
-    }
-
-    fun deleteHabitMemo(memoItem: HabitMemoItem) {
-        viewModelScope.launch {
-            deleteHabitMemoUseCase(memoItem.asDomain())
         }
     }
 }

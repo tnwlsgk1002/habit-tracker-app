@@ -14,32 +14,33 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class EditHabitViewModel @Inject constructor(
     private val addHabitUseCase: AddHabitUseCase,
     private val deleteHabitUseCase: DeleteHabitUseCase,
     private val updateHabitUseCase: UpdateHabitUseCase
 ) : ViewModel() {
-    private val _event: MutableEventFlow<MainEvent> = MutableEventFlow()
+
+    private val _event: MutableEventFlow<EditHabitEvent> = MutableEventFlow()
     val event = _event.asEventFlow()
 
     fun addHabit(habit: HabitUiModel) {
         viewModelScope.launch {
             addHabitUseCase(habit.asDomain())
-            _event.emit(MainEvent.SuccessAddHabit)
+            _event.emit(EditHabitEvent.SuccessAddHabit)
         }
     }
 
     fun deleteHabit(habit: HabitUiModel) {
         viewModelScope.launch {
             deleteHabitUseCase(habit.id)
-            _event.emit(MainEvent.SuccessDeleteHabit)
+            _event.emit(EditHabitEvent.SuccessDeleteHabit)
         }
     }
 
     fun updateHabit(habit: HabitUiModel) {
         viewModelScope.launch {
             updateHabitUseCase(habit.asDomain())
-            _event.emit(MainEvent.SuccessUpdateHabit)
+            _event.emit(EditHabitEvent.SuccessUpdateHabit)
         }
     }
 }

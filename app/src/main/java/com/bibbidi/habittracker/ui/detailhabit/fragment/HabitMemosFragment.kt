@@ -5,8 +5,10 @@ import android.view.View
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.FragmentHabitMemosBinding
+import com.bibbidi.habittracker.ui.EditHabitLogViewModel
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.memo.MemoBottomSheet
 import com.bibbidi.habittracker.ui.detailhabit.DetailViewModel
@@ -19,6 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class HabitMemosFragment : Fragment(R.layout.fragment_habit_memos) {
 
     lateinit var sharedViewModel: DetailViewModel
+
+    private val editHabitLogViewModel: EditHabitLogViewModel by viewModels()
 
     private val binding by viewBinding(FragmentHabitMemosBinding::bind)
 
@@ -58,8 +62,8 @@ class HabitMemosFragment : Fragment(R.layout.fragment_habit_memos) {
     private fun showMemoBottomSheet(habitMemo: HabitMemoItem) {
         MemoBottomSheet.newInstance(
             habitMemo.memo,
-            { memo -> sharedViewModel.saveHabitMemo(habitMemo, memo) },
-            { sharedViewModel.deleteHabitMemo(habitMemo) }
+            { memo -> editHabitLogViewModel.saveHabitMemo(habitMemo, memo) },
+            { editHabitLogViewModel.deleteHabitMemo(habitMemo) }
         ).show(
             parentFragmentManager,
             Constants.MEMO_TAG

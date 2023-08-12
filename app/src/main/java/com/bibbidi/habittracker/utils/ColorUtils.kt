@@ -1,8 +1,11 @@
 package com.bibbidi.habittracker.utils
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
+import com.bibbidi.habittracker.ui.model.ColorUiModel
 import com.google.android.material.color.MaterialColors
 
 fun getPrimaryColor(context: Context): Int {
@@ -25,4 +28,9 @@ fun getBasicTextColor(context: Context): Int {
 
 fun getColorSurfaceVariant(view: View): Int {
     return MaterialColors.getColor(view, com.google.android.material.R.attr.colorSurfaceVariant)
+}
+
+fun ColorUiModel.asStateColor(): ColorStateList {
+    val color = Color.parseColor(hexCode)
+    return ColorStateList.valueOf(color)
 }
