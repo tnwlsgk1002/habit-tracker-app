@@ -46,7 +46,11 @@ class GetHabitResultUseCase @Inject constructor(private val habitLogRepository: 
             bestNumber = max(bestNumber, cntNumber)
         }
 
-        if (completedDate.none { d -> standard == d }) cntNumber = 0
+        if (completedDate.last().isBefore(standard) &&
+            habit.repeatsDayOfTheWeeks.contains(standard.dayOfWeek)
+        ) {
+            cntNumber = 0
+        }
 
         return HabitResult(cntNumber, bestNumber)
     }
