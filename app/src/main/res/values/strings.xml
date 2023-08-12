@@ -43,6 +43,7 @@
     <string name="set_alarm">알람 받기</string>
     <string name="select_start_date">시작 날짜 선택</string>
     <string name="input_alarm_time">알람 시간 입력</string>
+    <string name="setting_alarm_time">알람 시간 설정</string>
     <string name="set_emoji">이모티콘 설정</string>
     <string name="example_day_of_weeks">일, 월, 화, 수, 목, 금, 토</string>
     <string name="example_when_run">출근길</string>
@@ -127,4 +128,6 @@
         <item>11월</item>
         <item>12월</item>
     </string-array>
+    <string name="am">오전</string>
+    <string name="pm">오후</string>
 </resources>

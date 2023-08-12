@@ -29,6 +29,8 @@ object Constants {
     const val MEMO_KEY = "MEMO"
     const val HABIT_ID_KEY = "habit_id"
     const val COLOR_KEY = "COLOR"
+    const val HOUR_KEY = "HOUR"
+    const val MINUTE_KEY = "MINUTE"
 
     // date
     const val MIN_DAY_OF_WEEK_IDX = 0

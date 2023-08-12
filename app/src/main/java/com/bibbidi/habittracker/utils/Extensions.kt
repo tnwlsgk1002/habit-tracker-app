@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.View
+import android.widget.NumberPicker
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.content.res.use
@@ -57,4 +59,18 @@ fun Context.themeColor(
 fun ColorUiModel.asStateColor(): ColorStateList {
     val color = Color.parseColor(hexCode)
     return ColorStateList.valueOf(color)
+}
+
+@SuppressLint("DiscouragedPrivateApi")
+fun NumberPicker.animateChange(isIncrement: Boolean) {
+    post {
+        try {
+            javaClass.getDeclaredMethod("changeValueByOne", Boolean::class.javaPrimitiveType).also { function ->
+                function.isAccessible = true
+                function.invoke(this, isIncrement)
+            }
+        } catch (e: Exception) {
+            Log.e(javaClass.simpleName, e.stackTraceToString())
+        }
+    }
 }

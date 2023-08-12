@@ -18,6 +18,7 @@ import com.bibbidi.habittracker.ui.common.delegate.viewBinding
 import com.bibbidi.habittracker.ui.common.dialog.DayOfTheWeeksPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.colorpicker.ColorPickerBottomSheet
+import com.bibbidi.habittracker.ui.common.dialog.timepicker.TimePickerBottomSheet
 import com.bibbidi.habittracker.ui.common.isAlreadyGranted
 import com.bibbidi.habittracker.ui.common.isRationale
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
@@ -31,8 +32,6 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.LocalTime
@@ -90,18 +89,12 @@ class AddHabitActivity : AppCompatActivity() {
             }
     }
 
-    private val alarmTimePicker: MaterialTimePicker by lazy {
-        val nowLocalTime = LocalTime.now()
-        MaterialTimePicker.Builder().setInputMode(MaterialTimePicker.INPUT_MODE_KEYBOARD)
-            .setTimeFormat(TimeFormat.CLOCK_12H).setHour(nowLocalTime.hour)
-            .setMinute(nowLocalTime.minute).setTitleText(getString(R.string.input_alarm_time))
-            .build().apply {
-                addOnPositiveButtonClickListener {
-                    viewModel.setAlarmTime(LocalTime.of(hour, minute))
-                }
-                isCancelable = false
-            }
-    }
+    private val alarmTimePicker: TimePickerBottomSheet
+        get() = TimePickerBottomSheet.newInstance(
+            viewModel.alarmTimeFlow.value ?: LocalTime.now()
+        ) { time ->
+            viewModel.setAlarmTime(time)
+        }
 
     private val colorPicker: ColorPickerBottomSheet
         get() = ColorPickerBottomSheet.newInstance(

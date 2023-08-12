@@ -1,14 +1,6 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Theme.HabitTracker" parent="Theme.Material3.Light.NoActionBar">
-<!--        &lt;!&ndash; Primary brand color. &ndash;&gt;-->
-<!--        <item name="colorPrimary">@color/blue_03</item>-->
-<!--        <item name="colorPrimaryVariant">@color/blue_02</item>-->
-<!--        <item name="colorOnPrimary">@color/white</item>-->
-<!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
-<!--        <item name="colorSecondary">@color/blue_02</item>-->
-<!--        <item name="colorSecondaryVariant">@color/blue_04</item>-->
-<!--        <item name="colorOnSecondary">@color/black</item>-->
         <!-- Status bar color. -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -26,4 +18,8 @@
         <item name="titleTextAppearance">@style/HabitTracker.TextAppearance.TitleLarge</item>
     </style>
 
+    <style name="Theme.HabitTracker.NumberPicker" parent="">
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="android:editTextStyle">@style/HabitTracker.TextAppearance.BodyLarge</item>
+    </style>
 </resources>
