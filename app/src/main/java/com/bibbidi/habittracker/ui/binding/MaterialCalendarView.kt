@@ -4,9 +4,9 @@ import androidx.databinding.BindingAdapter
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.decorator.HabitCheckDecorator
-import com.bibbidi.habittracker.ui.common.decorator.HabitDisableDecorator
 import com.bibbidi.habittracker.ui.common.decorator.HabitMemoDecorator
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel
+import com.bibbidi.habittracker.utils.asCalendarDay
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter
@@ -18,10 +18,11 @@ fun setLogs(calendarView: MaterialCalendarView, logs: UiState<HabitWithLogsUiMod
     calendarView.removeDecorators()
     when (logs) {
         is UiState.Success -> {
+            calendarView.state().edit().setMinimumDate(logs.data.habit.startDate.asCalendarDay())
+                .commit()
             calendarView.addDecorators(
                 HabitCheckDecorator(calendarView.context, logs.data),
-                HabitMemoDecorator(calendarView.context, logs.data),
-                HabitDisableDecorator(logs.data)
+                HabitMemoDecorator(calendarView.context, logs.data)
             )
         }
         else -> {}
