@@ -16,6 +16,7 @@ import com.bibbidi.habittracker.databinding.FragmentHomeBinding
 import com.bibbidi.habittracker.ui.MainEvent
 import com.bibbidi.habittracker.ui.MainViewModel
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
+import com.bibbidi.habittracker.ui.common.dialog.DatePickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.memo.MemoBottomSheet
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogUiModel
@@ -27,11 +28,8 @@ import com.bibbidi.habittracker.utils.Constants.MEMO_TAG
 import com.bibbidi.habittracker.utils.Constants.ROW_CALENDAR_CENTER_POS
 import com.bibbidi.habittracker.utils.Constants.ROW_CALENDAR_NEXT_POS
 import com.bibbidi.habittracker.utils.Constants.ROW_CALENDAR_PREV_POS
-import com.bibbidi.habittracker.utils.asLocalDate
-import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
 import com.bibbidi.habittracker.utils.showMenu
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
@@ -47,14 +45,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
 
-    private fun getDatePicker(date: LocalDate) = MaterialDatePicker.Builder.datePicker()
-        .setTitleText(R.string.select_date)
-        .setSelection(date.asLong())
-        .build().apply {
-            addOnPositiveButtonClickListener {
-                viewModel.onSelectDate(it.asLocalDate())
-            }
-        }
+    private val datePicker: DatePickerBottomSheet
+        get() = DatePickerBottomSheet.newInstance(
+            viewModel.dateFlow.value,
+            onPositiveListener = { viewModel.onSelectDate(it) }
+        )
 
     private val launchAddHabitActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -207,7 +202,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun showDatePicker(date: LocalDate) {
-        getDatePicker(date).show(parentFragmentManager, DATE_PICKER_TAG)
+        datePicker.show(parentFragmentManager, DATE_PICKER_TAG)
     }
 
     private fun showDeleteWarningDialog(habit: HabitUiModel) {

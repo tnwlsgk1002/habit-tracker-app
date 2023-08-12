@@ -81,7 +81,6 @@ class HomeViewModel @Inject constructor(
     private fun loadHabitLogs() {
         viewModelScope.launch {
             val dbResult = dateFlow.combine(filterFlow) { date, filter ->
-                println("combine $date, $filter")
                 Pair(date, filter)
             }.flatMapLatest { (date, filter) ->
                 if (filter == null) {
@@ -166,7 +165,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun setTimeFilter(timeFilterUiModel: TimeFilterUiModel?) {
-        println("setTimeFilter $timeFilterUiModel")
         _filterFlow.value = timeFilterUiModel
     }
 

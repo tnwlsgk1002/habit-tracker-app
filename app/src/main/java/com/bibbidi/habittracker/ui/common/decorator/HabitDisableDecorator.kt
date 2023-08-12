@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.common.decoration
+package com.bibbidi.habittracker.ui.common.decorator
 
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel
 import com.bibbidi.habittracker.utils.asCalendarDay

@@ -22,4 +22,14 @@
         <item name="colorControlNormal">@android:color/transparent</item>
         <item name="android:editTextStyle">@style/HabitTracker.TextAppearance.BodyLarge</item>
     </style>
+
+    <style name="Theme.HabitTracker.MaterialCalendarView" parent="">
+        <item name="mcv_rightArrowMask">@drawable/ic_thick_right_arrow</item>
+        <item name="mcv_leftArrowMask">@drawable/ic_thick_left_arrow</item>
+        <item name="mcv_arrowColor">?attr/colorOnBackground</item>
+        <item name="mcv_dateTextAppearance">@style/HabitTracker.TextAppearance.BodyMedium</item>
+        <item name="mcv_headerTextAppearance">@style/HabitTracker.TextAppearance.TitleMedium</item>
+        <item name="mcv_showOtherDates">other_months|out_of_range|decorated_disabled</item>
+        <item name="mcv_weekDayTextAppearance">@style/HabitTracker.TextAppearance.BodySmall</item>
+    </style>
 </resources>

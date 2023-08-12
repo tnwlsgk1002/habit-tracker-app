@@ -31,6 +31,7 @@ object Constants {
     const val COLOR_KEY = "COLOR"
     const val HOUR_KEY = "HOUR"
     const val MINUTE_KEY = "MINUTE"
+    const val DATE_PICKER_PARAM_KEY = "DATE_PICKER_PARAM"
 
     // date
     const val MIN_DAY_OF_WEEK_IDX = 0

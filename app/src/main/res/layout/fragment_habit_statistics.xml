@@ -100,25 +100,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@id/container_current_achievements"
                 app:layout_constraintStart_toStartOf="@id/container_current_achievements"
                 app:layout_constraintEnd_toEndOf="@id/container_best_achievements">
 
                 <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:theme="@style/Theme.HabitTracker.MaterialCalendarView"
                     android:id="@+id/calendarView"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:mcv_selectionColor="@android:color/transparent"
                     android:clickable="false"
+                    android:layout_margin="16dp"
                     bind:is_localization_format="@{true}"
                     bind:logs="@{vm.habitWithLogsFlow}"
-                    app:mcv_rightArrowMask="@drawable/ic_thick_right_arrow"
-                    app:mcv_leftArrowMask="@drawable/ic_thick_left_arrow"
-                    app:mcv_arrowColor="?attr/colorOnBackground"
-                    app:mcv_dateTextAppearance="@style/HabitTracker.TextAppearance.BodySmall"
-                    app:mcv_headerTextAppearance="@style/HabitTracker.TextAppearance.TitleMedium"
-                    app:mcv_selectionMode="@{MaterialCalendarView.SELECTION_MODE_NONE}"
-                    app:mcv_showOtherDates="defaults"
-                    app:mcv_weekDayTextAppearance="@style/HabitTracker.TextAppearance.BodyMedium" />
+                    app:mcv_selectionMode="@{MaterialCalendarView.SELECTION_MODE_NONE}"/>
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

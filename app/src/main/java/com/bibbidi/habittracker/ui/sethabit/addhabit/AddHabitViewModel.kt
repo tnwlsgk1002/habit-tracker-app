@@ -47,7 +47,13 @@ class AddHabitViewModel @AssistedInject constructor(
     val emojiFlow = MutableStateFlow(habit.emoji)
     val alarmTimeFlow = MutableStateFlow(habit.alarmTime)
     val repeatsDayOfTheWeeksFlow = MutableStateFlow(habit.repeatsDayOfTheWeeks)
-    val startDateFlow = MutableStateFlow(habit.startDate)
+    val startDateFlow = MutableStateFlow(
+        if (habit.startDate.isBefore(LocalDate.now())) {
+            LocalDate.now()
+        } else {
+            habit.startDate
+        }
+    )
 
     val morningFilterChecked =
         MutableStateFlow(habit.timeFilters.contains(TimeFilterUiModel.MORNING))

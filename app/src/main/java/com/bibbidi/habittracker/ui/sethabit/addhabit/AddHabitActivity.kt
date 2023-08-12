@@ -15,6 +15,7 @@ import com.bibbidi.habittracker.BuildConfig
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityAddHabitBinding
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
+import com.bibbidi.habittracker.ui.common.dialog.DatePickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.DayOfTheWeeksPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.colorpicker.ColorPickerBottomSheet
@@ -24,16 +25,12 @@ import com.bibbidi.habittracker.ui.common.isRationale
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.utils.Constants
 import com.bibbidi.habittracker.utils.Constants.HABIT_INFO_KEY
-import com.bibbidi.habittracker.utils.asLocalDate
-import com.bibbidi.habittracker.utils.asLong
 import com.bibbidi.habittracker.utils.repeatOnStarted
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
@@ -77,17 +74,12 @@ class AddHabitActivity : AppCompatActivity() {
             viewModel.setRepeatsDayOfTheWeeks(dayOfTheWeeks)
         }
 
-    private val selectStartDatePicker: MaterialDatePicker<Long> by lazy {
-        val constraintsBuilder = CalendarConstraints.Builder().setStart(System.currentTimeMillis())
-            .setValidator(DateValidatorPointForward.now())
-        MaterialDatePicker.Builder.datePicker().setTitleText(getString(R.string.select_start_date))
-            .setSelection(viewModel.startDateFlow.value.asLong())
-            .setCalendarConstraints(constraintsBuilder.build()).build().apply {
-                addOnPositiveButtonClickListener {
-                    viewModel.setStartDate(it.asLocalDate())
-                }
-            }
-    }
+    private val startDatePicker: DatePickerBottomSheet
+        get() = DatePickerBottomSheet.newInstance(
+            viewModel.startDateFlow.value,
+            minDate = LocalDate.now(),
+            onPositiveListener = { date -> viewModel.setStartDate(date) }
+        )
 
     private val alarmTimePicker: TimePickerBottomSheet
         get() = TimePickerBottomSheet.newInstance(
@@ -171,7 +163,7 @@ class AddHabitActivity : AppCompatActivity() {
     }
 
     private fun showSelectStartDatePicker() {
-        selectStartDatePicker.show(supportFragmentManager, Constants.START_DATE_PICKER_TAG)
+        startDatePicker.show(supportFragmentManager, Constants.START_DATE_PICKER_TAG)
     }
 
     private fun showStartDateIsBeforeNowSnackBar() {

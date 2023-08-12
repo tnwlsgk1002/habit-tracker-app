@@ -148,5 +148,4 @@
         <item name="cornerSizeBottomLeft">40dp</item>
         <item name="cornerSizeBottomRight">40dp</item>
     </style>
-
 </resources>

@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.common.decoration
+package com.bibbidi.habittracker.ui.common.decorator
 
 import android.content.Context
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel

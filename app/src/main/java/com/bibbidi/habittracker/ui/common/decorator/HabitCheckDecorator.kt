@@ -1,4 +1,4 @@
-package com.bibbidi.habittracker.ui.common.decoration
+package com.bibbidi.habittracker.ui.common.decorator
 
 import android.content.Context
 import android.graphics.drawable.Drawable

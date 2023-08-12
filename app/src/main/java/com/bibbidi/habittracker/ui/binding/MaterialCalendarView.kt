@@ -3,9 +3,9 @@ package com.bibbidi.habittracker.ui.binding
 import androidx.databinding.BindingAdapter
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.ui.common.UiState
-import com.bibbidi.habittracker.ui.common.decoration.HabitCheckDecorator
-import com.bibbidi.habittracker.ui.common.decoration.HabitDisableDecorator
-import com.bibbidi.habittracker.ui.common.decoration.HabitMemoDecorator
+import com.bibbidi.habittracker.ui.common.decorator.HabitCheckDecorator
+import com.bibbidi.habittracker.ui.common.decorator.HabitDisableDecorator
+import com.bibbidi.habittracker.ui.common.decorator.HabitMemoDecorator
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel
 import com.bibbidi.habittracker.utils.asLocalDate
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView

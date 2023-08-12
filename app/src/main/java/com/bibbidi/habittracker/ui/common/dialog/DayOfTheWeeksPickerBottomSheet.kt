@@ -30,8 +30,6 @@ class DayOfTheWeeksPickerBottomSheet :
                 )
             }
 
-            println("만들었땅!")
-
             return DayOfTheWeeksPickerBottomSheet().apply {
                 arguments = args
                 setOnSaveListener(onSaveListener)
