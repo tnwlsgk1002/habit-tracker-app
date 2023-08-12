@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="tv_empty_message, button_add_habit"
-                app:item_visibility="@{viewmodel.habitLogsFlow}" />
+                bind:item_visibility="@{viewmodel.habitLogsFlow}" />
 
             <TextView
                 android:id="@+id/tv_empty_message"

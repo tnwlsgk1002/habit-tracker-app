@@ -23,7 +23,11 @@ class HabitMemoRepositoryImpl @Inject constructor(
     ) = flow {
         emit(DBResult.Loading)
         dao.getHabitMemosById(id, reverse).collect() {
-            emit(DBResult.Success(it.map { it.asDomain() }))
+            if (it.isNotEmpty()) {
+                emit(DBResult.Success(it.map { it.asDomain() }))
+            } else {
+                emit(DBResult.Empty)
+            }
         }
     }.catch {
         emit(DBResult.Error(it))

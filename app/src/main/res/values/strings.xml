@@ -130,4 +130,5 @@
     </string-array>
     <string name="am">오전</string>
     <string name="pm">오후</string>
+    <string name="empty_memo_message">작성한 메모가 없어요!</string>
 </resources>
