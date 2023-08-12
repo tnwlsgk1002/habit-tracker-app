@@ -1,10 +1,10 @@
-![image](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/0abacc29-4c42-4a9e-896b-b9b6018c3107)
+<img title="" src="https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/0abacc29-4c42-4a9e-896b-b9b6018c3107" alt="image" data-align="center" width="20%" height="20%">
 
 > 습관 추적기 앱을 통해 습관을 만들고, 기록하세요 ✏️
 
 ## 📱 ScreenShot.
 
-| ![홈 화면](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/678f6f31-4927-48e9-8b55-b08f43f170ad) | ![습관 추가](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/c25c98bd-f0ee-4018-bee5-144c6534eb34) | ![상세 화면](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/8f89cdb5-fde2-4c69-a169-dc6cb108f83d) | ![image](https://github.com/tnwlsgk1002/tnwlsgk1002/assets/76458724/262ed322-9f85-47d3-bab4-8d2aafd4a9ca) |
+| ![홈 화면](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/678f6f31-4927-48e9-8b55-b08f43f170ad) | ![습관 추가](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/c25c98bd-f0ee-4018-bee5-144c6534eb34) | ![상세 화면](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/8f89cdb5-fde2-4c69-a169-dc6cb108f83d) | ![image](https://github.com/tnwlsgk1002/tnwlsgk1002/assets/76458724/262ed322-9f85-47d3-bab4-8d2aafd4a9ca) |
 | --- | --- | --- | --- |
 | `홈 화면` | `습관 추가` | `습관 상세` | `다크 모드` |
 
