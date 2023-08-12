@@ -7,8 +7,8 @@
 ## 📱 ScreenShot.
 
 | ![홈 화면](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/678f6f31-4927-48e9-8b55-b08f43f170ad) | ![습관 추가](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/c25c98bd-f0ee-4018-bee5-144c6534eb34) | ![상세 화면](https://github.com/tnwlsgk1002/habit-tracker-app/assets/76458724/8f89cdb5-fde2-4c69-a169-dc6cb108f83d) | ![image](https://github.com/tnwlsgk1002/tnwlsgk1002/assets/76458724/262ed322-9f85-47d3-bab4-8d2aafd4a9ca) |
-| --- | --- | --- | --- |
-| `홈 화면` | `습관 추가` | `습관 상세` | `다크 모드` |
+|:--------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
+| `홈 화면`                                                                             | `습관 추가`                                                                                                         | `습관 상세`                                                                                                         | `다크 모드`                                                                                                   |
 
 </br>
 
@@ -43,4 +43,4 @@ Room을 사용해서 1:1, 1:N 관계를 정의하고 필요한 데이터를 join
 
 * 그 과정에서 Notification, PendingIntent, Doze 모드와 관련하여 학습한 후, 버전에 따라 대응하였습니다.
 * blog Link: [Android Notification + PendingIntent](https://sjevie.tistory.com/entry/TIL%EA%B0%9C%EB%85%90-Android-Notification-PendingIntent) , [[fix] AlarmManager와 Doze 모드](https://sjevie.tistory.com/entry/fix-AlarmManager%EC%99%80-Doze-%EB%AA%A8%EB%93%9C)
-* Issue Link: [✨ feat: 알람 구현](https://github.com/tnwlsgk1002/habit-tracker-app/issues/44), [🐞 bug: 다른 시간에 알람이 울리는 버그 수정 · Issue #47 · tnwlsgk1002/habit-tracker-app · GitHub](https://github.com/tnwlsgk1002/habit-tracker-app/issues/47)
+* Issue Link: [✨ feat: 알람 구현](https://github.com/tnwlsgk1002/habit-tracker-app/issues/44), [🐞 bug: 다른 시간에 알람이 울리는 버그 수정](https://github.com/tnwlsgk1002/habit-tracker-app/issues/47)
