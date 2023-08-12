@@ -1,6 +1,6 @@
 package com.bibbidi.habittracker.ui.mapper
 
-import com.bibbidi.habittracker.data.model.habit.Habit
+import com.bibbidi.habittracker.domain.model.Habit
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 
 object HabitUiModelMapper : UiModelMapper<HabitUiModel, Habit> {
@@ -10,7 +10,9 @@ object HabitUiModelMapper : UiModelMapper<HabitUiModel, Habit> {
         emoji = uiModel.emoji,
         alarmTime = uiModel.alarmTime,
         repeatsDayOfTheWeeks = uiModel.repeatsDayOfTheWeeks,
-        startDate = uiModel.startDate
+        startDate = uiModel.startDate,
+        timeFilters = uiModel.timeFilters.map { it.asDomain() }.toSet(),
+        color = uiModel.color?.asDomain()
     )
 
     override fun asUiModel(domain: Habit) = HabitUiModel(
@@ -19,7 +21,9 @@ object HabitUiModelMapper : UiModelMapper<HabitUiModel, Habit> {
         emoji = domain.emoji,
         alarmTime = domain.alarmTime,
         repeatsDayOfTheWeeks = domain.repeatsDayOfTheWeeks,
-        startDate = domain.startDate
+        startDate = domain.startDate,
+        timeFilters = domain.timeFilters.map { it.asUiModel() }.toSet(),
+        color = domain.color?.asUiModel()
     )
 }
 

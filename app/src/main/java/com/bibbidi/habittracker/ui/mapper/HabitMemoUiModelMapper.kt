@@ -1,6 +1,6 @@
 package com.bibbidi.habittracker.ui.mapper
 
-import com.bibbidi.habittracker.data.model.habit.HabitMemo
+import com.bibbidi.habittracker.domain.model.HabitMemo
 import com.bibbidi.habittracker.ui.model.habit.HabitMemoItem
 
 object HabitMemoUiModelMapper : UiModelMapper<HabitMemoItem, HabitMemo> {

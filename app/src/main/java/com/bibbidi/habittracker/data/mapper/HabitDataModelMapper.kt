@@ -1,7 +1,7 @@
 package com.bibbidi.habittracker.data.mapper
 
-import com.bibbidi.habittracker.data.model.entity.HabitEntity
-import com.bibbidi.habittracker.data.model.habit.Habit
+import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
+import com.bibbidi.habittracker.domain.model.Habit
 
 object HabitDataModelMapper : DataModelMapper<HabitEntity, Habit> {
     override fun asData(domain: Habit) = HabitEntity(
@@ -10,7 +10,9 @@ object HabitDataModelMapper : DataModelMapper<HabitEntity, Habit> {
         startDate = domain.startDate,
         emoji = domain.emoji,
         alarmTime = domain.alarmTime,
-        repeatDayOfTheWeeks = domain.repeatsDayOfTheWeeks
+        repeatDayOfTheWeeks = domain.repeatsDayOfTheWeeks,
+        timeFilters = domain.timeFilters,
+        color = domain.color?.asData()
     )
 
     override fun asDomain(data: HabitEntity) = Habit(
@@ -19,7 +21,9 @@ object HabitDataModelMapper : DataModelMapper<HabitEntity, Habit> {
         startDate = data.startDate,
         emoji = data.emoji,
         alarmTime = data.alarmTime,
-        repeatsDayOfTheWeeks = data.repeatDayOfTheWeeks
+        repeatsDayOfTheWeeks = data.repeatDayOfTheWeeks,
+        timeFilters = data.timeFilters,
+        color = data.color?.asDomain()
     )
 }
 

@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="vm"
             type="com.bibbidi.habittracker.ui.sethabit.updatehabit.UpdateHabitViewModel" />
@@ -159,6 +161,158 @@
                             bind:timeText="@{vm.alarmTimeFlow}"
                             tools:ignore="UseSwitchCompatOrMaterialXml"
                             tools:text="09:00" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider_line2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/container_alarm_time" />
+
+                <TextView
+                    android:id="@+id/tv_time_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/time_filter"
+                    android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                    app:layout_constraintBottom_toTopOf="@id/container_color_filter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider_line2" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_morning"
+                    android:layout_width="32dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/selector_checkbox_morning"
+                    android:button="@null"
+                    android:checked="@={vm.morningFilterChecked}"
+                    android:enabled="@{vm.morningTimeFilterEnabledFlow}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_time_filter"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@id/checkbox_afternoon"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/tv_time_filter"
+                    app:layout_constraintTop_toTopOf="@id/tv_time_filter" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="@{vm.morningTimeFilterEnabledFlow ? View.INVISIBLE : View.VISIBLE}"
+                    android:onClick="@{() -> vm.showLeastOneSelectedTimeFilter()}"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_morning"
+                    app:layout_constraintEnd_toEndOf="@id/checkbox_morning"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_morning"
+                    app:layout_constraintTop_toTopOf="@id/checkbox_morning" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_afternoon"
+                    android:layout_width="32dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/selector_checkbox_afternoon"
+                    android:button="@null"
+                    android:checked="@={vm.afternoonFilterChecked}"
+                    android:enabled="@{vm.afternoonTimeFilterEnabledFlow}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_time_filter"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@id/checkbox_evening"
+                    app:layout_constraintStart_toEndOf="@id/checkbox_morning"
+                    app:layout_constraintTop_toTopOf="@id/tv_time_filter" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="@{vm.afternoonTimeFilterEnabledFlow ? View.INVISIBLE : View.VISIBLE}"
+                    android:onClick="@{() -> vm.showLeastOneSelectedTimeFilter()}"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_afternoon"
+                    app:layout_constraintEnd_toEndOf="@id/checkbox_afternoon"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_afternoon"
+                    app:layout_constraintTop_toTopOf="@id/checkbox_afternoon" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_evening"
+                    android:layout_width="32dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/selector_checkbox_evening"
+                    android:button="@null"
+                    android:checked="@={vm.eveningFilterChecked}"
+                    android:enabled="@{vm.eveningTimeFilterEnabledFlow}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_time_filter"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/checkbox_afternoon"
+                    app:layout_constraintTop_toTopOf="@id/tv_time_filter"
+                    tools:checked="true" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="@{vm.eveningTimeFilterEnabledFlow ? View.INVISIBLE : View.VISIBLE}"
+                    android:onClick="@{() -> vm.showLeastOneSelectedTimeFilter()}"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_evening"
+                    app:layout_constraintEnd_toEndOf="@id/checkbox_evening"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_evening"
+                    app:layout_constraintTop_toTopOf="@id/checkbox_evening" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/container_color_filter"
+                    style="@style/InputDataCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:onClick="@{() -> vm.showColorPicker()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_time_filter">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_color_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/color"
+                            android:textAppearance="@style/HabitTracker.TextAppearance.TitleSmall"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/view_color_content"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/bg_color_palette"
+                            android:visibility="@{vm.colorFlow == null ? View.INVISIBLE : View.VISIBLE}"
+                            app:layout_constraintBottom_toBottomOf="@id/view_color_right_arrow"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toStartOf="@id/view_color_right_arrow"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@id/tv_color_title"
+                            app:layout_constraintTop_toTopOf="@id/view_color_right_arrow"
+                            bind:backgroundColor="@{vm.colorFlow.hexCode}" />
+
+                        <View
+                            android:id="@+id/view_color_right_arrow"
+                            style="@style/RightArrowViewStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_color_title"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_color_title" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.card.MaterialCardView>

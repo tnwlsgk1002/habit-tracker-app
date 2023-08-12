@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.asEventFlow
+import com.bibbidi.habittracker.ui.model.ColorUiModel
+import com.bibbidi.habittracker.ui.model.TimeFilterUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -25,6 +27,7 @@ class AddHabitViewModel @AssistedInject constructor(
     ViewModel() {
 
     companion object {
+
         fun provideFactory(
             assistedFactory: HabitInfoAssistedFactory,
             habitInfo: HabitUiModel
@@ -44,7 +47,46 @@ class AddHabitViewModel @AssistedInject constructor(
     val emojiFlow = MutableStateFlow(habit.emoji)
     val alarmTimeFlow = MutableStateFlow(habit.alarmTime)
     val repeatsDayOfTheWeeksFlow = MutableStateFlow(habit.repeatsDayOfTheWeeks)
-    val startDateFlow = MutableStateFlow(habit.startDate)
+    val startDateFlow = MutableStateFlow(
+        if (habit.startDate.isBefore(LocalDate.now())) {
+            LocalDate.now()
+        } else {
+            habit.startDate
+        }
+    )
+
+    val morningFilterChecked =
+        MutableStateFlow(habit.timeFilters.contains(TimeFilterUiModel.MORNING))
+    val afternoonFilterChecked =
+        MutableStateFlow(habit.timeFilters.contains(TimeFilterUiModel.AFTERNOON))
+    val eveningFilterChecked =
+        MutableStateFlow(habit.timeFilters.contains(TimeFilterUiModel.EVENING))
+
+    val colorFlow = MutableStateFlow(habit.color)
+
+    private val timeFiltersFlow =
+        combine(morningFilterChecked, afternoonFilterChecked, eveningFilterChecked) { morning, afternoon, evening ->
+            setOfNotNull(
+                if (morning) TimeFilterUiModel.MORNING else null,
+                if (afternoon) TimeFilterUiModel.AFTERNOON else null,
+                if (evening) TimeFilterUiModel.EVENING else null
+            )
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, habit.timeFilters)
+
+    val morningTimeFilterEnabledFlow =
+        combine(afternoonFilterChecked, eveningFilterChecked) { afternoon, evening ->
+            afternoon || evening
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
+    val afternoonTimeFilterEnabledFlow =
+        combine(morningFilterChecked, eveningFilterChecked) { morning, evening ->
+            morning || evening
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
+    val eveningTimeFilterEnabledFlow =
+        combine(morningFilterChecked, afternoonFilterChecked) { morning, afternoon ->
+            morning || afternoon
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
 
     private val _event = MutableEventFlow<AddHabitEvent>()
     val event = _event.asEventFlow()
@@ -52,9 +94,10 @@ class AddHabitViewModel @AssistedInject constructor(
     val isEnabled: StateFlow<Boolean> = combine(
         nameFlow,
         emojiFlow,
-        repeatsDayOfTheWeeksFlow
-    ) { name, emoji, repeatsDayOfTheWeeks ->
-        (name.isNotEmpty()) && (emoji.isNotEmpty()) && (repeatsDayOfTheWeeks.isNotEmpty())
+        repeatsDayOfTheWeeksFlow,
+        timeFiltersFlow
+    ) { name, emoji, repeatsDayOfTheWeeks, timeFilters ->
+        name.isNotEmpty() && emoji.isNotEmpty() && repeatsDayOfTheWeeks.isNotEmpty() && timeFilters.isNotEmpty()
     }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     private val isValid: Boolean
@@ -66,7 +109,9 @@ class AddHabitViewModel @AssistedInject constructor(
             emoji = emojiFlow.value,
             alarmTime = alarmTimeFlow.value,
             repeatsDayOfTheWeeks = repeatsDayOfTheWeeksFlow.value,
-            startDate = startDateFlow.value
+            startDate = startDateFlow.value,
+            timeFilters = timeFiltersFlow.value,
+            color = colorFlow.value
         )
 
     fun setEmoji(emojiString: String) {
@@ -90,6 +135,18 @@ class AddHabitViewModel @AssistedInject constructor(
     fun setStartDate(startDate: LocalDate) {
         viewModelScope.launch {
             startDateFlow.value = startDate
+        }
+    }
+
+    fun setColor(color: ColorUiModel?) {
+        viewModelScope.launch {
+            colorFlow.value = color
+        }
+    }
+
+    fun showLeastOneSelectedTimeFilter() {
+        viewModelScope.launch {
+            _event.emit(AddHabitEvent.ShowLeastOneSelectedTimeFilterEvent)
         }
     }
 
@@ -118,6 +175,12 @@ class AddHabitViewModel @AssistedInject constructor(
     fun showInputStartDateDialog() {
         viewModelScope.launch {
             _event.emit(AddHabitEvent.StartDateClickEvent)
+        }
+    }
+
+    fun showColorPicker() {
+        viewModelScope.launch {
+            _event.emit(AddHabitEvent.ShowColorPickerEvent)
         }
     }
 

@@ -43,6 +43,7 @@
     <string name="set_alarm">알람 받기</string>
     <string name="select_start_date">시작 날짜 선택</string>
     <string name="input_alarm_time">알람 시간 입력</string>
+    <string name="setting_alarm_time">알람 시간 설정</string>
     <string name="set_emoji">이모티콘 설정</string>
     <string name="example_day_of_weeks">일, 월, 화, 수, 목, 금, 토</string>
     <string name="example_when_run">출근길</string>
@@ -58,6 +59,7 @@
     <string name="empty_habit_message">해야 할 습관이 없어요</string>
     <string name="accept">확인</string>
     <string name="cancel">취소</string>
+    <string name="erase">지우기</string>
     <string name="habit_delete_message">지금까지 모든 기록이 영구적으로 삭제돼요. 그래도 삭제할래요?</string>
     <string name="habit_delete_title">모든 기록이 삭제돼요!</string>
     <string name="update_finish">수정 완료</string>
@@ -87,6 +89,13 @@
     <string name="delete">삭제</string>
     <string name="add_memo">메모 추가</string>
     <string name="statistics">통계</string>
+    <string name="time_filter">시간 필터</string>
+    <string name="least_on_selected_message">하나 이상 선택 해주세요</string>
+    <string name="color">색상</string>
+    <string name="morning">오전</string>
+    <string name="afternoon">오후</string>
+    <string name="evening">저녁</string>
+    <string name="all">모두</string>
     <string-array name="short_weekdays">
         <item>일</item>
         <item>월</item>
@@ -119,4 +128,7 @@
         <item>11월</item>
         <item>12월</item>
     </string-array>
+    <string name="am">오전</string>
+    <string name="pm">오후</string>
+    <string name="empty_memo_message">작성한 메모가 없어요!</string>
 </resources>

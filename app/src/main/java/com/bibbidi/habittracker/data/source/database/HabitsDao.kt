@@ -6,10 +6,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.bibbidi.habittracker.data.model.entity.HabitEntity
-import com.bibbidi.habittracker.data.model.entity.HabitLogEntity
-import com.bibbidi.habittracker.data.model.entity.HabitWithLogsEntity
-import com.bibbidi.habittracker.data.model.habit.HabitMemoDTO
+import com.bibbidi.habittracker.data.model.habit.dto.HabitMemoDTO
+import com.bibbidi.habittracker.data.model.habit.dto.HabitWithLogsDTO
+import com.bibbidi.habittracker.data.model.habit.entity.ColorEntity
+import com.bibbidi.habittracker.data.model.habit.entity.HabitEntity
+import com.bibbidi.habittracker.data.model.habit.entity.HabitLogEntity
+import com.bibbidi.habittracker.domain.model.TimeFilter
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
 
@@ -22,6 +24,9 @@ interface HabitsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHabitLog(habitLog: HabitLogEntity): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertColors(colors: List<ColorEntity>)
+
     @Update
     suspend fun updateHabit(habit: HabitEntity)
 
@@ -32,13 +37,36 @@ interface HabitsDao {
     @Query("SELECT * FROM habits WHERE habit_id = :id")
     suspend fun getHabitById(id: Long?): HabitEntity
 
+    fun getHabitsByDate(date: LocalDate): Flow<List<HabitEntity>> {
+        return getHabitsByDate(date, "%${date.dayOfWeek.name}%")
+    }
+
+    fun getHabitsByDateAndTimeFilter(date: LocalDate, filter: TimeFilter): Flow<List<HabitEntity>> {
+        return getHabitsByDateAndTimeFilter(date, "%${date.dayOfWeek.name}%", "%${filter.name}%")
+    }
+
     @Transaction
     @Query(
         "SELECT * FROM habits " +
             "WHERE habits.start_date <= :date " +
+            "AND repeatDayOfTheWeeks LIKE :dayOfWeek " +
             "ORDER BY habits.habit_id DESC"
     )
-    fun getHabitsByDate(date: LocalDate): Flow<List<HabitEntity>>
+    fun getHabitsByDate(date: LocalDate, dayOfWeek: String): Flow<List<HabitEntity>>
+
+    @Transaction
+    @Query(
+        "SELECT * FROM habits " +
+            "WHERE habits.start_date <= :date " +
+            "AND repeatDayOfTheWeeks LIKE :dayOfWeek " +
+            "AND timeFilters LIKE :timeFilter " +
+            "ORDER BY habits.habit_id DESC"
+    )
+    fun getHabitsByDateAndTimeFilter(
+        date: LocalDate,
+        dayOfWeek: String,
+        timeFilter: String
+    ): Flow<List<HabitEntity>>
 
     @Transaction
     @Query(
@@ -54,7 +82,7 @@ interface HabitsDao {
             "WHERE habits.habit_id = :id " +
             "ORDER BY habit_logs.date ASC"
     )
-    fun getHabitWithLogs(id: Long?): Flow<HabitWithLogsEntity>
+    fun getHabitWithLogs(id: Long?): Flow<HabitWithLogsDTO>
 
     @Query(
         "SELECT habit_log_id AS logId, fk_habit_id AS habitId, date AS date, memo AS memo FROM habit_logs " +
@@ -63,13 +91,16 @@ interface HabitsDao {
             "ORDER BY CASE WHEN :reverse = 1 THEN date END ASC, " +
             "CASE WHEN :reverse = 0 THEN date END DESC"
     )
-    fun getHabitMemosById(id: Long?, reverse: Boolean = false): Flow<List<HabitMemoDTO>>
+    fun getHabitMemosById(id: Long?, reverse: Boolean): Flow<List<HabitMemoDTO>>
 
     @Query(
         "SELECT * FROM habit_logs " +
             "WHERE habit_logs.habit_log_id = :logId "
     )
     suspend fun getHabitLogByLogId(logId: Long?): HabitLogEntity?
+
+    @Query("SELECT * FROM habit_colors ORDER BY color_id ASC")
+    fun getAllColors(): Flow<List<ColorEntity>>
 
     @Query("DELETE FROM habits WHERE habit_id = :id")
     suspend fun deleteHabitById(id: Long?)

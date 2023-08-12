@@ -8,5 +8,9 @@ sealed class UpdateHabitEvent {
 
     object AlarmTimeClickedEvent : UpdateHabitEvent()
 
+    object ShowLeastOneSelectedTimeFilterEvent : UpdateHabitEvent()
+
+    object ShowColorPickerEvent : UpdateHabitEvent()
+
     data class SubmitEvent(val habit: HabitUiModel) : UpdateHabitEvent()
 }

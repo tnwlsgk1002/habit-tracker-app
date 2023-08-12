@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="colorsAdapter"
+            type="com.bibbidi.habittracker.ui.common.dialog.colorpicker.ColorsAdapter" />
+
+        <variable
+            name="vm"
+            type="com.bibbidi.habittracker.ui.common.dialog.colorpicker.ColorPickerViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/handle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_palette"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/handle"
+            app:spanCount="6"
+            bind:adapter="@{colorsAdapter}"
+            bind:colorItemList="@{vm.colorItems}"
+            tools:listitem="@layout/item_palette" />
+
+        <Button
+            android:id="@+id/button_erase"
+            style="@style/BottomButtonStyle.TextButton.Negative"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/erase"
+            android:enabled="@{vm.checkedColor == null ? false : true}"
+            android:onClick="@{() -> vm.deleteColor()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_save"
+            app:layout_constraintTop_toBottomOf="@id/rv_palette" />
+
+        <Button
+            android:id="@+id/button_save"
+            style="@style/BottomButtonStyle.TextButton.Positive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/save"
+            android:onClick="@{() -> vm.saveColor()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/button_erase"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_palette" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

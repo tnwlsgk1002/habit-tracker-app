@@ -4,17 +4,19 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bibbidi.habittracker.data.model.DBResult
-import com.bibbidi.habittracker.data.source.HabitsRepository
-import com.bibbidi.habittracker.ui.common.Constants.HABIT_ID_KEY
+import com.bibbidi.habittracker.domain.usecase.habit.GetHabitUseCase
+import com.bibbidi.habittracker.domain.usecase.habitmemo.GetHabitMemosUseCase
+import com.bibbidi.habittracker.domain.usecase.habitresult.GetHabitResultUseCase
+import com.bibbidi.habittracker.domain.usecase.habltlog.GetHabitLogsByIdUseCase
 import com.bibbidi.habittracker.ui.common.MutableEventFlow
 import com.bibbidi.habittracker.ui.common.UiState
 import com.bibbidi.habittracker.ui.common.asEventFlow
-import com.bibbidi.habittracker.ui.mapper.asDomain
 import com.bibbidi.habittracker.ui.mapper.asUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitMemoItem
 import com.bibbidi.habittracker.ui.model.habit.HabitResultUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
 import com.bibbidi.habittracker.ui.model.habit.HabitWithLogsUiModel
+import com.bibbidi.habittracker.utils.Constants.HABIT_ID_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,7 +27,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val repository: HabitsRepository,
+    private val getHabitUseCase: GetHabitUseCase,
+    private val getHabitLogsByIdUseCase: GetHabitLogsByIdUseCase,
+    private val getHabitResultUseCase: GetHabitResultUseCase,
+    private val getHabitMemosUseCase: GetHabitMemosUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -61,13 +66,13 @@ class DetailViewModel @Inject constructor(
 
     fun fetchHabit() {
         viewModelScope.launch {
-            _habitFlow.value = repository.getHabitById(id).asUiModel()
+            _habitFlow.value = getHabitUseCase(id).asUiModel()
         }
     }
 
     private fun loadHabitWithLogs() {
         viewModelScope.launch {
-            repository.getHabitWithLogs(id).collectLatest {
+            getHabitLogsByIdUseCase(id).collectLatest {
                 _habitWithLogsFlow.value = when (it) {
                     is DBResult.Success -> UiState.Success(it.data.asUiModel())
                     is DBResult.Loading -> UiState.Loading
@@ -79,7 +84,7 @@ class DetailViewModel @Inject constructor(
 
     private fun loadHabitResult(date: LocalDate) {
         viewModelScope.launch {
-            repository.getHabitResult(id, date).collectLatest {
+            getHabitResultUseCase(id, date).collectLatest {
                 _habitResultFlow.value = when (it) {
                     is DBResult.Success -> UiState.Success(it.data.asUiModel())
                     is DBResult.Loading -> UiState.Loading
@@ -91,7 +96,7 @@ class DetailViewModel @Inject constructor(
 
     private fun loadHabitMemos() {
         viewModelScope.launch {
-            repository.getHabitMemos(id, true).collectLatest {
+            getHabitMemosUseCase(id, true).collectLatest {
                 _memoFlow.value = when (it) {
                     is DBResult.Success -> UiState.Success(
                         it.data.mapIndexed { i, data ->
@@ -115,18 +120,6 @@ class DetailViewModel @Inject constructor(
     fun showUpdateHabit() {
         viewModelScope.launch {
             _event.emit(DetailHabitEvent.ShowUpdateHabit(habitFlow.value))
-        }
-    }
-
-    fun saveHabitMemo(memoItem: HabitMemoItem, memo: String?) {
-        viewModelScope.launch {
-            repository.saveHabitMemo(memoItem.asDomain(), memo)
-        }
-    }
-
-    fun deleteHabitMemo(memoItem: HabitMemoItem) {
-        viewModelScope.launch {
-            repository.deleteHabitMemo(memoItem.logId)
         }
     }
 }

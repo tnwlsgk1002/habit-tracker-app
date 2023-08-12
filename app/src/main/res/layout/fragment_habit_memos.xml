@@ -6,6 +6,10 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.bibbidi.habittracker.ui.common.UiState" />
+
         <variable
             name="viewmodel"
             type="com.bibbidi.habittracker.ui.detailhabit.DetailViewModel" />
@@ -17,19 +21,25 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/colorSurfaceVariant">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_memo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bind:adapter="@{memoAdapter}"
             bind:memoItemList="@{viewmodel.memoFlow}"
             tools:listitem="@layout/item_habit_memo"
-            tools:itemCount="3"/>
+            tools:itemCount="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/empty_memo_message"
+            android:textAppearance="@style/HabitTracker.TextAppearance.BodyMedium"
+            bind:item_visibility="@{viewmodel.memoFlow}"/>
     </FrameLayout>
 </layout>

@@ -14,26 +14,23 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bibbidi.habittracker.BuildConfig
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.ActivityAddHabitBinding
-import com.bibbidi.habittracker.ui.common.Constants
-import com.bibbidi.habittracker.ui.common.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
+import com.bibbidi.habittracker.ui.common.dialog.DatePickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.DayOfTheWeeksPickerBottomSheet
 import com.bibbidi.habittracker.ui.common.dialog.EmojiPickerBottomSheet
+import com.bibbidi.habittracker.ui.common.dialog.colorpicker.ColorPickerBottomSheet
+import com.bibbidi.habittracker.ui.common.dialog.timepicker.TimePickerBottomSheet
 import com.bibbidi.habittracker.ui.common.isAlreadyGranted
 import com.bibbidi.habittracker.ui.common.isRationale
 import com.bibbidi.habittracker.ui.model.habit.HabitUiModel
-import com.bibbidi.habittracker.utils.asLocalDate
-import com.bibbidi.habittracker.utils.asLong
+import com.bibbidi.habittracker.utils.Constants
+import com.bibbidi.habittracker.utils.Constants.HABIT_INFO_KEY
 import com.bibbidi.habittracker.utils.repeatOnStarted
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
@@ -70,38 +67,33 @@ class AddHabitActivity : AppCompatActivity() {
         }
     }
 
-    private val dayOfTheWeeksPickerBottomSheet: DayOfTheWeeksPickerBottomSheet by lazy {
-        DayOfTheWeeksPickerBottomSheet.newInstance(
+    private val dayOfTheWeeksPickerBottomSheet: DayOfTheWeeksPickerBottomSheet
+        get() = DayOfTheWeeksPickerBottomSheet.newInstance(
             viewModel.repeatsDayOfTheWeeksFlow.value
         ) { dayOfTheWeeks ->
             viewModel.setRepeatsDayOfTheWeeks(dayOfTheWeeks)
         }
-    }
 
-    private val selectStartDatePicker: MaterialDatePicker<Long> by lazy {
-        val constraintsBuilder = CalendarConstraints.Builder().setStart(System.currentTimeMillis())
-            .setValidator(DateValidatorPointForward.now())
-        MaterialDatePicker.Builder.datePicker().setTitleText(getString(R.string.select_start_date))
-            .setSelection(viewModel.startDateFlow.value.asLong())
-            .setCalendarConstraints(constraintsBuilder.build()).build().apply {
-                addOnPositiveButtonClickListener {
-                    viewModel.setStartDate(it.asLocalDate())
-                }
-            }
-    }
+    private val startDatePicker: DatePickerBottomSheet
+        get() = DatePickerBottomSheet.newInstance(
+            viewModel.startDateFlow.value,
+            minDate = LocalDate.now(),
+            onPositiveListener = { date -> viewModel.setStartDate(date) }
+        )
 
-    private val alarmTimePicker: MaterialTimePicker by lazy {
-        val nowLocalTime = LocalTime.now()
-        MaterialTimePicker.Builder().setInputMode(MaterialTimePicker.INPUT_MODE_KEYBOARD)
-            .setTimeFormat(TimeFormat.CLOCK_12H).setHour(nowLocalTime.hour)
-            .setMinute(nowLocalTime.minute).setTitleText(getString(R.string.input_alarm_time))
-            .build().apply {
-                addOnPositiveButtonClickListener {
-                    viewModel.setAlarmTime(LocalTime.of(hour, minute))
-                }
-                isCancelable = false
-            }
-    }
+    private val alarmTimePicker: TimePickerBottomSheet
+        get() = TimePickerBottomSheet.newInstance(
+            viewModel.alarmTimeFlow.value ?: LocalTime.now()
+        ) { time ->
+            viewModel.setAlarmTime(time)
+        }
+
+    private val colorPicker: ColorPickerBottomSheet
+        get() = ColorPickerBottomSheet.newInstance(
+            viewModel.colorFlow.value
+        ) {
+            viewModel.setColor(it)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,6 +129,8 @@ class AddHabitActivity : AppCompatActivity() {
                     AddHabitEvent.RepeatsDayOfTheWeekClickEvent -> showDayOfTheWeeksPickerBottomSheet()
                     AddHabitEvent.StartDateClickEvent -> showSelectStartDatePicker()
                     AddHabitEvent.StartDateIsBeforeNowEvent -> showStartDateIsBeforeNowSnackBar()
+                    AddHabitEvent.ShowLeastOneSelectedTimeFilterEvent -> showLeastOnSelectedTimeFilterSnackBar()
+                    AddHabitEvent.ShowColorPickerEvent -> showColorPicker()
                     is AddHabitEvent.SubmitEvent -> submit(event.habit)
                 }
             }
@@ -169,7 +163,7 @@ class AddHabitActivity : AppCompatActivity() {
     }
 
     private fun showSelectStartDatePicker() {
-        selectStartDatePicker.show(supportFragmentManager, Constants.START_DATE_PICKER_TAG)
+        startDatePicker.show(supportFragmentManager, Constants.START_DATE_PICKER_TAG)
     }
 
     private fun showStartDateIsBeforeNowSnackBar() {
@@ -186,6 +180,18 @@ class AddHabitActivity : AppCompatActivity() {
             getString(R.string.permission_notification_deny_message),
             Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    private fun showLeastOnSelectedTimeFilterSnackBar() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.least_on_selected_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun showColorPicker() {
+        colorPicker.show(supportFragmentManager, Constants.COLOR_PICKER_TAG)
     }
 
     private fun checkNotificationPermission() {

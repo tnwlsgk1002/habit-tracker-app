@@ -6,11 +6,14 @@ import android.view.View
 import android.widget.CheckBox
 import com.bibbidi.habittracker.R
 import com.bibbidi.habittracker.databinding.BottomSheetInputRepeatDayOfTheWeeksBinding
-import com.bibbidi.habittracker.ui.common.Constants.DAY_OF_THE_WEEKS_KEY
 import com.bibbidi.habittracker.ui.common.delegate.viewBinding
+import com.bibbidi.habittracker.utils.Constants.DAY_OF_THE_WEEKS_KEY
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.DayOfWeek
 
+@AndroidEntryPoint
 class DayOfTheWeeksPickerBottomSheet :
     BottomSheetDialogFragment(R.layout.bottom_sheet_input_repeat_day_of_the_weeks) {
 
@@ -18,7 +21,7 @@ class DayOfTheWeeksPickerBottomSheet :
 
         fun newInstance(
             dayOfTheWeeks: Set<DayOfWeek>,
-            onCancelListener: (Set<DayOfWeek>) -> Unit
+            onSaveListener: (Set<DayOfWeek>) -> Unit
         ): DayOfTheWeeksPickerBottomSheet {
             val args = Bundle().apply {
                 putStringArray(
@@ -29,7 +32,7 @@ class DayOfTheWeeksPickerBottomSheet :
 
             return DayOfTheWeeksPickerBottomSheet().apply {
                 arguments = args
-                setOnCancelListener(onCancelListener)
+                setOnSaveListener(onSaveListener)
             }
         }
     }
@@ -38,7 +41,7 @@ class DayOfTheWeeksPickerBottomSheet :
 
     private var dayOfTheWeeks: Set<DayOfWeek> = DayOfWeek.values().toSet()
 
-    private var onCancelListener: ((Set<DayOfWeek>) -> Unit)? = null
+    private var onSaveListener: ((Set<DayOfWeek>) -> Unit)? = null
 
     private val dayOfTheWeekToView = mutableMapOf<DayOfWeek, CheckBox>()
     private val viewToDayOfTheWeek = mutableMapOf<CheckBox, DayOfWeek>()
@@ -46,8 +49,8 @@ class DayOfTheWeeksPickerBottomSheet :
     private val checkedDayOfTheWeeks
         get() = viewToDayOfTheWeek.filterKeys { it.isChecked }.values.toSet()
 
-    fun setOnCancelListener(listener: ((Set<DayOfWeek>) -> Unit)?) {
-        this.onCancelListener = listener
+    fun setOnSaveListener(listener: ((Set<DayOfWeek>) -> Unit)?) {
+        onSaveListener = listener
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +59,7 @@ class DayOfTheWeeksPickerBottomSheet :
         dayOfTheWeeks =
             arguments?.getStringArray(DAY_OF_THE_WEEKS_KEY)?.map { enumValueOf<DayOfWeek>(it) }
                 ?.toSet()
-                ?: dayOfTheWeeks
+                ?: DayOfWeek.values().toSet()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,13 +86,38 @@ class DayOfTheWeeksPickerBottomSheet :
     }
 
     private fun setUpViewData() {
-        dayOfTheWeeks.forEach {
-            dayOfTheWeekToView[it]?.isChecked = true
+        for ((dayOfWeek, checkBox) in dayOfTheWeekToView) {
+            checkBox.isChecked = dayOfTheWeeks.contains(dayOfWeek)
+
+            checkBox.setOnCheckedChangeListener { _, isChecked ->
+                if (!isChecked && dayOfTheWeekToView.values.none { it.isChecked }) {
+                    showLeastOneSelectedSnackBar()
+                    checkBox.isChecked = true
+                }
+            }
         }
+
+        binding.run {
+            btnSubmit.setOnClickListener {
+                onSaveListener?.invoke(checkedDayOfTheWeeks)
+                dismiss()
+            }
+            btnCancel.setOnClickListener {
+                dismiss()
+            }
+        }
+    }
+
+    private fun showLeastOneSelectedSnackBar() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.least_on_selected_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        onCancelListener?.invoke(checkedDayOfTheWeeks)
+        dismiss()
     }
 }

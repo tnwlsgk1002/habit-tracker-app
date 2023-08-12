@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shimmer_frame_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:shimmer_auto_start="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <include
+            android:id="@+id/layout_1"
+            layout="@layout/item_habit_log"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/ShimmerView.CardView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/layout_1"
+            app:layout_constraintTop_toTopOf="@id/layout_1"
+            app:layout_constraintEnd_toEndOf="@id/layout_1"
+            app:layout_constraintBottom_toBottomOf="@id/layout_1"/>
+
+        <include
+            android:id="@+id/layout_2"
+            layout="@layout/item_habit_log"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_1" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/ShimmerView.CardView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/layout_2"
+            app:layout_constraintTop_toTopOf="@id/layout_2"
+            app:layout_constraintEnd_toEndOf="@id/layout_2"
+            app:layout_constraintBottom_toBottomOf="@id/layout_2"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>
